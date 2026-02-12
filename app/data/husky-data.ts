@@ -1,6 +1,8 @@
-export const huskyLocation = { lat: 34.656926, lng: -106.757983 }
+// Husky Well & Pump Service data
+export const huskyCoords = { lat: 34.656926, lng: -106.757983 }
 
-export const serviceAreaCoords = [
+// service area data
+export const serviceAreaPolygon = [
   { lat: 34.7873510, lng: -106.4659051 },
   { lat: 34.8044779, lng: -106.454148 },
   { lat: 34.8115781, lng: -106.4458863 },
@@ -157,5 +159,6 @@ export const serviceAreaCoords = [
   { lat: 34.7149161, lng: -106.4632292 },
   { lat: 34.7351115, lng: -106.4689232 },
   { lat: 34.7537757, lng: -106.4600545 },
-  { lat: 34.7716411, lng: -106.4670399 },
+  { lat: 34.7716411, lng: -106.4670399 }
 ]
+export const serviceAreaCenter = { lng: -106.4679286, lat: 35.0618879 }

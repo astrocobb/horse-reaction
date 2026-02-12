@@ -3,9 +3,10 @@ import Navbar from '~/components/navbar'
 import { useState } from 'react'
 import Footer from '~/components/footer'
 
-export default function RootLayout () {
 
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+export default function RootLayout() {
+
+  const [ isMobileMenuOpen, setIsMobileMenuOpen ] = useState(false)
 
   const handleMenuClick = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -13,9 +14,9 @@ export default function RootLayout () {
 
   return (
     <>
-      <Navbar />
-      <Outlet />
-      <Footer />
+      <Navbar/>
+      <Outlet/>
+      <Footer/>
     </>
   )
 }
