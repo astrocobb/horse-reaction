@@ -79,7 +79,6 @@ export default function Footer() {
             &copy; 2025 Husky Well & Pump Service. All rights reserved.
           </p>
         </div>
-
       </div>
     </footer>
   )

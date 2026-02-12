@@ -5,15 +5,13 @@
 /out-tsc
 
 # dependencies
+.react-router
 node_modules
 /coverage
 
 # testing
 /cypress/videos
 /cypress/screenshots
-
-# production
-/build
 
 # misc
 .DS_Store
