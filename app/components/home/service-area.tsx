@@ -1,4 +1,4 @@
-import { ServiceMap } from '~/components/maps/serviceMap'
+import { ServiceMap } from '~/components/maps/ServiceMap'
 
 
 export function ServiceArea() {

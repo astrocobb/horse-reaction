@@ -7,8 +7,9 @@ export default function HuskyMap() {
     <APIProvider apiKey={ import.meta.env.VITE_MAPS_API_KEY }>
       <div className="w-full h-[64vh]">
         <Map
+          renderingType={ 'VECTOR' }
           zoom={ 16 }
-          zoomControl={ true }
+          gestureHandling={ 'greedy' }
           center={ huskyCoords }
           mapId={ import.meta.env.VITE_MAP_ID }
         >

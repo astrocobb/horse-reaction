@@ -1,4 +1,4 @@
-import HuskyMap from '~/components/maps/huskyMap'
+import HuskyMap from '~/components/maps/HuskyMap'
 import { ContactForm } from '~/components/home/contact/contact-form'
 
 // Contact Section

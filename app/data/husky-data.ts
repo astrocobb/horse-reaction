@@ -1,8 +1,8 @@
-// Husky Well & Pump Service data
+// husky office coordinates
 export const huskyCoords = { lat: 34.656926, lng: -106.757983 }
 
-// service area data
-export const serviceAreaPolygon = [
+// service area coordinates
+export const serviceAreaCoords = [
   { lat: 34.7873510, lng: -106.4659051 },
   { lat: 34.8044779, lng: -106.454148 },
   { lat: 34.8115781, lng: -106.4458863 },
@@ -161,4 +161,11 @@ export const serviceAreaPolygon = [
   { lat: 34.7537757, lng: -106.4600545 },
   { lat: 34.7716411, lng: -106.4670399 }
 ]
-export const serviceAreaCenter = { lng: -106.4679286, lat: 35.0618879 }
+
+// center of the service area (average of coordinate bounds)
+const lat = serviceAreaCoords.map(c => c.lat)
+const lng = serviceAreaCoords.map(c => c.lng)
+export const serviceAreaCenter = {
+  lat: (Math.min(...lat) + Math.max(...lat)) / 2,
+  lng: (Math.min(...lng) + Math.max(...lng)) / 2,
+}
