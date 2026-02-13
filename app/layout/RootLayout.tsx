@@ -1,7 +1,7 @@
-import { Outlet } from 'react-router'
-import Navbar from '~/components/navbar'
 import { useState } from 'react'
-import Footer from '~/components/footer'
+import { Outlet } from 'react-router'
+import Navbar from '~/components/Navbar'
+import Footer from '~/components/Footer'
 
 
 export default function RootLayout() {

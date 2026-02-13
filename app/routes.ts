@@ -3,9 +3,9 @@ import { index, layout, type RouteConfig } from '@react-router/dev/routes'
 
 export default [
 
-  layout('layout/root-layout.tsx', [
+  layout('layout/RootLayout.tsx', [
 
-    index('routes/home.tsx')
+    index('routes/Home.tsx')
 
   ])
 

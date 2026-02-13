@@ -1,5 +1,5 @@
 import HuskyMap from '~/components/maps/HuskyMap'
-import { ContactForm } from '~/components/home/contact/contact-form'
+import { ContactForm } from '~/components/home/contact/ContactForm'
 
 // Contact Section
 export default function Contact() {

@@ -8,11 +8,11 @@ export function ServiceMap() {
     <APIProvider apiKey={ import.meta.env.VITE_MAPS_API_KEY }>
       <div className="w-full h-[64vh]">
         <Map
-          renderingType={ 'VECTOR' }
+          mapId={ import.meta.env.VITE_MAP_ID }
+          center={ serviceAreaCenter }
           zoom={ 9 }
           gestureHandling={ 'greedy' }
-          center={ serviceAreaCenter }
-          mapId={ import.meta.env.VITE_MAP_ID }
+          colorScheme="DARK"
         >
           <Polygon
             paths={ serviceAreaCoords }
