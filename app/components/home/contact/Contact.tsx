@@ -1,5 +1,7 @@
 import HuskyMap from '~/components/maps/HuskyMap'
 import { ContactForm } from '~/components/home/contact/ContactForm'
+import { HuskyDetails } from '~/components/home/contact/HuskyDetails'
+import { APIProvider } from '@vis.gl/react-google-maps'
 
 // Contact Section
 export default function Contact() {
@@ -16,11 +18,17 @@ export default function Contact() {
         <h3 className="mb-3 text-left text-base-300 sm:mb-5 md:mb-6 lg:mb-7">
           Please enter your information below, and we will get back to you as soon as possible.
         </h3>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch">
-          <ContactForm/>
-          <HuskyMap/>
-          {/*<HuskyDetails/>*/ }
-        </div>
+        <APIProvider apiKey={ import.meta.env.VITE_MAPS_API_KEY }>
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch">
+            <ContactForm/>
+            <div className="w-full h-72 overflow-hidden border rounded-md shadow-lg border-base-700 lg:h-80">
+              <HuskyMap/>
+            </div>
+            <div className="grow p-5 border bg-base-800/50 border-base-700 rounded-md shadow-lg sm:p-6 md:p-8 lg:p-10">
+              <HuskyDetails/>
+            </div>
+          </div>
+        </APIProvider>
       </div>
     </section>
   )

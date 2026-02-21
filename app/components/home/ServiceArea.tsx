@@ -1,4 +1,5 @@
 import { ServiceMap } from '~/components/maps/ServiceMap'
+import { APIProvider } from '@vis.gl/react-google-maps'
 
 
 export function ServiceArea() {
@@ -15,10 +16,9 @@ export function ServiceArea() {
         <p className="mb-3 text-md text-left text-base-150 md:mb-4 lg:mb-5">
           We proudly serve communities throughout the Rio Grande valley
         </p>
-        <>
-          {/*INSERT SERVICE AREA MAP HERE*/ }
+        <APIProvider apiKey={ import.meta.env.VITE_MAPS_API_KEY }>
           <ServiceMap/>
-        </>
+        </APIProvider>
         <p className="my-3 text-sm text-left text-base-300 md:text-md">
           If your location is not within our service area, please contact us.
         </p>

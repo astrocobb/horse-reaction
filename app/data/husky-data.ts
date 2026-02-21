@@ -1,7 +1,8 @@
 
 
 // husky office coordinates
-export const huskyCoords = { lat: 34.656926, lng: -106.757983 }
+export const huskyLatLng = { lat: 34.656926, lng: -106.757983 }
+export const huskyPlaceId = 'ChIJEYDMpDL3IYcRfvL88wVMg7k'
 
 // service area coordinates
 export const serviceAreaCoords = [
