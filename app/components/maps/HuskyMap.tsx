@@ -1,11 +1,26 @@
+import { useEffect } from 'react'
 import { huskyLatLng } from '~/data/husky-data'
-import { AdvancedMarker, Map, useMap } from '@vis.gl/react-google-maps'
+import { Map, useMap, useMapsLibrary } from '@vis.gl/react-google-maps'
 
 
 function HuskyMarker() {
   const map = useMap()
-  if (!map) return null
-  return <AdvancedMarker position={ huskyLatLng }/>
+  const markerLib = useMapsLibrary('marker')
+
+  useEffect(() => {
+    if (!map || !markerLib) return
+
+    const marker = new markerLib.AdvancedMarkerElement({
+      position: huskyLatLng,
+      map,
+    })
+
+    return () => {
+      marker.map = null
+    }
+  }, [ map, markerLib ])
+
+  return null
 }
 
 export default function HuskyMap() {
