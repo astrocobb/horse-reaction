@@ -4,7 +4,7 @@ import { IMaskInput } from 'react-imask'
 
 
 function formatName(value: string) {
-  return value.toLowerCase().replace(/\b[a-z]/g, l => l.toUpperCase())
+  return value.toLowerCase().replaceAll(/\b[a-z]/g, l => l.toUpperCase())
 }
 
 function counterClass(length: number, max: number, min = 0) {
