@@ -75,7 +75,7 @@ export default function About() {
                 <div
                   className="absolute -left-10 top-1 w-6 h-6 bg-secondary border-4 border-base-800 rounded-full transition-transform duration-300 group-hover:scale-125 sm:-left-14"/>
                 <div
-                  className="p-5 backdrop-blur-md bg-base-750/80 border border-base-600/50 rounded-md shadow-lg transition-all duration-300 hover:-translate-y-2 sm:p-6 md:p-8">
+                  className="p-5 bg-base-750/80 border border-base-600/50 rounded-md shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-2 sm:p-6 md:p-8">
                   <div className="mb-3 text-xl font-bold text-secondary sm:text-2xl">
                     { item.year }
                   </div>
@@ -98,7 +98,7 @@ export default function About() {
             { values.map(value => (
               <div
                 key={ value.title }
-                className="p-5 backdrop-blur-md bg-base-750/80 border border-base-600/50 rounded-md shadow-lg text-center transition-all duration-300 hover:-translate-y-2 sm:p-6 md:p-8 lg:p-10"
+                className="p-5 text-center bg-base-750/80 border border-base-600/50 rounded-md shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-2 sm:p-6 md:p-8 lg:p-10"
               >
                 <value.icon className="block w-14 h-14 mx-auto mb-4 text-secondary"/>
                 <h3 className="mb-2 text-lg font-bold text-base-150 md:text-xl lg:text-2xl">

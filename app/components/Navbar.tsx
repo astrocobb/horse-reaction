@@ -17,7 +17,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-7xl rounded-md backdrop-blur-md text-base-content bg-base-50/10 border border-base-50/20 shadow-lg transition-colors duration-300 sm:w-[calc(100%-3rem)] md:w-[calc(100%-4rem)] lg:w-[calc(100%-5rem)]">
+      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-7xl rounded-md text-base-content bg-base-50/10 border border-base-50/20 shadow-lg backdrop-blur-md transition-colors duration-300 sm:w-[calc(100%-3rem)] md:w-[calc(100%-4rem)] lg:w-[calc(100%-5rem)]">
       <div className="px-4 sm:px-6 md:px-8 lg:px-10">
         <div className="flex flex-wrap items-center justify-between py-3 lg:py-0">
 
@@ -30,7 +30,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={ () => setMenuOpen(prev => !prev) }
-            className="inline-flex items-center justify-center w-10 h-10 p-2 rounded-md transition hover:cursor-pointer text-base-content hover:bg-base-800/50 focus:bg-base-850/50 lg:hidden"
+            className="inline-flex items-center justify-center w-10 h-10 p-2 text-base-content rounded-md transition hover:cursor-pointer hover:bg-base-800/50 focus:bg-base-850/50 lg:hidden"
             aria-controls="navbar-menu"
             aria-expanded={ menuOpen }
           >
@@ -46,7 +46,7 @@ export default function Navbar() {
                   <Link
                     to={ link.href }
                     onClick={ () => setMenuOpen(false) }
-                    className="block px-3 py-2 pb-2.5 text-base-content rounded-md transition border border-transparent hover:bg-base-100/20 focus:bg-base-100/40 md:inline-block"
+                    className="block px-3 py-2 pb-2.5 text-base-content rounded-md border border-transparent transition hover:bg-base-100/20 focus:bg-base-100/40 md:inline-block"
                   >
                     { link.label }
                   </Link>

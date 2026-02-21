@@ -28,7 +28,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="px-4 pt-32 pb-11 transition-colors duration-300 scroll-mt-0 bg-base-750 sm:px-6 sm:pt-32 sm:pb-12 md:px-8 md:pt-28 md:pb-13 lg:px-10 lg:pt-32 lg:pb-14"
+      className="px-4 pt-32 pb-11 bg-base-750 transition-colors duration-300 scroll-mt-0 sm:px-6 sm:pt-32 sm:pb-12 md:px-8 md:pt-28 md:pb-13 lg:px-10 lg:pt-32 lg:pb-14"
     >
       <div className="max-w-7xl mx-auto">
         <h2
@@ -39,7 +39,7 @@ export default function Services() {
           { services.map(service => (
             <div
               key={ service.title }
-              className="p-5 backdrop-blur-md border rounded-md shadow-lg transition-all duration-300 text-center hover:-translate-y-2 bg-base-800/50 border-base-600/50 sm:p-6 md:p-8 lg:p-10"
+              className="p-5 text-center bg-base-800/50 border border-base-600/50 rounded-md shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-2 sm:p-6 md:p-8 lg:p-10"
             >
               <service.icon className="block w-14 h-14 mx-auto mb-4 text-secondary"/>
               <h3 className="mb-2 text-lg font-bold text-base-150 md:text-xl lg:text-2xl">

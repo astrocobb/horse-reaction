@@ -22,10 +22,10 @@ export default function Contact() {
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch">
             <ContactForm/>
             <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 lg:gap-10">
-              <div className="w-full h-72 overflow-hidden border rounded-md shadow-lg border-base-700 lg:h-80">
+              <div className="w-full h-72 overflow-hidden border border-base-700 rounded-md shadow-lg lg:h-80">
                 <HuskyMap/>
               </div>
-              <div className="grow p-5 border bg-base-800/50 border-base-700 rounded-md shadow-lg sm:p-6 md:p-8 lg:p-10">
+              <div className="grow p-5 bg-base-800/50 border border-base-700 rounded-md shadow-lg sm:p-6 md:p-8 lg:p-10">
                 <HuskyDetails/>
               </div>
             </div>

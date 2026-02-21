@@ -3,6 +3,18 @@ import emailjs from '@emailjs/browser'
 import { IMaskInput } from 'react-imask'
 
 
+function formatName(value: string) {
+  return value.toLowerCase().replace(/\b[a-z]/g, l => l.toUpperCase())
+}
+
+function counterClass(length: number, max: number, min = 0) {
+  if (length === max || length < min) return 'ml-2 text-sm font-semibold text-error'
+  if (length > max * 0.8) return 'ml-2 text-sm font-semibold text-warning'
+  if (min && length >= min) return 'ml-2 text-sm font-semibold text-success'
+  if (!min) return 'ml-2 text-sm font-semibold text-success'
+  return 'ml-2 text-sm text-base-400'
+}
+
 export function ContactForm() {
 
   const [ name, setName ] = useState('')
@@ -12,18 +24,6 @@ export function ContactForm() {
   const [ message, setMessage ] = useState('')
   const [ status, setStatus ] = useState({ text: '', type: '' })
   const [ sending, setSending ] = useState(false)
-
-  function formatName(value: string) {
-    return value.toLowerCase().replace(/\b[a-z]/g, l => l.toUpperCase())
-  }
-
-  function counterClass(length: number, max: number, min = 0) {
-    if (length === max || length < min) return 'text-sm text-error ml-2 font-semibold'
-    if (length > max * 0.8) return 'text-sm text-warning ml-2 font-semibold'
-    if (min && length >= min) return 'text-sm text-success ml-2 font-semibold'
-    if (!min) return 'text-sm text-success ml-2 font-semibold'
-    return 'text-sm text-base-400 ml-2'
-  }
 
   function handleSubmit(e: { preventDefault: () => void }) {
 
@@ -67,10 +67,10 @@ export function ContactForm() {
   }
 
   const statusClass = status.type === 'success'
-    ? 'text-center text-sm text-success mt-2'
-    : 'text-center text-sm text-error mt-2'
+    ? 'mt-2 text-center text-sm text-success'
+    : 'mt-2 text-center text-sm text-error'
 
-  const inputClass = 'p-2 border rounded-md focus:outline-none focus:border-none focus:ring-2 placeholder:text-base-250 caret-secondary border-base-500 bg-base-700 text-base-content focus:ring-secondary'
+  const inputClass = 'p-2 text-base-content bg-base-700 border border-base-500 rounded-md caret-secondary placeholder:text-base-250 focus:outline-none focus:border-none focus:ring-2 focus:ring-secondary'
 
   return (
     <form onSubmit={ handleSubmit } className="flex flex-col">
@@ -129,7 +129,7 @@ export function ContactForm() {
             <span
               className={ subject.length > 0 ? counterClass(subject.length, 128, 4) : 'ml-2 text-sm text-base-400' }>
                 ({ subject.length }/128)
-              </span>
+            </span>
           </label>
           <input
             type="text"
@@ -171,7 +171,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={ sending }
-        className="w-full mt-6 px-6 pt-2 pb-2.5 text-lg font-semibold  border rounded-md transition hover:cursor-pointer border-primary/90 text-primary/90 hover:bg-primary/20 focus:bg-primary/40"
+        className="w-full mt-6 px-6 pt-2 pb-2.5 text-lg font-semibold text-primary/90 border border-primary/90 rounded-md transition hover:cursor-pointer hover:bg-primary/20 focus:bg-primary/40"
       >
         { sending ? 'Sending...' : 'Send Message' }
       </button>

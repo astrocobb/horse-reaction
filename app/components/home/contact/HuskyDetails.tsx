@@ -89,30 +89,30 @@ export function HuskyDetails() {
       </h2>
 
       {/* Business Address */}
-      <p className="text-base-150 text-sm mt-1">
+      <p className="mt-1 text-sm text-base-150">
         { placeData.formattedAddress }
       </p>
 
       {/* Phone Number */}
       <Link to="tel:5058640779" className="group inline-flex items-center gap-2">
-        <Phone size={ 18 } className="text-success mt-2 group-hover:scale-110 transition group-hover:text-secondary"></Phone>
-        <p className="text-base-150 font-medium mt-2 transition group-hover:text-secondary">{ placeData.nationalPhoneNumber }</p>
+        <Phone size={ 18 } className="mt-2 text-success transition group-hover:scale-110 group-hover:text-secondary"></Phone>
+        <p className="mt-2 font-medium text-base-150 transition group-hover:text-secondary">{ placeData.nationalPhoneNumber }</p>
       </Link>
 
       {/* Rating */}
       <div className="mt-1 flex items-center gap-2">
         <Star size={ 18 } className="text-warning"/>
-        <p className="font-medium text-base-150">{ placeData.rating }</p>
+        <p className="text-base-150 font-medium">{ placeData.rating }</p>
         { placeData.userRatingCount && (
-          <p className="text-sm text-base-150">({ placeData.userRatingCount } reviews)</p>
+          <p className="text-base-150 text-sm">({ placeData.userRatingCount } reviews)</p>
         ) }
       </div>
 
       {/* Open Status */}
       { openStatus !== null && (
         openStatus
-          ? <p className="text-success font-medium mt-1">Open now</p>
-          : <p className="text-error font-medium mt-1">Closed now</p>
+          ? <p className="mt-1 font-medium text-success">Open now</p>
+          : <p className="mt-1 font-medium text-error">Closed now</p>
       ) }
 
       {/* Hours Drop Down */ }
@@ -120,7 +120,7 @@ export function HuskyDetails() {
         <div className="mt-2">
           <button
             onClick={ () => setShowHours(prev => !prev) }
-            className="text-secondary font-medium hover:cursor-pointer hover:underline flex items-center gap-1"
+            className="flex items-center gap-1 font-medium text-secondary hover:cursor-pointer hover:underline"
           >
             <span>View Hours</span>
             <ChevronDown
@@ -141,7 +141,7 @@ export function HuskyDetails() {
       {/* Google Maps Link */}
       { placeData.googleMapsURI && (
         <Link to={ placeData.googleMapsURI } target="_blank" rel="noopener noreferrer"
-              className="inline-block mt-2 text-secondary font-medium hover:underline">
+              className="inline-block mt-2 font-medium text-secondary hover:underline">
           View on Google Maps →
         </Link>
       ) }

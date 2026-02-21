@@ -8,8 +8,8 @@ export function ServiceMap() {
     <div className="w-full h-[64vh]">
       <Map
         mapId={ import.meta.env.VITE_MAP_ID }
-        center={ serviceAreaCenter }
-        zoom={ 9 }
+        defaultCenter={ serviceAreaCenter }
+        defaultZoom={ 9 }
         gestureHandling={ 'greedy' }
         colorScheme="DARK"
       >
