@@ -9,6 +9,8 @@ WORKDIR /app
 RUN npm ci --omit=dev
 
 FROM node:20-alpine AS build-env
+ARG VITE_MAPS_API_KEY
+ARG VITE_MAP_ID
 COPY . /app/
 COPY --from=development-dependencies-env /app/node_modules /app/node_modules
 WORKDIR /app
