@@ -1,6 +1,6 @@
 import { ServiceMap } from '~/components/maps/ServiceMap'
 import { APIProvider } from '@vis.gl/react-google-maps'
-import HuskyMap from '~/components/maps/HuskyMap'
+import { ClientOnly } from '~/components/ClientOnly'
 
 
 export function ServiceArea() {
@@ -18,9 +18,11 @@ export function ServiceArea() {
           We proudly serve communities throughout the Rio Grande valley
         </p>
         <div className="w-full h-[64vh] overflow-hidden border border-base-700 rounded-md shadow-xl">
-          <APIProvider apiKey={ import.meta.env.VITE_MAPS_API_KEY } version="beta">
-            <ServiceMap/>
-          </APIProvider>
+          <ClientOnly>
+            <APIProvider apiKey={ import.meta.env.VITE_MAPS_API_KEY } version="beta">
+              <ServiceMap/>
+            </APIProvider>
+          </ClientOnly>
         </div>
         <p className="my-3 text-sm text-left text-base-300 md:text-md">
           If your location is not within our service area, please contact us.
