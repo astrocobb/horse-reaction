@@ -24,6 +24,7 @@ jobs:
           rsync -avz --delete \
             --exclude='.git' \
             --exclude='node_modules' \
+            --exclude='.env' \
             ./ astrocobb@huskydrilling.com:/opt/huskydrilling/
           ssh astrocobb@huskydrilling.com '
             cd /opt/huskydrilling &&
