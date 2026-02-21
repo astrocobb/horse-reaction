@@ -1,6 +1,12 @@
 import { huskyLatLng } from '~/data/husky-data'
-import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
+import { AdvancedMarker, Map, useMap } from '@vis.gl/react-google-maps'
 
+
+function HuskyMarker() {
+  const map = useMap()
+  if (!map) return null
+  return <AdvancedMarker position={ huskyLatLng }/>
+}
 
 export default function HuskyMap() {
   return (
@@ -12,7 +18,7 @@ export default function HuskyMap() {
         gestureHandling={ 'greedy' }
         colorScheme="DARK"
       >
-        <AdvancedMarker position={ huskyLatLng }/>
+        <HuskyMarker/>
       </Map>
     </div>
   )

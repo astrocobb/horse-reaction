@@ -20,20 +20,20 @@ export default function Contact() {
           Please enter your information below, and we will get back to you as soon as possible.
         </h3>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch">
-            <ContactForm/>
-            <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 lg:gap-10">
-              <div className="w-full h-72 overflow-hidden border border-base-700 rounded-md shadow-lg lg:h-80">
-                <ClientOnly>
-                  <APIProvider apiKey={ import.meta.env.VITE_MAPS_API_KEY } version="beta">
-                    <HuskyMap/>
-                  </APIProvider>
-                </ClientOnly>
-              </div>
-              <div className="grow p-5 bg-base-800/50 border border-base-700 rounded-md shadow-lg sm:p-6 md:p-8 lg:p-10">
-                <HuskyDetails/>
-              </div>
+          <ContactForm/>
+          <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 lg:gap-10">
+            <div className="w-full h-72 overflow-hidden border border-base-700 rounded-md shadow-lg lg:h-80">
+              <ClientOnly>
+                <APIProvider apiKey={ import.meta.env.VITE_MAPS_API_KEY } version="beta">
+                  <HuskyMap/>
+                </APIProvider>
+              </ClientOnly>
+            </div>
+            <div className="grow p-5 bg-base-800/50 border border-base-700 rounded-md shadow-lg sm:p-6 md:p-8 lg:p-10">
+              <HuskyDetails/>
             </div>
           </div>
+        </div>
       </div>
     </section>
   )
