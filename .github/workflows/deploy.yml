@@ -1,0 +1,39 @@
+name: Deploy via SSH
+on:
+  push:
+    branches:
+      - main
+  repository_dispatch:
+  workflow_dispatch:
+permissions:
+  actions: read
+  contents: read
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.PRIVATE_KEY }}
+      - name: Add host key
+        run: ssh-keyscan -H huskydrilling.com >> ~/.ssh/known_hosts
+      - name: Deploy and restart
+        run: |
+          rsync -avz --delete \
+            --exclude='.git' \
+            --exclude='node_modules' \
+            ./ astrocobb@huskydrilling.com:/opt/huskydrilling/
+          ssh astrocobb@huskydrilling.com '
+            cd /opt/huskydrilling &&
+            docker build -t huskydrilling . &&
+            docker stop huskydrilling || true &&
+            docker rm huskydrilling || true &&
+            docker run -d \
+              --name huskydrilling \
+              --restart unless-stopped \
+              -p 3000:3000 \
+              --env-file .env \
+              huskydrilling
+          '
