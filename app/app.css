@@ -2,8 +2,6 @@
 
 @tailwind utilities;
 
-@custom-variant dark (&:where(.dark, .dark *));
-
 @theme {
     --color-base-50: oklch(95.0% 0.005 240);
     --color-base-100: oklch(90.0% 0.01 240);

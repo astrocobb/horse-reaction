@@ -39,20 +39,20 @@ export default function Footer() {
             <div className="space-y-3">
               <Link
                 to="tel:5058640779"
-                className="group flex items-center transition text-base-300 hover:text-secondary"
+                className="group flex items-center transition hover:text-secondary"
               >
-                <Phone className="inline w-5 h-5 mr-3 transition-transform group-hover:scale-110"/>
-                <span>(505) 864-0779</span>
+                <Phone className="inline w-5 h-5 mr-3 text-success transition-transform group-hover:scale-110 group-hover:text-secondary"/>
+                <span className="text-base-300 group-hover:text-secondary">(505) 864-0779</span>
               </Link>
               <Link
                 to="mailto:huskywellservice@gmail.com"
-                className="group flex items-center transition text-base-300 hover:text-secondary"
+                className="group flex items-center"
               >
-                <Mail className="inline w-5 h-5 mr-3 transition-transform group-hover:scale-110"/>
-                <span>huskywellservice@gmail.com</span>
+                <Mail className="inline w-5 h-5 mr-3 text-error transition-transform group-hover:scale-110 group-hover:text-secondary"/>
+                <span className="text-base-300 group-hover:text-secondary">huskywellservice@gmail.com</span>
               </Link>
               <div className="flex items-center text-base-300">
-                <Clock4 className="inline w-5 h-5 mr-3"/>
+                <Clock4 className="inline w-5 h-5 mr-3 text-primary"/>
                 <span>Mon-Fri: 9AM-5PM</span>
               </div>
             </div>
@@ -68,7 +68,7 @@ export default function Footer() {
                 <Link
                   key={ link.href }
                   to={ link.href }
-                  className="block transition duration-200 transform hover:translate-x-1-x-1 text-base-300 hover:text-secondary"
+                  className="block transition duration-200 transform hover:translate-x-1 text-base-300 hover:text-secondary"
                 >
                   { link.label }
                 </Link>
