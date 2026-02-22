@@ -28,7 +28,7 @@ export default function Services() {
   return (
     <section
       id="services"
-      className="px-4 pt-32 pb-11 bg-base-750 transition-colors duration-300 scroll-mt-0 sm:px-6 sm:pt-32 sm:pb-12 md:px-8 md:pt-28 md:pb-13 lg:px-10 lg:pt-32 lg:pb-14"
+      className="px-4 pt-32 pb-11 transition-colors duration-300 scroll-mt-0 sm:px-6 sm:pt-32 sm:pb-12 md:px-8 md:pt-28 md:pb-13 lg:px-10 lg:pt-32 lg:pb-14"
     >
       <div className="max-w-7xl mx-auto">
         <h2

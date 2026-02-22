@@ -74,7 +74,7 @@ export function ContactForm() {
 
   return (
     <form onSubmit={ handleSubmit } className="flex flex-col">
-      <div>
+      <div className="grow">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
           {/* Name */ }

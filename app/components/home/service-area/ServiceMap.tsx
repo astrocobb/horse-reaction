@@ -10,7 +10,7 @@ export function ServiceMap() {
         mapId={ import.meta.env.VITE_MAP_ID }
         defaultCenter={ serviceAreaCenter }
         defaultZoom={ 9 }
-        gestureHandling={ 'greedy' }
+        gestureHandling={ 'cooperative' }
         colorScheme="DARK"
       >
         <Polygon

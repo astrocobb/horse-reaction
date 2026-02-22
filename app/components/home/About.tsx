@@ -56,7 +56,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="px-4 pt-32 pb-11 bg-base-800 transition-colors duration-300 scroll-mt-0 sm:px-6 sm:pt-32 sm:pb-12 md:px-8 md:pt-28 md:pb-13 lg:px-10 lg:pt-32 lg:pb-14"
+      className="px-4 pt-32 pb-11 transition-colors duration-300 scroll-mt-0 sm:px-6 sm:pt-32 sm:pb-12 md:px-8 md:pt-28 md:pb-13 lg:px-10 lg:pt-32 lg:pb-14"
     >
       <div className="max-w-7xl mx-auto">
         <h2
@@ -73,7 +73,7 @@ export default function About() {
             { timeline.map((item, i) => (
               <div key={ item.year } className={ `group relative ${ i < timeline.length - 1 ? 'mb-10' : '' }` }>
                 <div
-                  className="absolute -left-10 top-1 w-6 h-6 bg-secondary border-4 border-base-800 rounded-full transition-transform duration-300 group-hover:scale-125 sm:-left-14"/>
+                  className="absolute -left-20 top-1 w-4 h-4 bg-secondary rounded-full transition-transform duration-300 group-hover:scale-125 sm:-left-14"/>
                 <div
                   className="p-5 bg-base-750/80 border border-base-600/50 rounded-md shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-2 sm:p-6 md:p-8">
                   <div className="mb-3 text-xl font-bold text-secondary sm:text-2xl">

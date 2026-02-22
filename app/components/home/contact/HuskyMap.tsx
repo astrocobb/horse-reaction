@@ -9,7 +9,7 @@ export default function HuskyMap() {
         mapId={ import.meta.env.VITE_MAP_ID }
         defaultCenter={ huskyLatLng }
         defaultZoom={ 15 }
-        gestureHandling={ 'greedy' }
+        gestureHandling={ 'cooperative' }
         colorScheme="DARK"
       >
         <AdvancedMarker position={ huskyLatLng }/>

@@ -7,15 +7,16 @@ export default function Hero() {
       id="home"
       className="relative flex h-screen items-center justify-center overflow-hidden pt-16 text-center text-base-content sm:pt-0"
     >
-      <div className="absolute top-0 left-0 w-full h-full">
+      <div
+        className="absolute top-0 left-0 w-full h-full"
+        style={{ maskImage: 'linear-gradient(to bottom, black 70%, transparent)', WebkitMaskImage: 'linear-gradient(to bottom, black 70%, transparent)' }}
+      >
         <img
           src="/assets/images/hero.jpeg"
           alt="Sunset drilling baby!"
           className="w-full h-full object-cover object-right sm:object-center"
         />
       </div>
-      <div
-        className="absolute bottom-0 left-0 w-full h-1/3 bg-linear-to-t to-transparent from-base-750 via-base-750/50"/>
       <div className="z-10 max-w-4xl px-4 mx-auto">
         <h1
           className="mb-4 text-3xl font-bold text-dark-base-content drop-shadow-lg sm:text-4xl md:text-5xl lg:text-6xl">
