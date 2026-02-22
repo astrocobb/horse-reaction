@@ -25,7 +25,7 @@ export default function RootLayout() {
           glowAmount={ 0.002 }
           pillarWidth={ 3 }
           pillarHeight={ 0.4 }
-          noiseIntensity={ 0.5 }
+          noiseIntensity={ 0.25 }
           pillarRotation={ 25 }
           mixBlendMode="screen"
           quality="high"
