@@ -1,6 +1,7 @@
 ### To-do:
+- Have claude update entire code base to react 19.2 and react router 7.13.0
 - Consider changing logo color scheme
-- Make "view on google maps" into "view on maps" and have it open user's preferred map app 
+- Make "view on Google Maps" into "view on maps" and have it open user's preferred map app 
 
 ### Planned Features:
 - Add spam protection to the contact form (honeypot field, rate limiting, reCAPTCHA/Turnstile)
