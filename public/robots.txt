@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://huskydrilling.com/sitemap.xml

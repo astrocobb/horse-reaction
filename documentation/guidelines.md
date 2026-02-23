@@ -1,6 +1,5 @@
 ### To-do:
-- Have claude update entire code base to react 19.2 and react router 7.13.0
-- Consider changing logo color scheme
+- Change logo color scheme
 - Make "view on Google Maps" into "view on maps" and have it open user's preferred map app 
 
 ### Planned Features:

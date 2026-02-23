@@ -13,8 +13,26 @@ import Contact from '~/components/home/contact/Contact'
 
 
 export function meta({}: Route.MetaArgs) {
+  const title = 'Husky Well & Pump Service | Water Well Drilling in Central New Mexico'
+  const description =
+    'Professional water well drilling, pump installation, and repair services in central New Mexico. Serving Albuquerque, Rio Rancho, Edgewood, Moriarty, and surrounding communities.'
+  const url = 'https://huskydrilling.com'
+  const image = `${url}/og-image.jpg`
+
   return [
-    { title: 'Husky' }
+    { title },
+    { name: 'description', content: description },
+    { tagName: 'link', rel: 'canonical', href: url },
+    { property: 'og:type', content: 'website' },
+    { property: 'og:url', content: url },
+    { property: 'og:title', content: title },
+    { property: 'og:description', content: description },
+    { property: 'og:image', content: image },
+    { property: 'og:site_name', content: 'Husky Well & Pump Service' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+    { name: 'twitter:title', content: title },
+    { name: 'twitter:description', content: description },
+    { name: 'twitter:image', content: image },
   ]
 }
 
