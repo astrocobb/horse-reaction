@@ -32,7 +32,6 @@ jobs:
             docker build \
               --build-arg VITE_MAPS_API_KEY="$VITE_MAPS_API_KEY" \
               --build-arg VITE_MAP_ID="$VITE_MAP_ID" \
-              --build-arg VITE_EMAILJS_PUBLIC_KEY="$VITE_EMAILJS_PUBLIC_KEY" \
               -t huskydrilling . &&
             docker stop huskydrilling || true &&
             docker rm huskydrilling || true &&

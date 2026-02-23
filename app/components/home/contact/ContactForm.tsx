@@ -1,10 +1,8 @@
-import emailjs from '@emailjs/browser'
-import { useState } from 'react'
+import type React from 'react'
+import { useRef, useState } from 'react'
+import { useFetcher } from 'react-router'
+import { Turnstile, type BoundTurnstileObject } from 'react-turnstile'
 import { contactSchema } from '~/utils/models/contact.model'
-
-
-// initialize emailjs
-emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
 
 // helper function to format name
 function formatName(value: string) {
@@ -30,78 +28,93 @@ function formatPhoneDisplay(e164: string): string {
   const prefix = digits.slice(3, 6)
   const line = digits.slice(6, 10)
 
-  if (digits.length <= 3) return `(${area}`
-  if (digits.length <= 6) return `(${area}) ${prefix}`
-  return `(${area}) ${prefix}-${line}`
+  if (digits.length <= 3) return `(${ area }`
+  if (digits.length <= 6) return `(${ area }) ${ prefix }`
+  return `(${ area }) ${ prefix }-${ line }`
 }
 
-// helper fucntion that formats that user's phone number input
+// helper function that formats the user's phone number input
 function handlePhoneInput(raw: string): string {
   const digits = raw.replaceAll(/\D/g, '').slice(0, 10)
-  return digits.length ? `+1${digits}` : ''
+  return digits.length ? `+1${ digits }` : ''
+}
+
+interface ContactFormProps {
+  turnstileSiteKey: string
 }
 
 // contact form function that handles validating user inputs
-export function ContactForm() {
+export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
+
+  const fetcher = useFetcher<{ success: boolean; error?: string }>()
+  const turnstileRef = useRef<BoundTurnstileObject | null>(null)
 
   const [ name, setName ] = useState('')
   const [ phone, setPhone ] = useState('')
   const [ email, setEmail ] = useState('')
   const [ subject, setSubject ] = useState('')
   const [ message, setMessage ] = useState('')
-  const [ status, setStatus ] = useState({ text: '', type: '' })
-  const [ sending, setSending ] = useState(false)
+  const [ turnstileToken, setTurnstileToken ] = useState('')
+  const [ clientError, setClientError ] = useState('')
 
-  function handleSubmit(e: { preventDefault: () => void }) {
+  const sending = fetcher.state !== 'idle'
+  const serverData = fetcher.data
 
-    e.preventDefault()
-    setStatus({ text: '', type: '' })
-
-    const validatedResult = contactSchema.safeParse({ name, phone, email, subject, message })
-    if (!validatedResult.success) {
-      setStatus({
-        text: validatedResult.error.issues[0].message,
-        type: 'error'
-      })
-      return
-    }
-
-    setSending(true)
-
-    emailjs.send('service_8uwodx9', 'template_8ir0hso', {
-      from_name: validatedResult.data.name,
-      phone: validatedResult.data.phone,
-      from_email: validatedResult.data.email,
-      subject: validatedResult.data.subject,
-      message: validatedResult.data.message
-    }).then(() => {
-      setStatus({
-        text: 'Thank you! Your message has been sent successfully.',
-        type: 'success'
-      })
+  // Reset form on successful submission
+  if (serverData?.success && !sending) {
+    if (name || phone || email || subject || message) {
       setName('')
       setPhone('')
       setEmail('')
       setSubject('')
       setMessage('')
-    }).catch(() => {
-      setStatus({
-        text: 'Failed to send message. Please try again or call us directly.',
-        type: 'error'
-      })
-    }).finally(() => {
-      setSending(false)
-    })
+      setTurnstileToken('')
+      turnstileRef.current?.reset()
+    }
   }
 
-  const statusClass = status.type === 'success'
+  function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
+    setClientError('')
+
+    // Client-side Zod validation for UX
+    const validatedResult = contactSchema.safeParse({ name, phone, email, subject, message })
+    if (!validatedResult.success) {
+      e.preventDefault()
+      setClientError(validatedResult.error.issues[0].message)
+      return
+    }
+
+    if (!turnstileToken) {
+      e.preventDefault()
+      setClientError('Please complete the verification challenge.')
+    }
+  }
+
+  // Determine status message
+  let statusText = ''
+  let statusType = ''
+
+  if (clientError) {
+    statusText = clientError
+    statusType = 'error'
+  } else if (serverData && !sending) {
+    if (serverData.success) {
+      statusText = 'Thank you! Your message has been sent successfully.'
+      statusType = 'success'
+    } else if (serverData.error) {
+      statusText = serverData.error
+      statusType = 'error'
+    }
+  }
+
+  const statusClass = statusType === 'success'
     ? 'mt-2 text-center text-sm text-success'
     : 'mt-2 text-center text-sm text-error'
 
   const inputClass = 'p-2 text-base-content bg-base-700 border border-base-500 rounded-md caret-secondary placeholder:text-base-250 focus:outline-none focus:border-none focus:ring-2 focus:ring-secondary'
 
   return (
-    <form onSubmit={ handleSubmit } className="flex flex-col">
+    <fetcher.Form method="post" onSubmit={ handleSubmit } className="flex flex-col">
       <div className="grow">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
@@ -111,6 +124,7 @@ export function ContactForm() {
             <input
               type="text"
               id="name"
+              name="name"
               placeholder="Full Name"
               required
               value={ name }
@@ -131,6 +145,7 @@ export function ContactForm() {
               onChange={ e => setPhone(handlePhoneInput(e.target.value)) }
               className={ inputClass }
             />
+            <input type="hidden" name="phone" value={ phone }/>
           </div>
         </div>
 
@@ -140,6 +155,7 @@ export function ContactForm() {
           <input
             type="email"
             id="email"
+            name="email"
             maxLength={ 64 }
             minLength={ 8 }
             placeholder="youremail@example.com"
@@ -162,6 +178,7 @@ export function ContactForm() {
           <input
             type="text"
             id="subject"
+            name="subject"
             maxLength={ 64 }
             minLength={ 8 }
             placeholder="Enter the subject..."
@@ -183,6 +200,7 @@ export function ContactForm() {
           </label>
           <textarea
             id="message"
+            name="message"
             rows={ 11 }
             minLength={ 16 }
             maxLength={ 1024 }
@@ -193,6 +211,30 @@ export function ContactForm() {
             className={ inputClass }
           />
         </div>
+
+        {/* Honeypot - hidden from real users */ }
+        <input
+          type="text"
+          name="website"
+          tabIndex={ -1 }
+          autoComplete="off"
+          aria-hidden="true"
+          className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+        />
+
+        {/* Turnstile CAPTCHA */ }
+        { turnstileSiteKey && (
+          <div className="mt-4">
+            <Turnstile
+              sitekey={ turnstileSiteKey }
+              onVerify={ (token, boundTurnstile) => {
+                setTurnstileToken(token)
+                turnstileRef.current = boundTurnstile
+              } }
+              theme="dark"
+            />
+          </div>
+        ) }
       </div>
 
       {/* Submit Button */ }
@@ -204,7 +246,7 @@ export function ContactForm() {
         { sending ? 'Sending...' : 'Send Message' }
       </button>
 
-      { status.text && <p className={ statusClass }>{ status.text }</p> }
-    </form>
+      { statusText && <p className={ statusClass }>{ statusText }</p> }
+    </fetcher.Form>
   )
 }

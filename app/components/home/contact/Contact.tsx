@@ -4,8 +4,12 @@ import { HuskyDetails } from '~/components/home/contact/HuskyDetails'
 import { APIProvider } from '@vis.gl/react-google-maps'
 import { ClientOnly } from '~/components/ClientOnly'
 
+interface ContactProps {
+  turnstileSiteKey: string
+}
+
 // Contact Section
-export default function Contact() {
+export default function Contact({ turnstileSiteKey }: ContactProps) {
   return (
     <section
       id="contact"
@@ -22,12 +26,12 @@ export default function Contact() {
         <ClientOnly>
           <APIProvider apiKey={ import.meta.env.VITE_MAPS_API_KEY } version="beta">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch">
-              <ContactForm/>
+              <ContactForm turnstileSiteKey={turnstileSiteKey}/>
               <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 lg:gap-10">
-                <div className="w-full h-72 overflow-hidden border border-base-700 rounded-md shadow-lg lg:h-80">
+                <div className="grow w-full h-72 overflow-hidden border border-base-700 rounded-md shadow-lg lg:h-80">
                   <HuskyMap/>
                 </div>
-                <div className="grow p-5 bg-base-800/50 border border-base-700 rounded-md shadow-lg sm:p-6 md:p-8 lg:p-10">
+                <div className="p-5 bg-base-800/50 border border-base-700 rounded-md shadow-lg sm:p-6 md:p-8 lg:p-10">
                   <HuskyDetails/>
                 </div>
               </div>

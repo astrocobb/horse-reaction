@@ -1,17 +1,104 @@
 import type { Route } from './+types/Home'
+import { data } from 'react-router'
+import emailjs from '@emailjs/nodejs'
+import { contactSchema } from '~/utils/models/contact.model'
+import { rateLimit } from '~/utils/server/rate-limit.server'
+import { verifyTurnstile } from '~/utils/server/turnstile.server'
 import Hero from '~/components/home/Hero'
 import Services from '~/components/home/Services'
 import { ServiceArea } from '~/components/home/service-area/ServiceArea'
 import Gallery from '~/components/home/Gallery'
 import About from '~/components/home/About'
 import Contact from '~/components/home/contact/Contact'
+
+
 export function meta({}: Route.MetaArgs) {
   return [
     { title: 'Husky' }
   ]
 }
 
-export default function Home() {
+export function loader() {
+  return { turnstileSiteKey: process.env.TURNSTILE_SITE_KEY ?? '' }
+}
+
+export async function action({ request }: Route.ActionArgs) {
+  const formData = await request.formData()
+
+  // Honeypot: if the hidden "website" field is filled, silently succeed
+  if (formData.get('website')) {
+    return data({ success: true })
+  }
+
+  // Rate limit by IP
+  const ip = request.headers.get('X-Forwarded-For')?.split(',')[0].trim() ?? 'unknown'
+  if (!rateLimit(ip)) {
+    return data(
+      { success: false, error: 'Too many requests. Please wait a minute and try again.' },
+      { status: 429 }
+    )
+  }
+
+  // Verify Turnstile token
+  const turnstileToken = formData.get('cf-turnstile-response')
+  if (!turnstileToken || typeof turnstileToken !== 'string') {
+    return data(
+      { success: false, error: 'Please complete the verification challenge.' },
+      { status: 400 }
+    )
+  }
+  const turnstileValid = await verifyTurnstile(turnstileToken)
+  if (!turnstileValid) {
+    return data(
+      { success: false, error: 'Verification failed. Please try again.' },
+      { status: 400 }
+    )
+  }
+
+  // Validate form data with Zod
+  const result = contactSchema.safeParse({
+    name: formData.get('name'),
+    phone: formData.get('phone'),
+    email: formData.get('email'),
+    subject: formData.get('subject'),
+    message: formData.get('message')
+  })
+
+  if (!result.success) {
+    return data(
+      { success: false, error: result.error.issues[0].message },
+      { status: 400 }
+    )
+  }
+
+  // Send email via EmailJS (server-side)
+  try {
+    await emailjs.send(
+      process.env.EMAILJS_SERVICE_ID!,
+      process.env.EMAILJS_TEMPLATE_ID!,
+      {
+        from_name: result.data.name,
+        phone: result.data.phone,
+        from_email: result.data.email,
+        subject: result.data.subject,
+        message: result.data.message
+      },
+      {
+        publicKey: process.env.EMAILJS_PUBLIC_KEY!,
+        privateKey: process.env.EMAILJS_PRIVATE_KEY!
+      }
+    )
+  } catch {
+    return data(
+      { success: false, error: 'Failed to send message. Please try again or call us directly.' },
+      { status: 500 }
+    )
+  }
+
+  return data({ success: true })
+}
+
+export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <>
       <Hero/>
@@ -19,7 +106,7 @@ export default function Home() {
       <ServiceArea/>
       <Gallery/>
       <About/>
-      <Contact/>
+      <Contact turnstileSiteKey={ loaderData.turnstileSiteKey }/>
     </>
   )
 }
