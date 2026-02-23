@@ -27,7 +27,7 @@ export default function Hero() {
         </p>
         <Link
           to="#contact"
-          className="inline-block px-6 pt-2 pb-2.5 font-semibold border-2 border-base-50/50 text-base-50 rounded-md backdrop-blur-md shadow-md transition hover:bg-base-50/20 hover:border-base-50/70 focus:bg-base-50/30 focus:border-base-50/70"
+          className="inline-block px-6 pt-2 pb-2.5 font-semibold border-2 border-base-50/50 text-base-50 rounded-md backdrop-blur-md shadow-md transition hover:bg-base-50/20 hover:border-base-50/70 active:bg-base-50/30 active:border-base-50/70"
         >
           Get a Free Quote
         </Link>

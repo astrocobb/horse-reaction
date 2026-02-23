@@ -244,7 +244,7 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
       <button
         type="submit"
         disabled={ sending }
-        className="w-full mt-2 px-6 pt-2 pb-2.5 text-lg font-semibold text-primary/90 border border-primary/90 rounded-md transition hover:cursor-pointer hover:bg-primary/20 focus:bg-primary/40"
+        className="w-full mt-2 px-6 pt-2 pb-2.5 text-lg font-semibold text-primary/90 border border-primary/90 rounded-md transition hover:cursor-pointer hover:bg-primary/20 active:bg-primary/40"
       >
         { sending ? 'Sending...' : 'Send Message' }
       </button>

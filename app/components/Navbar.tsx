@@ -30,7 +30,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={ () => setMenuOpen(prev => !prev) }
-            className="inline-flex items-center justify-center w-10 h-10 p-2 text-base-content rounded-md transition hover:cursor-pointer hover:bg-base-800/50 focus:bg-base-850/50 lg:hidden"
+            className="inline-flex items-center justify-center w-10 h-10 p-2 text-base-content rounded-md transition hover:cursor-pointer hover:bg-base-800/50 active:bg-base-850/50 lg:hidden"
             aria-controls="navbar-menu"
             aria-expanded={ menuOpen }
           >
@@ -46,7 +46,7 @@ export default function Navbar() {
                   <Link
                     to={ link.href }
                     onClick={ () => setMenuOpen(false) }
-                    className="block px-3 py-2 pb-2.5 text-base-content rounded-md border border-transparent transition hover:bg-base-100/20 focus:bg-base-100/40 md:inline-block"
+                    className="block px-3 py-2 pb-2.5 text-base-content rounded-md border border-transparent transition hover:bg-base-100/20 active:bg-base-100/40 md:inline-block"
                   >
                     { link.label }
                   </Link>
@@ -56,7 +56,7 @@ export default function Navbar() {
                 <Link
                   to="#contact"
                   onClick={ () => setMenuOpen(false) }
-                  className="block px-6 pt-2 pb-2.5 font-semibold border-2 border-base-50/50 text-base-50 rounded-md shadow-md transition hover:bg-base-50/20 hover:border-base-50/70 focus:bg-base-50/30 focus:border-base-50/70 md:inline-block"
+                  className="block px-6 pt-2 pb-2.5 font-semibold border-2 border-base-50/50 text-base-50 rounded-md shadow-md transition hover:bg-base-50/20 hover:border-base-50/70 active:bg-base-50/30 active:border-base-50/70 md:inline-block"
                 >
                   Contact
                 </Link>
