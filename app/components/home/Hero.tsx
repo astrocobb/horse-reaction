@@ -13,7 +13,7 @@ export default function Hero() {
       >
         <img
           src="/assets/images/hero.jpeg"
-          alt="Sunset drilling baby!"
+          alt="Husky Well & Pump Service drilling rig operating at sunset in central New Mexico"
           className="w-full h-full object-cover object-right sm:object-center"
         />
       </div>

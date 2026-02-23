@@ -80,7 +80,7 @@ export default function Footer() {
         {/* Copyright */ }
         <div className="pt-12 text-center border-t border-primary-300">
           <p className="text-sm text-base-100 sm:text-base">
-            &copy; 2025 Husky Well & Pump Service. All rights reserved.
+            &copy; {new Date().getFullYear()} Husky Well & Pump Service. All rights reserved.
           </p>
         </div>
       </div>
