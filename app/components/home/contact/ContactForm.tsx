@@ -1,13 +1,19 @@
-import { useState } from 'react'
 import emailjs from '@emailjs/browser'
-import { IMaskInput } from 'react-imask'
+import { useState } from 'react'
+import { contactSchema } from '~/utils/models/contact.model'
 
 
+// initialize emailjs
+emailjs.init(import.meta.env.VITE_EMAILJS_PUBLIC_KEY)
+
+// helper function to format name
 function formatName(value: string) {
   return value.toLowerCase().replaceAll(/\b[a-z]/g, l => l.toUpperCase())
 }
 
+// helper function to determine CSS styling for form counters
 function counterClass(length: number, max: number, min = 0) {
+
   if (length === max || length < min) return 'ml-2 text-sm font-semibold text-error'
   if (length > max * 0.8) return 'ml-2 text-sm font-semibold text-warning'
   if (min && length >= min) return 'ml-2 text-sm font-semibold text-success'
@@ -15,6 +21,27 @@ function counterClass(length: number, max: number, min = 0) {
   return 'ml-2 text-sm text-base-400'
 }
 
+// helper function to format phone number to display to the user
+function formatPhoneDisplay(e164: string): string {
+
+  const digits = e164.replaceAll(/\D/g, '').slice(1)
+  if (!digits.length) return ''
+  const area = digits.slice(0, 3)
+  const prefix = digits.slice(3, 6)
+  const line = digits.slice(6, 10)
+
+  if (digits.length <= 3) return `(${area}`
+  if (digits.length <= 6) return `(${area}) ${prefix}`
+  return `(${area}) ${prefix}-${line}`
+}
+
+// helper fucntion that formats that user's phone number input
+function handlePhoneInput(raw: string): string {
+  const digits = raw.replaceAll(/\D/g, '').slice(0, 10)
+  return digits.length ? `+1${digits}` : ''
+}
+
+// contact form function that handles validating user inputs
 export function ContactForm() {
 
   const [ name, setName ] = useState('')
@@ -30,37 +57,38 @@ export function ContactForm() {
     e.preventDefault()
     setStatus({ text: '', type: '' })
 
-    const nameParts = name.trim().split(/\s+/).filter(p => p.length > 0)
-    if (nameParts.length < 2) {
-      setStatus({ text: 'Please enter both first and last name.', type: 'error' })
-      return
-    }
-    if (subject.trim().length < 4) {
-      setStatus({ text: 'Subject must be at least 4 characters.', type: 'error' })
-      return
-    }
-    if (message.trim().length < 16) {
-      setStatus({ text: 'Message must be at least 20 characters.', type: 'error' })
+    const validatedResult = contactSchema.safeParse({ name, phone, email, subject, message })
+    if (!validatedResult.success) {
+      setStatus({
+        text: validatedResult.error.issues[0].message,
+        type: 'error'
+      })
       return
     }
 
     setSending(true)
 
     emailjs.send('service_8uwodx9', 'template_8ir0hso', {
-      from_name: name.trim(),
-      phone,
-      from_email: email,
-      subject: subject.trim(),
-      message: message.trim()
+      from_name: validatedResult.data.name,
+      phone: validatedResult.data.phone,
+      from_email: validatedResult.data.email,
+      subject: validatedResult.data.subject,
+      message: validatedResult.data.message
     }).then(() => {
-      setStatus({ text: 'Thank you! Your message has been sent successfully.', type: 'success' })
+      setStatus({
+        text: 'Thank you! Your message has been sent successfully.',
+        type: 'success'
+      })
       setName('')
       setPhone('')
       setEmail('')
       setSubject('')
       setMessage('')
     }).catch(() => {
-      setStatus({ text: 'Failed to send message. Please try again or call us directly.', type: 'error' })
+      setStatus({
+        text: 'Failed to send message. Please try again or call us directly.',
+        type: 'error'
+      })
     }).finally(() => {
       setSending(false)
     })
@@ -94,13 +122,13 @@ export function ContactForm() {
           {/* Phone */ }
           <div className="flex flex-col">
             <label htmlFor="phone" className="mb-2 font-medium text-base-250">Phone</label>
-            <IMaskInput
-              mask="(000) 000-0000"
+            <input
+              type="tel"
               id="phone"
               placeholder="(505) 555-5555"
               required
-              value={ phone }
-              onAccept={ val => setPhone(val) }
+              value={ formatPhoneDisplay(phone) }
+              onChange={ e => setPhone(handlePhoneInput(e.target.value)) }
               className={ inputClass }
             />
           </div>
@@ -127,15 +155,15 @@ export function ContactForm() {
           <label htmlFor="subject" className="mb-2 font-medium text-base-250">
             Subject
             <span
-              className={ subject.length > 0 ? counterClass(subject.length, 128, 4) : 'ml-2 text-sm text-base-400' }>
-                ({ subject.length }/128)
+              className={ subject.length > 0 ? counterClass(subject.length, 64, 8) : 'ml-2 text-sm text-base-400' }>
+                ({ subject.length }/64)
             </span>
           </label>
           <input
             type="text"
             id="subject"
-            maxLength={ 128 }
-            minLength={ 4 }
+            maxLength={ 64 }
+            minLength={ 8 }
             placeholder="Enter the subject..."
             required
             value={ subject }

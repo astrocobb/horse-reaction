@@ -1,9 +1,14 @@
 ### To-do:
-- Implement `renderPlaceDetailsError()` function for Google Maps API fallback
 - Consider changing logo color scheme
 
 ### Planned Features:
-- Add reCAPTCHA to the contact form
+- Implement `renderPlaceDetailsError()` function for Google Maps API fallback
+- Add spam protection to the contact form (honeypot field, rate limiting, reCAPTCHA/Turnstile)
+- Add SEO meta tags (description, Open Graph, canonical URL) to `Home.tsx`
+- Move EmailJS credentials to environment variables (`VITE_EMAILJS_SERVICE_ID`, etc.)
+- Edit favicon color
+- Make copyright year dynamic in `Footer.tsx`
+- Improve hero image alt text for accessibility/SEO
 - Add pop-outs/modals for gallery images
 - Add refresh/reload buttons where needed
 - Expand timeline with more milestones
@@ -11,13 +16,13 @@
 - Evaluate alternative UI component libraries
 
 ### Completed:
-- ✓ Switched to updated Google Maps and Places API (using `textSearch` and `getDetails`)
-- ✓ Implemented custom OKLCH color system
-- ✓ Light mode styling complete
-- ✓ Dark mode styling complete
-- ✓ Contact button in navigation styled as CTA
+- [x] Switched to updated Google Maps and Places API (using `textSearch` and `getDetails`)
+- [x] Implemented custom OKLCH color system
+- [x] Light mode styling complete
+- [x] Dark mode styling complete
+- [x] Contact button in navigation styled as CTA
 
-### Styling Guidelines:
+### Tailwind Class Ordering:
 1. Layout (flex, grid, block, inline, hidden)
 2. Positioning (fixed, absolute, relative, top, left, z-index)
 3. Box Model (width, height)
@@ -26,5 +31,4 @@
 6. Visual (background, border, rounded, shadow)
 7. Effects (transform, transition)
 8. Interactivity/States (hover, focus, group)
-9. Dark mode variants (dark:)
-10. Responsive variants (sm:, md:, lg:, xl:)
+9. Responsive variants (sm:, md:, lg:, xl:)
