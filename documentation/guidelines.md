@@ -1,14 +1,17 @@
 ### To-do:
 - Consider changing logo color scheme
+- Make "view on google maps" into "view on maps" and have it open user's preferred map app 
 
 ### Planned Features:
-- Implement `renderPlaceDetailsError()` function for Google Maps API fallback
 - Add spam protection to the contact form (honeypot field, rate limiting, reCAPTCHA/Turnstile)
+- Implement `renderPlaceDetailsError()` function for Google Maps API fallback
 - Add SEO meta tags (description, Open Graph, canonical URL) to `Home.tsx`
-- Move EmailJS credentials to environment variables (`VITE_EMAILJS_SERVICE_ID`, etc.)
 - Edit favicon color
 - Make copyright year dynamic in `Footer.tsx`
 - Improve hero image alt text for accessibility/SEO
+- Add 
+- (maybe) Add Line Shadow Text to hero section title from magic UI
+- Add buttons for phone, directions, and view hours
 - Add pop-outs/modals for gallery images
 - Add refresh/reload buttons where needed
 - Expand timeline with more milestones
@@ -16,6 +19,8 @@
 - Evaluate alternative UI component libraries
 
 ### Completed:
+- [x] Move EmailJS credentials to environment variables (`VITE_EMAILJS_SERVICE_ID`, etc.)
+- [x] Change framework from vanilla HTML and JS to React Router v7 with: React, Vite, Tailwind CSS v4, and TypeScript (strict mode)
 - [x] Switched to updated Google Maps and Places API (using `textSearch` and `getDetails`)
 - [x] Implemented custom OKLCH color system
 - [x] Light mode styling complete
