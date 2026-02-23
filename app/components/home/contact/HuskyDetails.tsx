@@ -117,7 +117,7 @@ export function HuskyDetails() {
 
       {/* Hours Drop Down */ }
       { placeData.regularOpeningHours?.weekdayDescriptions && (
-        <div className="mt-2">
+        <div className="relative mt-2">
           <button
             onClick={ () => setShowHours(prev => !prev) }
             className="flex items-center gap-1 font-medium text-secondary hover:cursor-pointer hover:underline"
@@ -129,7 +129,7 @@ export function HuskyDetails() {
             />
           </button>
           { showHours && (
-            <div className="mt-2 text-sm space-y-1">
+            <div className="absolute bottom-full z-10 mb-2 p-3 text-sm space-y-1 bg-base-800 border border-base-700 rounded-md shadow-lg">
               { placeData.regularOpeningHours.weekdayDescriptions.map((day, i) => (
                 <p key={ i } className="text-base-150">{ day }</p>
               )) }
