@@ -2,8 +2,12 @@ import { ServiceMap } from '~/components/home/service-area/ServiceMap'
 import { APIProvider } from '@vis.gl/react-google-maps'
 import { ClientOnly } from '~/components/ClientOnly'
 
+interface ServiceAreaProps {
+  mapsApiKey: string
+  mapId: string
+}
 
-export function ServiceArea() {
+export function ServiceArea({ mapsApiKey, mapId }: Readonly<ServiceAreaProps>) {
   return (
     <section
       id="service-area"
@@ -19,8 +23,8 @@ export function ServiceArea() {
         </p>
         <div className="w-full h-[64vh] overflow-hidden border border-base-700 rounded-md shadow-xl">
           <ClientOnly>
-            <APIProvider apiKey={ import.meta.env.VITE_MAPS_API_KEY } version="beta">
-              <ServiceMap/>
+            <APIProvider apiKey={ mapsApiKey } version="beta">
+              <ServiceMap mapId={mapId}/>
             </APIProvider>
           </ClientOnly>
         </div>

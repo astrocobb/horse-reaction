@@ -4,7 +4,6 @@
 - Make "view on Google Maps" into "view on maps" and have it open user's preferred map app 
 
 ### Planned Features:
-- Add spam protection to the contact form (honeypot field, rate limiting, reCAPTCHA/Turnstile)
 - Implement `renderPlaceDetailsError()` function for Google Maps API fallback
 - Add SEO meta tags (description, Open Graph, canonical URL) to `Home.tsx`
 - Edit favicon color
@@ -20,6 +19,7 @@
 - Evaluate alternative UI component libraries
 
 ### Completed:
+- [x] Add API keys and map ID to backend
 - [x] Move EmailJS credentials to environment variables (`VITE_EMAILJS_SERVICE_ID`, etc.)
 - [x] Change framework from vanilla HTML and JS to React Router v7 with: React, Vite, Tailwind CSS v4, and TypeScript (strict mode)
 - [x] Switched to updated Google Maps and Places API (using `textSearch` and `getDetails`)

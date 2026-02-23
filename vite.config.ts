@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
 
   // Expose server-only env vars to process.env during dev
-  for (const key of ['EMAILJS_SERVICE_ID', 'EMAILJS_TEMPLATE_ID', 'EMAILJS_PUBLIC_KEY', 'EMAILJS_PRIVATE_KEY', 'TURNSTILE_SITE_KEY', 'TURNSTILE_SECRET_KEY']) {
+  for (const key of ['MAPS_API_KEY', 'MAP_ID', 'EMAILJS_SERVICE_ID', 'EMAILJS_TEMPLATE_ID', 'EMAILJS_PUBLIC_KEY', 'EMAILJS_PRIVATE_KEY', 'TURNSTILE_SITE_KEY', 'TURNSTILE_SECRET_KEY']) {
     if (env[key]) process.env[key] = env[key]
   }
 

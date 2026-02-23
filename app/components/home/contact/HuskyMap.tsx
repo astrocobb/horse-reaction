@@ -1,12 +1,15 @@
 import { huskyLatLng } from '~/data/husky-data'
 import { AdvancedMarker, Map } from '@vis.gl/react-google-maps'
 
+interface HuskyMapProps {
+  mapId: string
+}
 
-export default function HuskyMap() {
+export default function HuskyMap({ mapId }: Readonly<HuskyMapProps>) {
   return (
     <div className="w-full h-full">
       <Map
-        mapId={ import.meta.env.VITE_MAP_ID }
+        mapId={ mapId }
         defaultCenter={ huskyLatLng }
         defaultZoom={ 15 }
         gestureHandling={ 'cooperative' }

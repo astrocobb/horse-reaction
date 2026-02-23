@@ -19,7 +19,11 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export function loader() {
-  return { turnstileSiteKey: process.env.TURNSTILE_SITE_KEY ?? '' }
+  return {
+    mapsApiKey: process.env.MAPS_API_KEY ?? '',
+    mapId: process.env.MAP_ID ?? '',
+    turnstileSiteKey: process.env.TURNSTILE_SITE_KEY ?? ''
+  }
 }
 
 export async function action({ request }: Route.ActionArgs) {
@@ -103,10 +107,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
     <>
       <Hero/>
       <Services/>
-      <ServiceArea/>
+      <ServiceArea mapsApiKey={loaderData.mapsApiKey} mapId={loaderData.mapId}/>
       <Gallery/>
       <About/>
-      <Contact turnstileSiteKey={ loaderData.turnstileSiteKey }/>
+      <Contact mapsApiKey={loaderData.mapsApiKey} mapId={loaderData.mapId} turnstileSiteKey={loaderData.turnstileSiteKey}/>
     </>
   )
 }

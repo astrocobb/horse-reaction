@@ -2,12 +2,15 @@ import { serviceAreaCenter, serviceAreaCoords } from '~/data/husky-data'
 import { Map } from '@vis.gl/react-google-maps'
 import { Polygon } from './Polygon'
 
+interface ServiceMapProps {
+  mapId: string
+}
 
-export function ServiceMap() {
+export function ServiceMap({ mapId }: Readonly<ServiceMapProps>) {
   return (
     <div className="w-full h-[64vh]">
       <Map
-        mapId={ import.meta.env.VITE_MAP_ID }
+        mapId={ mapId }
         defaultCenter={ serviceAreaCenter }
         defaultZoom={ 9 }
         gestureHandling={ 'cooperative' }

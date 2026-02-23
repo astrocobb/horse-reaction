@@ -29,10 +29,7 @@ jobs:
           ssh astrocobb@huskydrilling.com '
             cd /opt/huskydrilling &&
             set -a && source .env && set +a &&
-            docker build \
-              --build-arg VITE_MAPS_API_KEY="$VITE_MAPS_API_KEY" \
-              --build-arg VITE_MAP_ID="$VITE_MAP_ID" \
-              -t huskydrilling . &&
+            docker build -t huskydrilling . &&
             docker stop huskydrilling || true &&
             docker rm huskydrilling || true &&
             docker run -d \

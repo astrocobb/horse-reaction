@@ -5,11 +5,13 @@ import { APIProvider } from '@vis.gl/react-google-maps'
 import { ClientOnly } from '~/components/ClientOnly'
 
 interface ContactProps {
+  mapsApiKey: string
+  mapId: string
   turnstileSiteKey: string
 }
 
 // Contact Section
-export default function Contact({ turnstileSiteKey }: ContactProps) {
+export default function Contact({ mapsApiKey, mapId, turnstileSiteKey }: Readonly<ContactProps>) {
   return (
     <section
       id="contact"
@@ -24,12 +26,12 @@ export default function Contact({ turnstileSiteKey }: ContactProps) {
           Please enter your information below, and we will get back to you as soon as possible.
         </h3>
         <ClientOnly>
-          <APIProvider apiKey={ import.meta.env.VITE_MAPS_API_KEY } version="beta">
+          <APIProvider apiKey={ mapsApiKey } version="beta">
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch">
               <ContactForm turnstileSiteKey={turnstileSiteKey}/>
               <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 lg:gap-10">
                 <div className="grow w-full h-72 overflow-hidden border border-base-700 rounded-md shadow-lg lg:h-80">
-                  <HuskyMap/>
+                  <HuskyMap mapId={mapId}/>
                 </div>
                 <div className="p-5 bg-base-800/50 border border-base-700 rounded-md shadow-lg sm:p-6 md:p-8 lg:p-10">
                   <HuskyDetails/>
