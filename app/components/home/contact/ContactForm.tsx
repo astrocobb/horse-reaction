@@ -118,7 +118,7 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
       <div className="grow">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-          {/* Name */ }
+          {/* Name */}
           <div className="flex flex-col">
             <label htmlFor="name" className="mb-2 font-medium text-base-250">Name</label>
             <input
@@ -219,7 +219,7 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
           tabIndex={ -1 }
           autoComplete="off"
           aria-hidden="true"
-          className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
+          className="absolute -left-2500 h-0 w-0 overflow-hidden"
         />
 
         {/* Turnstile CAPTCHA */ }

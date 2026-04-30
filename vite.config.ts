@@ -1,7 +1,6 @@
 import { reactRouter } from '@react-router/dev/vite'
 import tailwindcss from '@tailwindcss/vite'
 import { defineConfig, loadEnv } from 'vite'
-import tsconfigPaths from 'vite-tsconfig-paths'
 
 
 export default defineConfig(({ mode }) => {
@@ -15,8 +14,10 @@ export default defineConfig(({ mode }) => {
   return {
     plugins: [
       tailwindcss(),
-      reactRouter(),
-      tsconfigPaths()
-    ]
+      reactRouter()
+    ],
+    resolve: {
+      tsconfigPaths: true
+    }
   }
 })
