@@ -10,7 +10,7 @@ const services = [
   {
     icon: Droplet,
     title: 'Pump Installation',
-    description: 'Expert installation of submersible and surface pumps. We\'ll help you select the right pump system for your water needs and ensure a proper installation.'
+    description: 'Expert installation of submersible pumps. We\'ll help you select the right pump system for your water needs and ensure a proper installation.'
   },
   {
     icon: Wrench,
