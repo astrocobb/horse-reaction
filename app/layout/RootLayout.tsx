@@ -4,6 +4,7 @@ import Navbar from '~/components/Navbar'
 import Footer from '~/components/Footer'
 import { ClientOnly } from '~/components/ClientOnly'
 import LightPillar from '~/components/backgrounds/LightPillar'
+import NoticePopup from '~/components/NoticePopup'
 
 
 export default function RootLayout() {
@@ -34,6 +35,7 @@ export default function RootLayout() {
       <Navbar/>
       <Outlet/>
       <Footer/>
+      <NoticePopup/>
     </div>
   )
 }
