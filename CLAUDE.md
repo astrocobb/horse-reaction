@@ -46,6 +46,6 @@ React Router v7 full-stack SSR application — a single-page marketing site for 
 
 ## Deployment
 
-Docker multi-stage build (Node 26 Alpine; local Node is managed with fnm) → runs on port 3000. GitHub Actions workflow rsyncs source to the VPS, builds the Docker image on the server, and restarts the container. Nginx reverse-proxies to the container.
+Docker multi-stage build (Node 26 Alpine; local Node is managed with fnm) → runs on port 3000. GitHub Actions workflow rsyncs source to the VPS, builds the Docker image on the server, restarts the container, and prunes the previous build's now-untagged image (otherwise every deploy leaves one behind and the disk fills). Nginx reverse-proxies to the container, which publishes only on `127.0.0.1:3000`: Docker-published ports bypass ufw, so a bare `-p 3000:3000` exposes the site over plain HTTP on the server's public IP.
 
 The `.env` file lives on the server at `/opt/huskydrilling/.env` and is excluded from both rsync and Docker image via `.dockerignore`.
