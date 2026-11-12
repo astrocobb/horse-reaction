@@ -26,15 +26,15 @@ export const galleryPhotos: GalleryPhoto[] = [
     slug: 'el-cerro',
     caption: 'Setting up the Autocar Constructor',
     place: 'El Cerro',
-    alt: 'Autocar Constructor rig with its mast up beside a stack of well casing',
+    alt: 'Autocar Constructor rig with its mast up and water truck beside a stack of well casing',
     ground: 0.7,
     focusX: 0.4
   },
   {
     slug: 'el-cerro1',
-    caption: 'The Autocar, stuck on a job with a bad starter',
+    caption: 'The old Autocar Constructor, set up on a hole',
     place: 'El Cerro',
-    alt: 'Black Autocar drilling rig with HUSKY on the mast, parked on a dirt lot',
+    alt: 'Black Autocar Constructor rig with HUSKY on the mast, jacked up at location',
     ground: 0.88,
     focusX: 0.3
   },
@@ -62,8 +62,8 @@ export const galleryPhotos: GalleryPhoto[] = [
   },
   {
     slug: 'img-4191',
-    caption: 'The Sterling rig with its mast up in the yard',
-    alt: 'White Sterling drilling rig with its gray mast raised, a crew member standing beside it on a dirt lot',
+    caption: 'The Sterling rig with its mast up in the yard; Trevor Jr for scale',
+    alt: 'White Sterling drilling rig with its gray mast raised, Trevor Jr standing beside it at the yard',
     ground: 0.8,
     focusX: 0.16
   },
@@ -76,8 +76,8 @@ export const galleryPhotos: GalleryPhoto[] = [
   },
   {
     slug: 'img-4555-heic',
-    caption: 'Jason and Treg in front of the rebuilt rig',
-    alt: 'Jason and Treg shaking hands in front of the new rig in a grassy field under storm clouds',
+    caption: 'Jason and Treg in front of the rebuilt Sterling rig',
+    alt: 'Jason and Treg shaking hands in front of the rebuilt Sterling rig in a grassy field under storm clouds',
     ground: 0.53,
     focusX: 0.35
   },
