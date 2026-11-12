@@ -1,0 +1,24 @@
+name: Weekly contact form test
+on:
+  schedule:
+    # Mondays 15:00 UTC (8 AM MST / 9 AM MDT)
+    - cron: '0 15 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  send-test:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.PRIVATE_KEY }}
+      - name: Add host key
+        run: ssh-keyscan -H huskydrilling.com >> ~/.ssh/known_hosts
+      - name: Send test email from the production container
+        run: |
+          ssh astrocobb@huskydrilling.com \
+            'docker exec -i -w /app huskydrilling node --input-type=module -' \
+            < scripts/form-test.mjs
