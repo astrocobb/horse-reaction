@@ -3,6 +3,9 @@ import { useEffect, useRef, useState } from 'react'
 import { useFetcher } from 'react-router'
 import { Turnstile, type BoundTurnstileObject } from 'react-turnstile'
 import { contactSchema } from '~/utils/models/contact.model'
+import { huskyPhone } from '~/data/husky-data'
+
+const turnstileFailedText = `Our spam check couldn’t load. Please refresh the page, or call us at ${ huskyPhone.display }.`
 
 // helper function to format name
 function formatName(value: string) {
@@ -55,6 +58,7 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
   const [ subject, setSubject ] = useState('')
   const [ message, setMessage ] = useState('')
   const [ turnstileToken, setTurnstileToken ] = useState('')
+  const [ turnstileFailed, setTurnstileFailed ] = useState(false)
   const [ clientError, setClientError ] = useState('')
 
   const sending = fetcher.state !== 'idle'
@@ -90,7 +94,9 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
 
     if (!turnstileToken) {
       e.preventDefault()
-      setClientError('Please complete the verification challenge.')
+      setClientError(turnstileFailed
+        ? turnstileFailedText
+        : 'Please complete the verification challenge.')
     }
   }
 
@@ -236,10 +242,22 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
               sitekey={ turnstileSiteKey }
               onVerify={ (token, boundTurnstile) => {
                 setTurnstileToken(token)
+                setTurnstileFailed(false)
                 turnstileRef.current = boundTurnstile
+              } }
+              onExpire={ () => setTurnstileToken('') }
+              onError={ error => {
+                // With interaction-only + retry="never" a failed widget stays invisible,
+                // so say so instead of asking the visitor to complete a challenge they can't see.
+                console.error('Turnstile error:', error)
+                setTurnstileToken('')
+                setTurnstileFailed(true)
               } }
               theme="light"
             />
+            { turnstileFailed && (
+              <p role="alert" className="text-sm font-semibold text-error">{ turnstileFailedText }</p>
+            ) }
           </div>
         ) }
       </div>
