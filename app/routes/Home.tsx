@@ -4,7 +4,9 @@ import emailjs from '@emailjs/nodejs'
 import { contactSchema } from '~/utils/models/contact.model'
 import { rateLimit } from '~/utils/server/rate-limit.server'
 import { verifyTurnstile } from '~/utils/server/turnstile.server'
+import { getDrillingStats } from '~/utils/server/drilling-stats.server'
 import Hero from '~/components/home/Hero'
+import Stats from '~/components/home/Stats'
 import Services from '~/components/home/Services'
 import { ServiceArea } from '~/components/home/service-area/ServiceArea'
 import Gallery from '~/components/home/Gallery'
@@ -36,8 +38,9 @@ export function meta({}: Route.MetaArgs) {
   ]
 }
 
-export function loader() {
+export async function loader() {
   return {
+    stats: await getDrillingStats(),
     mapsApiKey: process.env.MAPS_API_KEY ?? '',
     mapId: process.env.MAP_ID ?? '',
     turnstileSiteKey: process.env.TURNSTILE_SITE_KEY ?? ''
@@ -124,6 +127,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <>
       <Hero/>
+      <Stats stats={loaderData.stats}/>
       <Services/>
       <ServiceArea mapsApiKey={loaderData.mapsApiKey} mapId={loaderData.mapId}/>
       <Gallery/>
