@@ -113,7 +113,9 @@ export async function action({ request }: Route.ActionArgs) {
         privateKey: process.env.EMAILJS_PRIVATE_KEY!
       }
     )
-  } catch {
+  } catch (error) {
+    // EmailJS rejects with { status, text } rather than an Error
+    console.error('EmailJS send failed:', error)
     return data(
       { success: false, error: 'Failed to send message. Please try again or call us directly.' },
       { status: 500 }
