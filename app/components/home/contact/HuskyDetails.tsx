@@ -1,7 +1,7 @@
 import { huskyPlaceId } from '~/data/husky-data'
 import { useMapsLibrary } from '@vis.gl/react-google-maps'
 import { useEffect, useState } from 'react'
-import { ChevronDown, Clock4, MapPin, Star } from 'lucide-react'
+import { ChevronDown, Clock4, MapPin, Navigation, Star } from 'lucide-react'
 
 
 interface PlaceData {
@@ -130,8 +130,9 @@ export function HuskyDetails() {
           href={ placeData.googleMapsURI }
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block ml-8 font-semibold text-ink underline underline-offset-4 decoration-2 hover:decoration-aquifer"
+          className="inline-flex items-center gap-2 h-11 mt-2 px-5 font-semibold text-ink border-2 border-ink rounded-sm transition-colors hover:bg-ink hover:text-paper"
         >
+          <Navigation aria-hidden="true" className="w-4 h-4 shrink-0"/>
           Get directions in Google Maps
         </a>
       ) }
