@@ -175,7 +175,7 @@ export const serviceAreaCenter = {
 }
 // business contact details shown across the site
 export const huskyPhone = { display: '(505) 864-0779', href: 'tel:+15058640779' }
-export const huskyEmail = 'huskywellservice@gmail.com'
+export const huskyEmail = 'info@huskydrilling.com'
 export const huskyHours = 'Monday–Friday, 9 AM–5 PM'
 
 // communities served outside the shaded valley area on the map

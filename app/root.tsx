@@ -40,8 +40,8 @@ export function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
               '@id': 'https://huskydrilling.com',
               name: 'Husky Well & Pump Service',
               url: 'https://huskydrilling.com',
-              telephone: '+1-505-705-0277',
-              email: 'huskydrilling@gmail.com',
+              telephone: '+1-505-864-0779',
+              email: 'info@huskydrilling.com',
               address: {
                 '@type': 'PostalAddress',
                 addressLocality: 'Los Lunas',
