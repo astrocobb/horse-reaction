@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { huskyEmail, huskyPhone } from '~/data/husky-data'
 
 
@@ -5,6 +6,7 @@ const links = [
   { href: '#services', label: 'Services' },
   { href: '#service-area', label: 'Service area' },
   { href: '#gallery', label: 'On the job' },
+  { href: '#rigs', label: 'Our rigs' },
   { href: '#about', label: 'About' },
   { href: '#contact', label: 'Contact' }
 ]
@@ -26,7 +28,7 @@ export default function Footer() {
           <ul className="flex flex-wrap gap-x-6 gap-y-2">
             { links.map(link => (
               <li key={ link.href }>
-                <a href={ link.href } className="underline-offset-4 hover:text-white hover:underline">{ link.label }</a>
+                <Link to={ link.href } className="underline-offset-4 hover:text-white hover:underline">{ link.label }</Link>
               </li>
             )) }
           </ul>

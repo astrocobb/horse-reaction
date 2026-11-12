@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useCallback, useEffect, useRef, useState, type CSSProperties, type RefObject } from 'react'
 import { ChevronLeft, ChevronRight, X } from 'lucide-react'
 import { galleryImage, galleryPhotos, type GalleryPhoto } from '~/data/gallery'
 
@@ -40,6 +40,107 @@ function placement(photo: GalleryPhoto, aspect: number) {
 
 const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+/** Pixels the mouse must travel before a press becomes a drag rather than a click */
+const DRAG_THRESHOLD = 6
+/** How far ahead (ms) a flick's speed carries the rail when choosing which frame to settle on */
+const FLICK_MS = 250
+
+/**
+ * Lets a mouse drag the rail sideways (touch and trackpads already scroll it natively). A press that
+ * moves past DRAG_THRESHOLD becomes a drag and its click is swallowed, so it never opens the viewer.
+ * Snapping is paused while dragging; on release the rail glides to the frame the flick was heading for.
+ */
+function useDragScroll(railRef: RefObject<HTMLDivElement | null>) {
+  useEffect(() => {
+    const rail = railRef.current
+    if (!rail) return
+
+    let drag: { id: number, startX: number, startScroll: number, lastX: number, lastT: number, velocity: number, active: boolean } | null = null
+    let swallowClick = false
+    let restoreTimer = 0
+
+    const restoreSnap = () => {
+      clearTimeout(restoreTimer)
+      rail.removeEventListener('scrollend', restoreSnap)
+      rail.style.scrollSnapType = ''
+    }
+
+    /* Scroll offsets at which each frame sits at the rail's snap edge, nearest to `from` */
+    const nearestFrame = (from: number) => {
+      const frames = Array.from(rail.querySelectorAll('li'))
+      const origin = frames[0]?.getBoundingClientRect().left ?? 0
+      const max = rail.scrollWidth - rail.clientWidth
+      return frames
+        .map(frame => Math.min(max, Math.max(0, rail.scrollLeft + frame.getBoundingClientRect().left - origin)))
+        .reduce((best, offset) => Math.abs(offset - from) < Math.abs(best - from) ? offset : best, 0)
+    }
+
+    const onDown = (event: PointerEvent) => {
+      if (event.pointerType !== 'mouse' || event.button !== 0) return
+      swallowClick = false
+      drag = { id: event.pointerId, startX: event.clientX, startScroll: rail.scrollLeft, lastX: event.clientX, lastT: event.timeStamp, velocity: 0, active: false }
+    }
+
+    const onMove = (event: PointerEvent) => {
+      if (!drag || event.pointerId !== drag.id) return
+      const dx = event.clientX - drag.startX
+      if (!drag.active) {
+        if (Math.abs(dx) < DRAG_THRESHOLD) return
+        // Capture only once it's a drag: capturing on press would retarget a plain click away from the photo
+        drag.active = true
+        rail.setPointerCapture(event.pointerId)
+        rail.dataset.dragging = ''
+        restoreSnap()
+        rail.style.scrollSnapType = 'none'
+        getSelection()?.removeAllRanges()
+      }
+      const dt = event.timeStamp - drag.lastT
+      if (dt > 0) drag.velocity = 0.7 * (event.clientX - drag.lastX) / dt + 0.3 * drag.velocity
+      drag.lastX = event.clientX
+      drag.lastT = event.timeStamp
+      rail.scrollLeft = drag.startScroll - dx
+    }
+
+    const onUp = (event: PointerEvent) => {
+      if (!drag || event.pointerId !== drag.id) return
+      const { active, lastT } = drag
+      // A pause before letting go means no flick
+      const velocity = event.timeStamp - lastT > 80 ? 0 : drag.velocity
+      drag = null
+      if (!active) return
+
+      swallowClick = true
+      delete rail.dataset.dragging
+      const reduced = prefersReducedMotion()
+      rail.scrollTo({ left: nearestFrame(rail.scrollLeft - velocity * FLICK_MS), behavior: reduced ? 'auto' : 'smooth' })
+      if (reduced) return restoreSnap()
+      rail.addEventListener('scrollend', restoreSnap)
+      restoreTimer = window.setTimeout(restoreSnap, 700) // browsers without scrollend
+    }
+
+    const onClick = (event: MouseEvent) => {
+      if (!swallowClick) return
+      swallowClick = false
+      event.preventDefault()
+      event.stopPropagation()
+    }
+
+    rail.addEventListener('pointerdown', onDown)
+    rail.addEventListener('pointermove', onMove)
+    rail.addEventListener('pointerup', onUp)
+    rail.addEventListener('pointercancel', onUp)
+    rail.addEventListener('click', onClick, true)
+    return () => {
+      restoreSnap()
+      rail.removeEventListener('pointerdown', onDown)
+      rail.removeEventListener('pointermove', onMove)
+      rail.removeEventListener('pointerup', onUp)
+      rail.removeEventListener('pointercancel', onUp)
+      rail.removeEventListener('click', onClick, true)
+    }
+  }, [ railRef ])
+}
+
 /* Lines the rail's first frame up with the page content (max-w-7xl inside the section padding) */
 const railInset = 'px-[max(1rem,calc((100%-80rem)/2))] sm:px-[max(1.5rem,calc((100%-80rem)/2))] lg:px-[max(2.5rem,calc((100%-80rem)/2))]'
 const railSnapInset = 'scroll-px-[max(1rem,calc((100%-80rem)/2))] sm:scroll-px-[max(1.5rem,calc((100%-80rem)/2))] lg:scroll-px-[max(2.5rem,calc((100%-80rem)/2))]'
@@ -50,6 +151,7 @@ export default function Gallery() {
   const railRef = useRef<HTMLDivElement>(null)
   const [ edges, setEdges ] = useState({ start: true, end: false, overflow: true })
   const [ open, setOpen ] = useState<number | null>(null)
+  useDragScroll(railRef)
 
   const updateEdges = useCallback(() => {
     const rail = railRef.current
@@ -91,7 +193,7 @@ export default function Gallery() {
       <div
         ref={ railRef }
         onScroll={ updateEdges }
-        className={ `mt-10 overflow-x-auto snap-x snap-mandatory overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${ railSnapInset }` }
+        className={ `mt-10 overflow-x-auto snap-x snap-mandatory overscroll-x-contain [scrollbar-width:none] [&::-webkit-scrollbar]:hidden pointer-fine:cursor-grab data-dragging:select-none data-dragging:cursor-grabbing [&[data-dragging]_*]:cursor-grabbing ${ railSnapInset }` }
       >
         <ul className={ `flex w-max gap-1 ${ railInset }` }>
           { galleryPhotos.map((photo, i) => {

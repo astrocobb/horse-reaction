@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { ServiceMap } from '~/components/home/service-area/ServiceMap'
 import { APIProvider } from '@vis.gl/react-google-maps'
 import { ClientOnly } from '~/components/ClientOnly'
@@ -30,7 +31,7 @@ export function ServiceArea({ mapsApiKey, mapId }: Readonly<ServiceAreaProps>) {
             )) }
           </ul>
           <p className="max-w-md mt-6 text-ink-soft">
-            Not on the map or the list? <a href="#contact" className="font-semibold text-ink underline underline-offset-4 decoration-2 hover:text-livery-ink">Ask us anyway</a>.
+            Not on the map or the list? <Link to="#contact" className="font-semibold text-ink underline underline-offset-4 decoration-2 hover:text-livery-ink">Ask us anyway</Link>.
           </p>
         </div>
 

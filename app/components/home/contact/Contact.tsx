@@ -61,7 +61,7 @@ export default function Contact({ mapsApiKey, mapId, turnstileSiteKey }: Readonl
           </ClientOnly>
         </div>
 
-        <div className="p-6 text-ink bg-surface border-2 border-rule-strong rounded-sm sm:p-10 lg:col-span-7">
+        <div className="p-6 text-ink bg-paper border-2 border-rule-strong rounded-sm sm:p-10 lg:col-span-7">
           <h3 className="font-display text-[2rem] font-bold leading-none">Request a quote</h3>
           <p className="mt-2 mb-6 text-ink-soft">
             Tell us what you need: a new well, a pump, or a repair. Include your town so we know where you are.

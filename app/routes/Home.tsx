@@ -9,6 +9,7 @@ import Hero from '~/components/home/Hero'
 import Services from '~/components/home/Services'
 import { ServiceArea } from '~/components/home/service-area/ServiceArea'
 import Gallery from '~/components/home/Gallery'
+import Rigs from '~/components/home/Rigs'
 import About from '~/components/home/About'
 import Contact from '~/components/home/contact/Contact'
 
@@ -129,6 +130,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
       <Services/>
       <ServiceArea mapsApiKey={loaderData.mapsApiKey} mapId={loaderData.mapId}/>
       <Gallery/>
+      <Rigs/>
       <About/>
       <Contact mapsApiKey={loaderData.mapsApiKey} mapId={loaderData.mapId} turnstileSiteKey={loaderData.turnstileSiteKey}/>
     </>

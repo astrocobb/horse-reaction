@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import { Phone } from 'lucide-react'
 import { huskyPhone } from '~/data/husky-data'
 import { CountUp, format } from '~/components/CountUp'
@@ -71,12 +72,12 @@ export default function Hero({ stats }: { stats: DrillingStats }) {
             <Phone aria-hidden="true" className="w-5 h-5"/>
             Call { huskyPhone.display }
           </a>
-          <a
-            href="#contact"
+          <Link
+            to="#contact"
             className="inline-flex items-center h-12 px-6 text-lg font-semibold border-2 border-white/80 rounded-sm transition-colors hover:bg-white hover:text-band"
           >
             Request a quote
-          </a>
+          </Link>
         </div>
 
         {/* Phones and tablets: the mast fills the right side there, so the stats sit in a row under the buttons */ }

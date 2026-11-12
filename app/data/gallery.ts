@@ -47,14 +47,6 @@ export const galleryPhotos: GalleryPhoto[] = [
     focusX: 0.66
   },
   {
-    slug: 'corrales',
-    caption: 'Drilling under storm clouds',
-    place: 'Corrales',
-    alt: 'Drilling rig under heavy clouds, with red mud running from the pit past the water truck',
-    ground: 0.83,
-    focusX: 0.46
-  },
-  {
     slug: 'sunset-rig',
     caption: 'Finishing the job',
     alt: 'Drilling rig and water truck at dusk, with the crew at the mud pit',
@@ -67,7 +59,49 @@ export const galleryPhotos: GalleryPhoto[] = [
     alt: 'Drilling rig alone in a plowed field under a pink and blue evening sky',
     ground: 0.73,
     focusX: 0.43
-  }
+  },
+  {
+    slug: 'img-4191',
+    caption: 'The Sterling rig with its mast up in the yard',
+    alt: 'White Sterling drilling rig with its gray mast raised, a crew member standing beside it on a dirt lot',
+    ground: 0.8,
+    focusX: 0.16
+  },
+  {
+    slug: 'img-4253',
+    caption: 'Mast down and ready to roll',
+    alt: 'White Sterling drilling rig with the HUSKY mast lowered for travel, parked beside the shop under a clear blue sky',
+    ground: 0.67,
+    focusX: 0.55
+  },
+  {
+    slug: 'img-4555-heic',
+    caption: 'Jason and Treg in front of the rebuilt rig',
+    alt: 'Jason and Treg shaking hands in front of the new rig in a grassy field under storm clouds',
+    ground: 0.53,
+    focusX: 0.35
+  },
+  {
+    slug: 'img-4567-heic',
+    caption: 'Last light on the mast',
+    alt: 'Husky drilling rig with its mast lit gold by the evening sun',
+    ground: 0.86,
+    focusX: 0.18
+  },
+  {
+    slug: 'img-4581-heic',
+    caption: 'Jacked up and ready to drill',
+    alt: 'Rebuilt rig on a (new to us) Sterling truck with its mast raised and leveling jacks set on wood blocks, parked among cottonwoods under a blue sky',
+    ground: 0.7,
+    focusX: 0.17
+  },
+  {
+    slug: 'img-4974',
+    caption: 'The crew working the rig, water truck alongside; the boss keeping them in check',
+    alt: 'Husky crew and the company owner (Richard) at the base of the rig mast between a company pickup and the Husky Well & Pump Service water truck, under gray clouds',
+    ground: 0.53,
+    focusX: 0.49
+  },
 ]
 
 export const galleryImage = (slug: GalleryPhoto['slug']) => {

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router'
 import { Menu, Phone, X } from 'lucide-react'
 import { huskyPhone } from '~/data/husky-data'
 import NoticeBar from '~/components/NoticeBar'
@@ -9,6 +10,7 @@ const navLinks = [
   { href: '#services', label: 'Services' },
   { href: '#service-area', label: 'Service area' },
   { href: '#gallery', label: 'On the job' },
+  { href: '#rigs', label: 'Our rigs' },
   { href: '#about', label: 'About' },
   { href: '#contact', label: 'Contact' }
 ]
@@ -53,7 +55,7 @@ export default function Navbar({ notices }: { notices: Notice[] }) {
       <NoticeBar notices={ notices } collapsed={ solid }/>
       <nav className="relative flex items-center justify-between max-w-7xl h-16 mx-auto px-4 sm:px-6 lg:px-10" aria-label="Main">
 
-        <a href="#home" className="flex items-center gap-3" onClick={ () => setMenuOpen(false) }>
+        <Link to="#home" className="flex items-center gap-3" onClick={ () => setMenuOpen(false) }>
           {/* Navy logo on the light bar; the light logo over the photo and on the dark bar */ }
           <img
             src="/assets/images/dawg.png"
@@ -69,7 +71,7 @@ export default function Navbar({ notices }: { notices: Notice[] }) {
             Husky
             <span className="sr-only"> Well & Pump Service, home</span>
           </span>
-        </a>
+        </Link>
 
         <div className="flex items-center gap-1 sm:gap-2">
           <ul
@@ -78,13 +80,13 @@ export default function Navbar({ notices }: { notices: Notice[] }) {
           >
             { navLinks.map(link => (
               <li key={ link.href }>
-                <a
-                  href={ link.href }
+                <Link
+                  to={ link.href }
                   onClick={ () => setMenuOpen(false) }
                   className="block py-3 text-lg font-medium underline-offset-4 decoration-2 hover:underline lg:px-3 lg:py-2 lg:text-base"
                 >
                   { link.label }
-                </a>
+                </Link>
               </li>
             )) }
           </ul>

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router'
 import { Snowflake, X } from 'lucide-react'
 import { type Notice, saveDismissed } from '~/utils/notices'
 
@@ -41,12 +42,12 @@ export default function NoticeBar({ notices, collapsed }: { notices: Notice[], c
                     { notice.link && (
                       <>
                         { ' ' }
-                        <a
-                          href={ notice.link.href }
+                        <Link
+                          to={ notice.link.href }
                           className="font-semibold underline underline-offset-2 decoration-white/50 hover:decoration-white"
                         >
                           { notice.link.label }
-                        </a>
+                        </Link>
                       </>
                     ) }
                   </span>
