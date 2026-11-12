@@ -26,25 +26,6 @@ const timeline = [
   }
 ]
 
-const values = [
-  {
-    title: 'Reliability',
-    description: 'We show up on time and get the job done right. Your water supply is too important for anything less.'
-  },
-  {
-    title: 'Quality',
-    description: 'We use the best equipment and techniques to ensure lasting results you can depend on.'
-  },
-  {
-    title: 'Integrity',
-    description: 'Honest pricing, transparent communication, and doing what’s right for our customers.'
-  },
-  {
-    title: 'Community',
-    description: 'Proud to serve our neighbors throughout New Mexico with dedicated local service.'
-  }
-]
-
 export default function About() {
   return (
     <section id="about" aria-labelledby="about-title" className="px-4 py-20 sm:px-6 sm:py-24 lg:px-10 lg:py-32">
@@ -52,7 +33,7 @@ export default function About() {
 
         <div className="lg:col-span-4">
           <div className="lg:sticky lg:top-28">
-            <h2 id="about-title" className="section-title">About</h2>
+            <h2 id="about-title" className="section-title">Since 1958</h2>
             <p className="max-w-md mt-5 text-ink-soft">
               Husky started with one man, one rig, and three decades of drilling behind him. Here’s how we got here.
             </p>
@@ -60,24 +41,14 @@ export default function About() {
         </div>
 
         <div className="lg:col-span-8">
-          <ol className="border-t-2 border-ink">
+          <ol className="border-t-2 border-rule-strong">
             { timeline.map(item => (
-              <li key={ item.year } className="grid grid-cols-[5.5rem_1fr] items-baseline gap-x-5 py-7 border-b border-rule sm:grid-cols-[9rem_1fr] sm:gap-x-10 sm:py-9">
+              <li key={ item.year } className="grid grid-cols-[5.5rem_1fr] items-baseline gap-x-5 py-7 sm:grid-cols-[9rem_1fr] sm:gap-x-10 sm:py-9">
                 <p className="font-display text-[2rem] font-bold leading-none tabular sm:text-[2.75rem]">{ item.year }</p>
                 <p className="max-w-prose">{ item.text }</p>
               </li>
             )) }
           </ol>
-
-          <h3 className="mt-20 font-display text-[2rem] font-bold leading-none sm:text-[2.5rem]">Our values</h3>
-          <dl className="grid gap-x-10 gap-y-8 mt-8 sm:grid-cols-2">
-            { values.map(value => (
-              <div key={ value.title } className="pt-4 border-t-2 border-ink">
-                <dt className="font-display text-2xl font-bold">{ value.title }</dt>
-                <dd className="mt-2 text-ink-soft">{ value.description }</dd>
-              </div>
-            )) }
-          </dl>
         </div>
 
       </div>

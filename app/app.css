@@ -1,30 +1,37 @@
 @import 'tailwindcss';
 
 /*
-  Husky Well & Pump Service: palette taken from the rig and the truck livery.
-  - ink:     the navy of the "HUSKY" lettering on the mast
-  - paper:   high-desert sky haze
-  - livery:  the red pinstripe on the water truck, used only for call / quote actions
-  - aquifer: water, used only where there is water (diagram)
-  - strata:  earth tones, used only in the well diagram
+  Husky Well & Pump Service: "basalt and rust".
+  Built from the dark theme first (blue-black basalt, cyan water, iron-oxide rust),
+  then inverted for light mode on the same hues so the two themes read as one family.
+  - ink / paper: basalt, hue ~245–255. Light-mode ink sits on the logo navy.
+  - livery:  rust, hue 35. Only for call / quote actions.
+  - aquifer: cyan water, hue 225–235, matching the LightPillar glow. Only where there is water, plus focus rings.
+  - strata:  earth tones, only in the well diagram
+
+  Light mode (default)
 */
 @theme {
   --font-display: 'Rokkitt', ui-serif, Georgia, serif;
   --font-sans: 'Archivo', ui-sans-serif, system-ui, sans-serif;
 
-  --color-paper: #eef2f5;
-  --color-paper-deep: #dfe5eb;
-  --color-ink: #17233b;
-  --color-ink-soft: #4a5872;
-  --color-ink-faint: #8a96aa;
-  --color-rule: #c3ccd7;
+  --color-paper: oklch(96.5% 0.006 240);       /* #f0f4f7 */
+  --color-paper-deep: oklch(92.5% 0.01 240);   /* #e0e7ec */
+  --color-ink: oklch(25% 0.03 255);            /* #182230 */
+  --color-ink-soft: oklch(45% 0.025 250);      /* #4b5763 */
+  --color-ink-faint: oklch(54% 0.02 245);      /* #65707a */
+  --color-rule: oklch(85% 0.012 240);          /* #c7cfd5 */
+  /* Structural rules and frames (well log, timeline, stats, map, quote card): firmer than rule, well short of ink */
+  --color-rule-strong: oklch(68% 0.018 245);
 
-  --color-livery: #a3242f;
-  --color-livery-dark: #841c26;
+  --color-livery: oklch(52% 0.15 35);          /* #ae4024, white text 5.9:1 */
+  --color-livery-dark: oklch(45% 0.14 35);     /* #932e14 */
+  /* Livery used as text color on paper (link hover) */
+  --color-livery-ink: oklch(50% 0.15 35);
 
-  --color-aquifer: #2e7db5;
-  --color-aquifer-deep: #0f2d4a;
-  --color-aquifer-ink: #c9def0;
+  --color-aquifer: oklch(52% 0.12 235);        /* #0072a3 */
+  --color-aquifer-deep: oklch(26% 0.05 245);
+  --color-aquifer-ink: oklch(88% 0.03 235);
 
   --color-strata-soil: #8b6a4f;
   --color-strata-sand: #d8c39d;
@@ -32,16 +39,27 @@
   --color-strata-clay: #b0806a;
   --color-strata-rock: #5d5f66;
 
-  --color-success: #2f7d4f;
-  --color-warning: #a36a12;
-  --color-error: #b3261e;
+  --color-success: oklch(50% 0.11 155);
+  --color-warning: oklch(53% 0.12 70);
+  --color-error: oklch(50% 0.17 25);
 
-  /* Solid dark bands (hero backing, footer): ink in light mode, near-black in dark */
-  --color-band: #17233b;
+  /* Solid dark bands (hero backing, footer): basalt ink in light mode, near-black basalt in dark */
+  --color-band: oklch(25% 0.03 255);
+  /* Raised panel (quote form card) */
+  --color-surface: oklch(99.5% 0.002 240);
   /* Form field fill */
   --color-field: #ffffff;
-  /* Casing walls in the well diagram */
-  --color-strata-steel: #3b4558;
+  /* Well diagram hardware. Not overridden in dark mode: the diagram looks the same in both themes. */
+  --color-strata-steel: #5d6778;
+  --color-strata-cap: #7f8898;
+  --color-strata-casing: #c8cfd8;
+  --color-strata-pipe: #ffffff;
+  --color-strata-pump: #747e8e;
+  --color-strata-pump-seam: #565f6f;
+  --color-strata-cable: #1c2430;
+  --color-strata-water: #2e7db5;
+  --color-strata-water-table: #0f2d4a;
+  --color-strata-surface: #182230;
 
   /* Type scale: ~1.25 ratio on a 17px base */
   --text-body: 1.0625rem;
@@ -52,33 +70,35 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 /*
-  Dark mode: the pre-redesign palette. Slate base on hue 240, light slate text,
-  cyan for water, the old terracotta accent standing in for the livery red.
+  Dark mode: the source of the palette. Blue-black basalt (a touch more chroma than plain slate,
+  so it reads as stone rather than grey), cyan water, rust for call / quote.
 */
 .dark {
   color-scheme: dark;
 
-  --color-paper: oklch(20% 0.01 240);
-  --color-paper-deep: oklch(15% 0.01 240);
-  --color-ink: oklch(95% 0.01 240);
-  --color-ink-soft: oklch(78% 0.01 240);
-  --color-ink-faint: oklch(62% 0.01 240);
-  --color-rule: oklch(35% 0.01 240);
+  --color-paper: oklch(19% 0.016 248);         /* #0e151b */
+  --color-paper-deep: oklch(15% 0.014 248);    /* #070c11 */
+  --color-ink: oklch(95% 0.008 240);           /* #eaeff3 */
+  --color-ink-soft: oklch(80% 0.014 240);      /* #b6bfc6 */
+  --color-ink-faint: oklch(66% 0.016 242);     /* #8a949b */
+  --color-rule: oklch(34% 0.02 245);           /* #2f3942 */
+  --color-rule-strong: oklch(44% 0.02 245);
 
-  --color-livery: oklch(56% 0.13 40);
-  --color-livery-dark: oklch(50% 0.12 40);
+  --color-livery: oklch(54% 0.15 35);          /* #b5462b, white text 5.4:1 */
+  --color-livery-dark: oklch(48% 0.14 35);     /* #9d381f */
+  --color-livery-ink: oklch(70% 0.13 40);      /* #e2805e */
 
-  --color-aquifer: oklch(72% 0.15 230);
+  --color-aquifer: oklch(76% 0.13 225);        /* #37c2ef */
   --color-aquifer-deep: oklch(24% 0.05 240);
-  --color-aquifer-ink: oklch(88% 0.03 240);
+  --color-aquifer-ink: oklch(88% 0.03 235);
 
-  --color-success: oklch(72% 0.13 155);
-  --color-warning: oklch(78% 0.15 85);
-  --color-error: oklch(70% 0.17 15);
+  --color-success: oklch(74% 0.13 155);
+  --color-warning: oklch(80% 0.14 80);
+  --color-error: oklch(70% 0.16 25);
 
-  --color-band: oklch(10% 0.01 240);
-  --color-field: oklch(15% 0.01 240);
-  --color-strata-steel: oklch(55% 0.02 240);
+  --color-band: oklch(12% 0.014 250);          /* #03060a */
+  --color-surface: oklch(23.5% 0.018 248);     /* #171f26 */
+  --color-field: oklch(16.5% 0.014 248);       /* #0a0f14 */
 }
 
 @layer base {
@@ -114,12 +134,34 @@
   :focus-visible {
     outline: 3px solid var(--color-aquifer);
     outline-offset: 3px;
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
   }
 }
 
 @utility tabular {
   font-variant-numeric: tabular-nums lining-nums;
+}
+
+/*
+  Fades an element's bottom edge to transparent over --fade-length.
+  Stops follow a smoothstep curve so the fade has no visible start or end line.
+*/
+@utility fade-bottom {
+  --fade-start: calc(100% - var(--fade-length, 8rem));
+  mask-image: linear-gradient(
+    to bottom,
+    #000 var(--fade-start),
+    rgb(0 0 0 / 0.972) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.1),
+    rgb(0 0 0 / 0.896) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.2),
+    rgb(0 0 0 / 0.784) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.3),
+    rgb(0 0 0 / 0.648) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.4),
+    rgb(0 0 0 / 0.5) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.5),
+    rgb(0 0 0 / 0.352) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.6),
+    rgb(0 0 0 / 0.216) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.7),
+    rgb(0 0 0 / 0.104) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.8),
+    rgb(0 0 0 / 0.028) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.9),
+    transparent 100%
+  );
 }
 
 /* Section heading: slab, tight, set large. Used once per section. */
@@ -129,4 +171,20 @@
   font-size: clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem);
   line-height: 1;
   letter-spacing: -0.01em;
+}
+
+/* Gallery photo viewer: a short fade when it opens */
+.photo-viewer[open],
+.photo-viewer[open]::backdrop {
+  transition: opacity 180ms ease-out;
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-viewer[open],
+  .photo-viewer[open]::backdrop {
+    transition: none;
+  }
 }

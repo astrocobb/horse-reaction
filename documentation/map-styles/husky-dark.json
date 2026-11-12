@@ -1,0 +1,30 @@
+{
+  "variant": "dark",
+  "backgroundColor": "#0e151b",
+  "metadata": { "name": "Husky dark", "palette": "basalt and rust, dark" },
+  "styles": [
+    { "id": "natural.land", "geometry": { "fillColor": "#111920" } },
+    { "id": "natural.land.landCover", "geometry": { "fillColor": "#141c23" } },
+    { "id": "natural.water", "geometry": { "fillColor": "#0c2a3b" }, "label": { "textFillColor": "#37c2ef", "textStrokeColor": "#0e151b" } },
+
+    { "id": "political", "label": { "textFillColor": "#8a949b", "textStrokeColor": "#0e151b" } },
+    { "id": "political.border", "geometry": { "color": "#56616b" } },
+    { "id": "political.city", "label": { "textFillColor": "#eaeff3", "textStrokeColor": "#0e151b" } },
+    { "id": "political.neighborhood", "label": { "visible": false } },
+    { "id": "political.landParcel", "geometry": { "visible": false } },
+
+    { "id": "pointOfInterest", "geometry": { "fillColor": "#141c23" }, "label": { "visible": false } },
+    { "id": "pointOfInterest.recreation", "geometry": { "fillColor": "#121d20" } },
+
+    { "id": "infrastructure.urbanArea", "geometry": { "fillColor": "#141c23" } },
+    { "id": "infrastructure.building", "geometry": { "fillColor": "#171f26", "strokeColor": "#0a0f14" } },
+    { "id": "infrastructure.businessCorridor", "geometry": { "visible": false } },
+
+    { "id": "infrastructure.roadNetwork.road", "geometry": { "fillColor": "#1f2830", "strokeColor": "#0a0f14" }, "label": { "textFillColor": "#6f7a83", "textStrokeColor": "#0e151b" } },
+    { "id": "infrastructure.roadNetwork.road.local", "geometry": { "fillColor": "#182027" }, "label": { "visible": false } },
+    { "id": "infrastructure.roadNetwork.road.highway", "geometry": { "fillColor": "#3d4852", "strokeColor": "#0a0f14" }, "label": { "textFillColor": "#b6bfc6" } },
+
+    { "id": "infrastructure.railwayTrack", "geometry": { "fillColor": "#252e36" } },
+    { "id": "infrastructure.transitStation", "label": { "visible": false } }
+  ]
+}

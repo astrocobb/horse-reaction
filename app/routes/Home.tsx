@@ -6,7 +6,6 @@ import { rateLimit } from '~/utils/server/rate-limit.server'
 import { verifyTurnstile } from '~/utils/server/turnstile.server'
 import { getDrillingStats } from '~/utils/server/drilling-stats.server'
 import Hero from '~/components/home/Hero'
-import Stats from '~/components/home/Stats'
 import Services from '~/components/home/Services'
 import { ServiceArea } from '~/components/home/service-area/ServiceArea'
 import Gallery from '~/components/home/Gallery'
@@ -126,8 +125,7 @@ export async function action({ request }: Route.ActionArgs) {
 export default function Home({ loaderData }: Route.ComponentProps) {
   return (
     <>
-      <Hero/>
-      <Stats stats={loaderData.stats}/>
+      <Hero stats={loaderData.stats}/>
       <Services/>
       <ServiceArea mapsApiKey={loaderData.mapsApiKey} mapId={loaderData.mapId}/>
       <Gallery/>

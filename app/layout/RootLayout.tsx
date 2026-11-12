@@ -1,12 +1,18 @@
 import { Outlet } from 'react-router'
+import type { Route } from './+types/RootLayout'
 import Navbar from '~/components/Navbar'
 import Footer from '~/components/Footer'
 import { ClientOnly } from '~/components/ClientOnly'
 import LightPillar from '~/components/backgrounds/LightPillar'
 import { useTheme } from '~/utils/theme'
+import { getActiveNotices } from '~/utils/server/notices.server'
 
 
-export default function RootLayout() {
+export function loader({ request }: Route.LoaderArgs) {
+  return { notices: getActiveNotices(request) }
+}
+
+export default function RootLayout({ loaderData }: Route.ComponentProps) {
   const theme = useTheme()
   return (
     <>
@@ -29,7 +35,7 @@ export default function RootLayout() {
           />
         </ClientOnly>
       </div>
-      <Navbar/>
+      <Navbar notices={ loaderData.notices }/>
       <main>
         <Outlet/>
       </main>

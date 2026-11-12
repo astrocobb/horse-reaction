@@ -1,3 +1,4 @@
+import type { NoticeConfig } from '~/utils/notices'
 
 
 // husky office coordinates
@@ -179,5 +180,28 @@ export const huskyHours = 'Monday–Friday, 9 AM–5 PM'
 
 // communities served outside the shaded valley area on the map
 export const servedCommunities = [
-  'Rio Rancho', 'Corrales', 'Edgewood', 'Moriarty'
+  'Albuquerque', 'Corrales', 'Rio Rancho', 'Los Ranchos', 'Los Lunas', 'Belen'
+]
+
+/*
+  Notices shown in the bar above the navbar (newest / most important first).
+  To add one, copy an entry and give it a new id. To retire one, delete it.
+  - show: { type: 'always' }                                   until removed; add from / until ('YYYY-MM-DD') to expire it
+  - show: { type: 'yearly', from: 'MM-DD', to: 'MM-DD' }       every year in that window, Mountain time
+  Changing a notice's wording brings it back for visitors who dismissed the old version.
+*/
+export const notices: NoticeConfig[] = [
+  {
+    id: 'big-news',
+    message: 'Something BIG is happening at Husky.',
+    show: { type: 'always' }
+  },
+  {
+    // First freezes in central NM come in late October; hard freezes are still possible in March
+    id: 'winterize',
+    message: 'Make sure to winterize your systems.',
+    icon: 'snowflake',
+    link: { href: '#contact', label: 'Questions? Contact us' },
+    show: { type: 'yearly', from: '10-01', to: '03-31' }
+  }
 ]

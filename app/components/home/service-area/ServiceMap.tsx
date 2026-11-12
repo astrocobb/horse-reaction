@@ -7,8 +7,8 @@ interface ServiceMapProps {
   mapId: string
 }
 
-// Hex versions of the livery token (the polygon takes plain colors, not CSS variables)
-const areaColor = { light: '#a3242f', dark: '#b25634' }
+// Hex versions of the success (green) token (the polygon takes plain colors, not CSS variables)
+const areaColor = { light: '#1e7546', dark: '#5ec386' }
 
 export function ServiceMap({ mapId }: Readonly<ServiceMapProps>) {
   const theme = useTheme()

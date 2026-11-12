@@ -8,6 +8,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Build**: `npm run build` (React Router production build via Vite)
 - **Start**: `npm run start` (runs `react-router-serve ./build/server/index.js`)
 - **Typecheck**: `npm run typecheck` (runs `react-router typegen && tsc`)
+- **Gallery photos**: `npm run photos` resizes originals in `./photos` (gitignored) to WebP in `public/assets/gallery/` and updates `app/data/gallery-manifest.json`; captions, order and ground-line values live in `app/data/gallery.ts`
 
 No test runner or linter is configured.
 

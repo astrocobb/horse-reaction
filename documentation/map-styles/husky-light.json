@@ -1,0 +1,31 @@
+{
+  "variant": "light",
+  "backgroundColor": "#f0f4f7",
+  "metadata": { "name": "Husky light", "palette": "basalt and rust, light" },
+  "styles": [
+    { "id": "natural.land", "geometry": { "fillColor": "#eaeff3" } },
+    { "id": "natural.land.landCover", "geometry": { "fillColor": "#e6ecf0" } },
+    { "id": "natural.water", "geometry": { "fillColor": "#a9d0e6" }, "label": { "textFillColor": "#0072a3", "textStrokeColor": "#f0f4f7" } },
+
+    { "id": "political", "label": { "textFillColor": "#4b5763", "textStrokeColor": "#f0f4f7" } },
+    { "id": "political.border", "geometry": { "color": "#8d99a3" } },
+    { "id": "political.city", "label": { "textFillColor": "#182230", "textStrokeColor": "#f0f4f7" } },
+    { "id": "political.neighborhood", "label": { "visible": false } },
+    { "id": "political.landParcel", "geometry": { "visible": false } },
+
+    { "id": "pointOfInterest", "geometry": { "fillColor": "#e4eaee" }, "label": { "visible": false } },
+    { "id": "pointOfInterest.recreation", "geometry": { "fillColor": "#dfe7e6" } },
+
+    { "id": "infrastructure.urbanArea", "geometry": { "fillColor": "#e4eaee" } },
+    { "id": "infrastructure.building", "geometry": { "fillColor": "#e0e7ec", "strokeColor": "#d3dadf" } },
+    { "id": "infrastructure.businessCorridor", "geometry": { "visible": false } },
+
+    { "id": "infrastructure.roadNetwork.road", "geometry": { "fillColor": "#ffffff", "strokeColor": "#d3dadf" }, "label": { "textFillColor": "#65707a", "textStrokeColor": "#f0f4f7" } },
+    { "id": "infrastructure.roadNetwork.road.local", "geometry": { "fillColor": "#f8fafb" }, "label": { "visible": false } },
+    { "id": "infrastructure.roadNetwork.road.arterial", "geometry": { "strokeColor": "#c7cfd5" } },
+    { "id": "infrastructure.roadNetwork.road.highway", "geometry": { "fillColor": "#c7cfd5", "strokeColor": "#a9b4bd" }, "label": { "textFillColor": "#4b5763" } },
+
+    { "id": "infrastructure.railwayTrack", "geometry": { "fillColor": "#c7cfd5" } },
+    { "id": "infrastructure.transitStation", "label": { "visible": false } }
+  ]
+}

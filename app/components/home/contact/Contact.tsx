@@ -22,7 +22,7 @@ export default function Contact({ mapsApiKey, mapId, turnstileSiteKey }: Readonl
     >
       <div className="grid max-w-7xl gap-12 mx-auto lg:grid-cols-12">
 
-        <div className="lg:col-span-5">
+        <div className="lg:col-span-5 lg:flex lg:flex-col">
           <h2 id="contact-title" className="section-title">Contact us</h2>
           <p className="max-w-md mt-5 text-ink-soft">
             Call us, or send a request with a few details about your property and we’ll get back to you.
@@ -54,14 +54,14 @@ export default function Contact({ mapsApiKey, mapId, turnstileSiteKey }: Readonl
               <div className="pt-6 mt-6 border-t border-rule">
                 <HuskyDetails/>
               </div>
-              <div className="h-64 mt-8 overflow-hidden border-2 border-ink sm:h-72">
+              <div className="h-64 mt-8 overflow-hidden border-2 border-rule-strong rounded-sm sm:h-72 lg:h-auto lg:min-h-72 lg:flex-1">
                 <HuskyMap mapId={ mapId }/>
               </div>
             </APIProvider>
           </ClientOnly>
         </div>
 
-        <div className="p-6 text-ink bg-white border-2 border-ink rounded-sm sm:p-10 lg:col-span-7">
+        <div className="p-6 text-ink bg-surface border-2 border-rule-strong rounded-sm sm:p-10 lg:col-span-7">
           <h3 className="font-display text-[2rem] font-bold leading-none">Request a quote</h3>
           <p className="mt-2 mb-6 text-ink-soft">
             Tell us what you need: a new well, a pump, or a repair. Include your town so we know where you are.

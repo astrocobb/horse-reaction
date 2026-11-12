@@ -20,21 +20,21 @@ export function ServiceArea({ mapsApiKey, mapId }: Readonly<ServiceAreaProps>) {
         <div className="lg:col-span-4">
           <h2 id="service-area-title" className="section-title">Service area</h2>
           <p className="max-w-md mt-5 text-ink-soft">
-            Most of our work is in the shaded area along the Rio Grande valley, from Albuquerque south through Los Lunas and Belen. We also serve:
+            Most of our work is throughout the Rio Grande valley:
           </p>
-          <ul className="grid grid-cols-2 max-w-sm mt-6 border-t border-ink/25">
+          <ul className="grid grid-cols-2 max-w-sm mt-6 border-t border-rule">
             { servedCommunities.map(town => (
-              <li key={ town } className="py-2.5 font-display text-xl font-semibold border-b border-ink/25">
+              <li key={ town } className="py-2.5 font-display text-xl font-semibold border-b border-rule">
                 { town }
               </li>
             )) }
           </ul>
           <p className="max-w-md mt-6 text-ink-soft">
-            Not on the map or the list? <a href="#contact" className="font-semibold text-ink underline underline-offset-4 decoration-2 hover:text-livery">Ask us anyway</a>.
+            Not on the map or the list? <a href="#contact" className="font-semibold text-ink underline underline-offset-4 decoration-2 hover:text-livery-ink">Ask us anyway</a>.
           </p>
         </div>
 
-        <div className="h-[28rem] overflow-hidden bg-paper border-2 border-ink sm:h-[34rem] lg:col-span-8 lg:h-auto lg:min-h-[36rem]">
+        <div className="h-[28rem] overflow-hidden bg-paper border-2 border-rule-strong rounded-sm sm:h-[34rem] lg:col-span-8 lg:h-auto lg:min-h-[36rem]">
           <ClientOnly>
             <APIProvider apiKey={ mapsApiKey } version="beta">
               <ServiceMap mapId={ mapId }/>

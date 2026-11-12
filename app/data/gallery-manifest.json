@@ -1,0 +1,58 @@
+{
+  "contreras": {
+    "width": 1536,
+    "height": 1229,
+    "widths": [
+      480,
+      960,
+      1536
+    ]
+  },
+  "corrales": {
+    "width": 1536,
+    "height": 2048,
+    "widths": [
+      480,
+      960,
+      1536
+    ]
+  },
+  "el-cerro": {
+    "width": 1536,
+    "height": 2048,
+    "widths": [
+      480,
+      960,
+      1536
+    ]
+  },
+  "el-cerro1": {
+    "width": 2048,
+    "height": 1536,
+    "widths": [
+      480,
+      960,
+      1600,
+      2048
+    ]
+  },
+  "sunset-rig": {
+    "width": 1536,
+    "height": 1446,
+    "widths": [
+      480,
+      960,
+      1536
+    ]
+  },
+  "sunset-rig1": {
+    "width": 5712,
+    "height": 4284,
+    "widths": [
+      480,
+      960,
+      1600,
+      2400
+    ]
+  }
+}

@@ -32,59 +32,71 @@ function WellSlice({ layers, children }: { layers: Layer[], children?: ReactNode
   )
 }
 
-/** Steel casing walls with the drop pipe running down the center (unless something else draws it). */
-function Casing({ top = '0%', bottom = '0%', screened = false, waterFrom, pipe = true }: {
-  top?: string, bottom?: string, screened?: boolean, waterFrom?: string, pipe?: boolean
+/*
+  Casing is 28px wide with 3px walls. The drop pipe is centered; the power cable runs at a fixed
+  6px from the casing's left edge all the way down, so it lines up from row to row and meets the
+  side of the pump body without a jog.
+*/
+const CABLE_LEFT = 'left-1.5'
+
+/** Screen slots: tiled at a fixed pixel size so every slot is identical and lines up across rows. */
+const screenWall: CSSProperties = {
+  backgroundImage: 'linear-gradient(to bottom, var(--color-strata-steel) 0 2px, transparent 2px)',
+  backgroundSize: '100% 4px'
+}
+
+/** One casing wall: solid steel, slotted between `screen[0]` and `screen[1]` (insets from the top and bottom). */
+function CasingWall({ side, screen }: { side: 'left' | 'right', screen?: [ string, string ] }) {
+  const edge = side === 'left' ? 'left-0' : 'right-0'
+  if (!screen) return <div className={ `absolute inset-y-0 ${ edge } w-[3px] bg-strata-steel` }/>
+  const [ screenTop, screenBottom ] = screen
+  return <>
+    <div className={ `absolute top-0 ${ edge } w-[3px] bg-strata-steel` } style={ { height: screenTop } }/>
+    <div className={ `absolute ${ edge } w-[3px]` } style={ { top: screenTop, bottom: screenBottom, ...screenWall } }/>
+    <div className={ `absolute bottom-0 ${ edge } w-[3px] bg-strata-steel` } style={ { height: screenBottom } }/>
+  </>
+}
+
+/** Steel casing with the drop pipe and power cable running down the center (unless the pump draws them). */
+function Casing({ top = '0%', bottom = '0%', screen, waterFrom, pipe = true }: {
+  top?: string, bottom?: string, screen?: [ string, string ], waterFrom?: string, pipe?: boolean
 }) {
-  const wall = screened
-    ? 'repeating-linear-gradient(to bottom, var(--color-strata-steel) 0 5px, transparent 5px 9px)'
-    : 'var(--color-strata-steel)'
   return (
     <div className="absolute left-1/2 w-7 -translate-x-1/2" style={ { top, bottom } }>
-      <div className="absolute inset-0 bg-paper-deep"/>
-      { waterFrom && <div className="absolute inset-x-0 bottom-0 bg-aquifer/70" style={ { top: waterFrom } }/> }
-      <div className="absolute inset-y-0 left-0 w-1" style={ { background: wall } }/>
-      <div className="absolute inset-y-0 right-0 w-1" style={ { background: wall } }/>
+      <div className="absolute inset-0 bg-strata-casing"/>
+      { waterFrom && <div className="absolute inset-x-0 bottom-0 bg-strata-water/70" style={ { top: waterFrom } }/> }
+      <CasingWall side="left" screen={ screen }/>
+      <CasingWall side="right" screen={ screen }/>
       { pipe && <>
-        <div className="absolute inset-y-0 left-1/2 w-[3px] -translate-x-1/2 bg-ink"/>
-        {/* Pump power cable, strapped to the drop pipe and fed from the conduit at the wellhead */ }
-        <div className="absolute inset-y-0 left-[9px] w-0.5 bg-strata-steel"/>
+        <div className="absolute inset-y-0 left-1/2 w-[3px] -translate-x-1/2 bg-strata-pipe"/>
+        {/* Pump power cable, fed from the conduit at the wellhead */ }
+        <div className={ `absolute inset-y-0 ${ CABLE_LEFT } w-0.5 bg-strata-cable` }/>
       </> }
     </div>
   )
 }
 
-/** One piece of the pump string, centered in the casing. The power cable hugs the drop pipe, then runs down the pump body. */
-function PumpPart({ className = 'h-2', part, cable = 'body', style }: {
-  className?: string, part: string, cable?: 'pipe' | 'body' | false, style?: CSSProperties
-}) {
-  return (
-    <div className={ `relative flex justify-center ${ className }` }>
-      <div className={ part } style={ style }/>
-      { cable && <div className={ `absolute inset-y-0 w-0.5 bg-strata-steel ${ cable === 'pipe' ? 'left-[5px]' : 'left-0.5' }` }/> }
-    </div>
-  )
-}
-
-/** Submersible pump hung on the drop pipe: discharge head, stacked impeller stages, intake screen, seal, motor. */
+/** Submersible pump hung on the drop pipe: discharge head, stacked impeller stages, intake, seal, motor. */
 function SubmersiblePump({ bottom }: { bottom: string }) {
   return (
-    <div className="absolute top-0 left-1/2 flex flex-col w-5 -translate-x-1/2" style={ { bottom } }>
-      <PumpPart className="grow-[18]" part="w-[3px] bg-ink" cable="pipe"/>
-      <PumpPart part="w-2 rounded-t-sm bg-ink"/>
-      <PumpPart
-        className="grow-[22]"
-        part="w-3"
-        style={ { background: 'repeating-linear-gradient(to bottom, var(--color-ink) 0 4px, var(--color-ink-soft) 4px 5px)' } }
-      />
-      {/* Intake screen: the water shows through the slots */ }
-      <PumpPart
-        className="h-3"
-        part="w-3"
-        style={ { background: 'repeating-linear-gradient(to right, var(--color-ink) 0 2px, transparent 2px 4px)' } }
-      />
-      <PumpPart className="h-1.5" part="w-2 bg-ink"/>
-      <PumpPart className="grow-[26]" part="w-3 rounded-b-sm bg-ink-soft" cable={ false }/>
+    <div className="absolute top-0 left-1/2 flex flex-col w-7 -translate-x-1/2" style={ { bottom } }>
+      <div className="relative flex flex-col items-center grow-[40]">
+        <div className="w-[3px] grow-[18] bg-strata-pipe"/>
+        <div className="w-2 h-2 rounded-t-sm bg-strata-pump"/>
+        <div
+          className="w-3 grow-[22] bg-strata-pump"
+          style={ { backgroundImage: 'linear-gradient(to bottom, transparent 0 4px, var(--color-strata-pump-seam) 4px)', backgroundSize: '100% 5px' } }
+        />
+        {/* Intake: the water shows through the slots */ }
+        <div
+          className="w-3 h-3"
+          style={ { backgroundImage: 'linear-gradient(to right, var(--color-strata-pump) 0 2px, transparent 2px)', backgroundSize: '4px 100%' } }
+        />
+        <div className="w-2 h-1.5 bg-strata-pump"/>
+        {/* Power cable: down the drop pipe and the side of the pump, into the top of the motor */ }
+        <div className={ `absolute inset-y-0 ${ CABLE_LEFT } w-0.5 bg-strata-cable` }/>
+      </div>
+      <div className="self-center w-3 grow-[26] rounded-b-sm bg-strata-pump"/>
     </div>
   )
 }
@@ -103,7 +115,7 @@ const rows: {
     slice: (
       <WellSlice layers={ [] }>
         <div className="absolute inset-x-0 bottom-0 h-[38%]" style={ patterns.soil }/>
-        <div className="absolute inset-x-0 bottom-[38%] h-0.5 bg-ink"/>
+        <div className="absolute inset-x-0 bottom-[38%] h-0.5 bg-strata-surface"/>
         <Casing top="calc(24% + 1rem)"/>
         {/* Electrical conduit: down the side of the casing, then elbows off toward the house underground */ }
         <div
@@ -112,7 +124,7 @@ const rows: {
         />
         {/* Well cap, wide enough to cover the conduit entry */ }
         <div
-          className="absolute top-[24%] w-12 h-4 rounded-t-sm border-t-2 border-strata-steel bg-ink-soft"
+          className="absolute top-[24%] w-12 h-4 rounded-t-sm border-t-2 border-strata-steel bg-strata-cap"
           style={ { left: 'calc(50% - 28px)' } }
         />
       </WellSlice>
@@ -136,11 +148,11 @@ const rows: {
     slice: (
       <WellSlice layers={ [ { pattern: 'clay', grow: 1 }, { pattern: 'wetSand', grow: 4 } ] }>
         {/* Water table: dashed line with the standard inverted-triangle symbol */ }
-        <div className="absolute inset-x-0 top-[20%] border-t-2 border-dashed border-aquifer-deep"/>
+        <div className="absolute inset-x-0 top-[20%] border-t-2 border-dashed border-strata-water-table"/>
         <svg className="absolute top-[20%] right-2 -translate-y-full" width="14" height="10" viewBox="0 0 14 10">
-          <path d="M0 0h14L7 10z" fill="#0f2d4a"/>
+          <path d="M0 0h14L7 10z" fill="var(--color-strata-water-table)"/>
         </svg>
-        <Casing screened waterFrom="20%"/>
+        <Casing screen={ [ '45%', '0%' ] } waterFrom="20%"/>
       </WellSlice>
     )
   },
@@ -150,7 +162,7 @@ const rows: {
     description: 'We install submersible and surface pumps, help you choose the right system for how much water you use, and set it up properly the first time.',
     slice: (
       <WellSlice layers={ [ { pattern: 'wetSand', grow: 2 }, { pattern: 'wetGravel', grow: 3 } ] }>
-        <Casing screened waterFrom="0%" bottom="14%" pipe={ false }/>
+        <Casing screen={ [ '0%', '72%' ] } waterFrom="0%" bottom="14%" pipe={ false }/>
         <SubmersiblePump bottom="24%"/>
         {/* End cap */ }
         <div className="absolute bottom-[14%] left-1/2 w-7 h-1.5 -translate-x-1/2 bg-strata-steel"/>
@@ -177,13 +189,13 @@ export default function Services() {
           </div>
         </div>
 
-        <ol className="border-t-2 border-ink lg:col-span-8">
+        <ol className="border-t-2 border-rule-strong lg:col-span-8">
           { rows.map(row => (
             <li
               key={ row.title }
               className={ `grid grid-cols-[4.5rem_1fr] sm:grid-cols-[8rem_1fr] xl:grid-cols-[11rem_1fr] ${ row.tall ? 'min-h-72 sm:min-h-80' : 'min-h-56 sm:min-h-60' }` }
             >
-              <div className="border-r-2 border-ink">{ row.slice }</div>
+              <div className="border-r-2 border-rule-strong">{ row.slice }</div>
               <div className="py-6 pl-5 sm:py-8 sm:pl-10">
                 <h3 className="font-display text-[2rem] font-bold leading-none sm:text-[2.5rem]">{ row.title }</h3>
                 <p className="mt-2 text-sm font-medium italic text-ink-soft sm:text-base">{ row.where }</p>
