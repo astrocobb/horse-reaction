@@ -47,7 +47,7 @@ const values = [
 
 export default function About() {
   return (
-    <section id="about" aria-labelledby="about-title" className="px-4 py-20 border-t border-rule sm:px-6 sm:py-24 lg:px-10 lg:py-32">
+    <section id="about" aria-labelledby="about-title" className="px-4 py-20 sm:px-6 sm:py-24 lg:px-10 lg:py-32">
       <div className="grid max-w-7xl gap-10 mx-auto lg:grid-cols-12 lg:gap-12">
 
         <div className="lg:col-span-4">

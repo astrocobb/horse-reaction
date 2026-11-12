@@ -13,7 +13,7 @@ export function ServiceArea({ mapsApiKey, mapId }: Readonly<ServiceAreaProps>) {
     <section
       id="service-area"
       aria-labelledby="service-area-title"
-      className="px-4 py-20 bg-paper-deep sm:px-6 sm:py-24 lg:px-10 lg:py-32"
+      className="px-4 py-20 sm:px-6 sm:py-24 lg:px-10 lg:py-32"
     >
       <div className="grid max-w-7xl gap-10 mx-auto lg:grid-cols-12 lg:gap-12">
 
