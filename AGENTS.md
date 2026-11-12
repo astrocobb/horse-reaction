@@ -38,7 +38,7 @@ React Router v7 full-stack SSR application — a single-page marketing site for 
 ## Integrations
 
 - **Google Maps** via `@vis.gl/react-google-maps` — uses `APIProvider`, `Map`, `AdvancedMarker`, and a custom `Polygon` component. Env vars: `VITE_MAPS_API_KEY`, `VITE_MAP_ID`.
-- **EmailJS** via `@emailjs/browser` — contact form submission (service/template IDs hardcoded in `ContactForm.tsx`).
+- **Resend** via `resend` — contact form email, sent server-side from the `/` route action (`app/utils/server/contact-email.server.ts`, which also holds the HTML template). Env vars: `RESEND_API_KEY`, `CONTACT_FROM_EMAIL` (on a Resend-verified domain), `CONTACT_TO_EMAIL`.
 - **Three.js** via `three` — used for WebGL shader effects (LightPillar background). Must be wrapped in `<ClientOnly>`.
 - **Icons** from `lucide-react`.
 - **Input masking** via `react-imask` — phone number formatting in the contact form.

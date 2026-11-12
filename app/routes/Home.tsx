@@ -1,10 +1,10 @@
 import type { Route } from './+types/Home'
 import { data } from 'react-router'
-import emailjs from '@emailjs/nodejs'
 import { contactSchema } from '~/utils/models/contact.model'
 import { rateLimit } from '~/utils/server/rate-limit.server'
 import { verifyTurnstile } from '~/utils/server/turnstile.server'
 import { getDrillingStats } from '~/utils/server/drilling-stats.server'
+import { sendContactEmail } from '~/utils/server/contact-email.server'
 import Hero from '~/components/home/Hero'
 import Services from '~/components/home/Services'
 import { ServiceArea } from '~/components/home/service-area/ServiceArea'
@@ -96,26 +96,11 @@ export async function action({ request }: Route.ActionArgs) {
     )
   }
 
-  // Send email via EmailJS (server-side)
+  // Send email via Resend (server-side)
   try {
-    await emailjs.send(
-      process.env.EMAILJS_SERVICE_ID!,
-      process.env.EMAILJS_TEMPLATE_ID!,
-      {
-        from_name: result.data.name,
-        phone: result.data.phone,
-        from_email: result.data.email,
-        subject: result.data.subject,
-        message: result.data.message
-      },
-      {
-        publicKey: process.env.EMAILJS_PUBLIC_KEY!,
-        privateKey: process.env.EMAILJS_PRIVATE_KEY!
-      }
-    )
+    await sendContactEmail(result.data)
   } catch (error) {
-    // EmailJS rejects with { status, text } rather than an Error
-    console.error('EmailJS send failed:', error)
+    console.error('Contact email failed:', error)
     return data(
       { success: false, error: 'Failed to send message. Please try again or call us directly.' },
       { status: 500 }
