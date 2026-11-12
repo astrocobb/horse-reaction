@@ -8,7 +8,7 @@ import LightPillar from '~/components/backgrounds/LightPillar'
 export default function RootLayout() {
   return (
     <>
-      {/* Fixed behind the page: shows through the paper sections, hidden under the hero photo and solid bands */ }
+      {/* Fixed behind the page: shows through the paper sections, hidden under the hero photo */ }
       <div aria-hidden="true" className="fixed inset-0 -z-10 pointer-events-none">
         <ClientOnly>
           <LightPillar

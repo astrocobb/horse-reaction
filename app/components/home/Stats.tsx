@@ -58,7 +58,7 @@ function CountUp({ value }: { value: number }) {
 
 export default function Stats({ stats }: { stats: DrillingStats }) {
   return (
-    <section id="stats" aria-label="Drilling record" className="px-4 py-16 border-b border-rule sm:px-6 sm:py-20 lg:px-10">
+    <section id="stats" aria-label="Drilling record" className="px-4 py-16 sm:px-6 sm:py-20 lg:px-10">
       <div className="max-w-7xl mx-auto">
         {/* Screen readers get the sentence once, instead of every animation frame */ }
         <p className="sr-only">

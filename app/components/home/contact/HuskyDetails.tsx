@@ -76,11 +76,11 @@ export function HuskyDetails() {
   }, [ placesLibrary ])
 
 
-  if (loading) return <p className="text-aquifer-ink">Loading our address and hours…</p>
+  if (loading) return <p className="text-ink-soft">Loading our address and hours…</p>
   if (error || !placeData) return null
 
   return (
-    <div className="space-y-3 text-aquifer-ink">
+    <div className="space-y-3 text-ink-soft">
 
       { placeData.formattedAddress && (
         <p className="flex items-start gap-3">
@@ -93,7 +93,7 @@ export function HuskyDetails() {
         <p className="flex items-center gap-3">
           <Star aria-hidden="true" className="w-5 h-5 shrink-0"/>
           <span>
-            <span className="font-semibold text-white tabular">{ placeData.rating.toFixed(1) }</span> on Google
+            <span className="font-semibold text-ink tabular">{ placeData.rating.toFixed(1) }</span> on Google
             { placeData.userRatingCount ? <span className="tabular"> from { placeData.userRatingCount } reviews</span> : null }
           </span>
         </p>
@@ -110,7 +110,7 @@ export function HuskyDetails() {
           >
             <Clock4 aria-hidden="true" className="w-5 h-5 shrink-0"/>
             { openStatus !== null && (
-              <span className="font-semibold text-white">{ openStatus ? 'Open now' : 'Closed now' }</span>
+              <span className="font-semibold text-ink">{ openStatus ? 'Open now' : 'Closed now' }</span>
             ) }
             <span className="underline underline-offset-4">{ showHours ? 'Hide hours' : 'Show hours' }</span>
             <ChevronDown aria-hidden="true" className={ `w-4 h-4 transition-transform ${ showHours ? 'rotate-180' : '' }` }/>
@@ -130,7 +130,7 @@ export function HuskyDetails() {
           href={ placeData.googleMapsURI }
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-block ml-8 font-semibold text-white underline underline-offset-4 decoration-2 hover:decoration-aquifer"
+          className="inline-block ml-8 font-semibold text-ink underline underline-offset-4 decoration-2 hover:decoration-aquifer"
         >
           Get directions in Google Maps
         </a>
