@@ -1,71 +1,126 @@
-import { useState } from 'react'
-import { Menu } from 'lucide-react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router'
+import { Menu, Phone, X } from 'lucide-react'
+import { huskyPhone } from '~/data/husky-data'
+import NoticeBar from '~/components/NoticeBar'
+import type { Notice } from '~/utils/notices'
 
 
 const navLinks = [
-  { href: '#home', label: 'Home' },
   { href: '#services', label: 'Services' },
-  { href: '#service-area', label: 'Service Area' },
-  { href: '#gallery', label: 'Gallery' },
-  { href: '#about', label: 'About Us' }
+  { href: '#service-area', label: 'Service area' },
+  { href: '#gallery', label: 'On the job' },
+  { href: '#rigs', label: 'Our rigs' },
+  { href: '#about', label: 'About' },
+  { href: '#contact', label: 'Contact' }
 ]
 
-export default function Navbar() {
+export default function Navbar({ notices }: { notices: Notice[] }) {
 
   const [ menuOpen, setMenuOpen ] = useState(false)
+  const [ scrolled, setScrolled ] = useState(false)
+
+  // Transparent over the hero photo, solid once the page moves
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // The hero has its own call button; only show ours once that one has scrolled up under the bar
+  const [ heroCallVisible, setHeroCallVisible ] = useState(true)
+
+  useEffect(() => {
+    const heroCall = document.querySelector('[data-hero-call]')
+    if (!heroCall) {
+      setHeroCallVisible(false)
+      return
+    }
+    const observer = new IntersectionObserver(
+      ([ entry ]) => setHeroCallVisible(entry.isIntersecting),
+      { rootMargin: '-64px 0px 0px 0px' } // h-16 bar covers the top of the viewport
+    )
+    observer.observe(heroCall)
+    return () => observer.disconnect()
+  }, [])
+
+  const solid = scrolled || menuOpen
+  const showCall = !heroCallVisible || menuOpen
 
   return (
-    <nav
-      className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-2rem)] max-w-7xl rounded-md text-base-content bg-base-50/10 border border-base-50/20 shadow-lg backdrop-blur-md transition-colors duration-300 sm:w-[calc(100%-3rem)] md:w-[calc(100%-4rem)] lg:w-[calc(100%-5rem)]">
-      <div className="px-4 sm:px-6 md:px-8 lg:px-10">
-        <div className="flex flex-wrap items-center justify-between py-3 lg:py-0">
+    <header
+      className={ `fixed inset-x-0 top-0 z-50 transition-colors duration-200 ${ solid ? 'bg-paper text-ink border-b border-rule' : 'bg-transparent text-white border-b border-transparent' }` }
+    >
+      <NoticeBar notices={ notices } collapsed={ solid }/>
+      <nav className="relative flex items-center justify-between max-w-7xl h-16 mx-auto px-4 sm:px-6 lg:px-10" aria-label="Main">
 
-          {/* Logo */ }
-          <Link to="" className="group flex items-center">
-            <img src="/assets/images/dawg-dark.png" alt="Husky Logo" className="h-11"/>
-          </Link>
+        <Link to="#home" className="flex items-center gap-3" onClick={ () => setMenuOpen(false) }>
+          {/* Navy logo on the light bar; the light logo over the photo and on the dark bar */ }
+          <img
+            src="/assets/images/dawg.png"
+            alt=""
+            className={ `h-9 w-auto dark:hidden ${ solid ? '' : 'hidden' }` }
+          />
+          <img
+            src="/assets/images/dawg-dark.png"
+            alt=""
+            className={ `h-9 w-auto mix-blend-screen ${ solid ? 'hidden dark:block' : '' }` }
+          />
+          <span className="font-display text-2xl font-bold leading-none">
+            Husky
+            <span className="sr-only"> Well & Pump Service, home</span>
+          </span>
+        </Link>
 
-          {/* Hamburger Button (mobile only) */ }
+        <div className="flex items-center gap-1 sm:gap-2">
+          <ul
+            id="nav-menu"
+            className={ `${ menuOpen ? 'flex' : 'hidden' } absolute inset-x-0 top-full flex-col px-4 pb-4 bg-paper text-ink border-b border-rule sm:px-6 lg:static lg:flex lg:flex-row lg:items-center lg:p-0 lg:bg-transparent lg:text-inherit lg:border-0` }
+          >
+            { navLinks.map(link => (
+              <li key={ link.href }>
+                <Link
+                  to={ link.href }
+                  onClick={ () => setMenuOpen(false) }
+                  className="block py-3 text-lg font-medium underline-offset-4 decoration-2 hover:underline lg:px-3 lg:py-2 lg:text-base"
+                >
+                  { link.label }
+                </Link>
+              </li>
+            )) }
+          </ul>
+
+          {/* Collapses to zero width while hidden so the links don't leave a gap; inert keeps it out of the tab order */ }
+          <div
+            inert={ !showCall }
+            className={ `grid transition-[grid-template-columns,opacity] duration-300 ease-out motion-reduce:transition-none ${ showCall ? 'grid-cols-[1fr] opacity-100' : 'grid-cols-[0fr] opacity-0' }` }
+          >
+            <div className="overflow-hidden">
+              <a
+                href={ huskyPhone.href }
+                className="inline-flex items-center gap-2 h-10 px-4 ml-1 font-semibold text-white tabular whitespace-nowrap bg-livery rounded-sm transition-colors hover:bg-livery-dark"
+              >
+                <Phone aria-hidden="true" className="w-4 h-4"/>
+                <span className="hidden sm:inline">{ huskyPhone.display }</span>
+                <span className="sm:hidden">Call</span>
+              </a>
+            </div>
+          </div>
+
           <button
             type="button"
             onClick={ () => setMenuOpen(prev => !prev) }
-            className="inline-flex items-center justify-center w-10 h-10 p-2 text-base-content rounded-md transition hover:cursor-pointer hover:bg-base-800/50 active:bg-base-850/50 lg:hidden"
-            aria-controls="navbar-menu"
+            className="inline-flex items-center justify-center w-10 h-10 rounded-sm hover:cursor-pointer lg:hidden"
+            aria-controls="nav-menu"
             aria-expanded={ menuOpen }
           >
-            <span className="sr-only">Open main menu</span>
-            <Menu className="w-6 h-6"/>
+            <span className="sr-only">{ menuOpen ? 'Close menu' : 'Open menu' }</span>
+            { menuOpen ? <X aria-hidden="true" className="w-6 h-6"/> : <Menu aria-hidden="true" className="w-6 h-6"/> }
           </button>
-
-          {/* Navigation Menu */ }
-          <div className={ `${ menuOpen ? '' : 'hidden' } w-full lg:block lg:w-auto` } id="navbar-menu">
-            <ul className="flex flex-col gap-2 pr-0 py-3 rounded-md lg:flex-row lg:items-center lg:m-0 md:rounded-none">
-              { navLinks.map(link => (
-                <li key={ link.href }>
-                  <Link
-                    to={ link.href }
-                    onClick={ () => setMenuOpen(false) }
-                    className="block px-3 py-2 pb-2.5 text-base-content rounded-md border border-transparent transition hover:bg-base-100/20 active:bg-base-100/40 md:inline-block"
-                  >
-                    { link.label }
-                  </Link>
-                </li>
-              )) }
-              <li>
-                <Link
-                  to="#contact"
-                  onClick={ () => setMenuOpen(false) }
-                  className="block px-6 pt-2 pb-2.5 font-semibold border-2 border-base-50/50 text-base-50 rounded-md shadow-md transition hover:bg-base-50/20 hover:border-base-50/70 active:bg-base-50/30 active:border-base-50/70 md:inline-block"
-                >
-                  Contact
-                </Link>
-              </li>
-            </ul>
-          </div>
-
         </div>
-      </div>
-    </nav>
+
+      </nav>
+    </header>
   )
 }

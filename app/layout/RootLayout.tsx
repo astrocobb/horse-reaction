@@ -1,41 +1,45 @@
-import { useState } from 'react'
 import { Outlet } from 'react-router'
+import type { Route } from './+types/RootLayout'
 import Navbar from '~/components/Navbar'
 import Footer from '~/components/Footer'
 import { ClientOnly } from '~/components/ClientOnly'
 import LightPillar from '~/components/backgrounds/LightPillar'
-import NoticePopup from '~/components/NoticePopup'
+import { useTheme } from '~/utils/theme'
+import { getActiveNotices } from '~/utils/server/notices.server'
 
 
-export default function RootLayout() {
+export function loader({ request }: Route.LoaderArgs) {
+  return { notices: getActiveNotices(request) }
+}
 
-  const [ isMobileMenuOpen, setIsMobileMenuOpen ] = useState(false)
-
-  const handleMenuClick = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
-
+export default function RootLayout({ loaderData }: Route.ComponentProps) {
+  const theme = useTheme()
   return (
-    <div className="relative">
-      <ClientOnly>
-        <LightPillar
-          topColor="#00b4f0"
-          bottomColor="#1f6a96"
-          intensity={ 1 }
-          rotationSpeed={ 0.3 }
-          glowAmount={ 0.002 }
-          pillarWidth={ 3 }
-          pillarHeight={ 0.4 }
-          noiseIntensity={ 0.25 }
-          pillarRotation={ 25 }
-          mixBlendMode="screen"
-          quality="high"
-        />
-      </ClientOnly>
-      <Navbar/>
-      <Outlet/>
+    <>
+      {/* Fixed behind the page: shows through the paper sections, hidden under the hero photo */ }
+      <div aria-hidden="true" className="fixed inset-0 -z-10 pointer-events-none">
+        <ClientOnly>
+          <LightPillar
+            topColor="#00b4f0"
+            bottomColor="#1f6a96"
+            intensity={ theme === 'dark' ? 0.9 : 0.55 }
+            rotationSpeed={ 0.3 }
+            glowAmount={ 0.002 }
+            pillarWidth={ 3 }
+            pillarHeight={ 0.4 }
+            noiseIntensity={ 0.25 }
+            pillarRotation={ 25 }
+            mixBlendMode="normal"
+            quality="high"
+            transparent
+          />
+        </ClientOnly>
+      </div>
+      <Navbar notices={ loaderData.notices }/>
+      <main>
+        <Outlet/>
+      </main>
       <Footer/>
-      <NoticePopup/>
-    </div>
+    </>
   )
 }

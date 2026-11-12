@@ -2,6 +2,7 @@ import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration }
 import type { Route } from './+types/root'
 import './app.css'
 import React from 'react'
+import { themeInitScript } from '~/utils/theme'
 
 
 export const links: Route.LinksFunction = () => [
@@ -13,17 +14,19 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: 'stylesheet',
-    href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap'
+    href: 'https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..700;1,62..125,400..700&family=Rokkitt:wght@500..800&display=swap'
   }
 ]
 
 export function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    // The inline script adds `dark` to <html> before hydration, so React would otherwise warn about the class
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <title>Husky Well & Pump Service</title>
+        <title>Husky</title>
         <meta charSet="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <script dangerouslySetInnerHTML={ { __html: themeInitScript } }/>
         <Meta/>
         <link rel="icon" href="/favicon.ico" sizes="any"/>
         <link rel="icon" href="/favicon-dark.ico" sizes="any" media="(prefers-color-scheme: dark)"/>
@@ -72,7 +75,7 @@ export function Layout({ children }: Readonly<{ children: React.ReactNode }>) {
           }}
         />
       </head>
-      <body className="bg-base-800">
+      <body className="bg-paper text-ink">
         { children }
         <ScrollRestoration/>
         <Scripts/>

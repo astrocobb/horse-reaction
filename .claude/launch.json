@@ -3,8 +3,8 @@
   "configurations": [
     {
       "name": "dev",
-      "runtimeExecutable": "C:/Users/astro/AppData/Local/JetBrains/WebStorm2026.2/acp-agents/.runtimes/node/24.19.0/node.exe",
-      "runtimeArgs": ["node_modules/@react-router/dev/bin.js", "dev", "--port", "5173"],
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
       "port": 5173
     }
   ]

@@ -1,4 +1,3 @@
-/* eslint-disable complexity */
 import type { Ref } from 'react'
 import { forwardRef, useContext, useEffect, useImperativeHandle, useMemo, useRef } from 'react'
 import { GoogleMapsContext, useMapsLibrary } from '@vis.gl/react-google-maps'
@@ -52,12 +51,9 @@ function usePolygon(props: PolygonProps) {
   const geometryLibrary = useMapsLibrary('geometry')
 
   const polygon = useRef(new google.maps.Polygon()).current
-  // update PolygonOptions (note the dependencies aren't properly checked
-  // here, we just assume that setOptions is smart enough to not waste a
-  // lot of time updating values that didn't change)
   useMemo(() => {
     polygon.setOptions(polygonOptions)
-  }, [ polygon, polygonOptions ])
+  }, [polygon])
 
   const map = useContext(GoogleMapsContext)?.map
 

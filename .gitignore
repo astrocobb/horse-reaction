@@ -33,3 +33,7 @@ yarn-error.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+# full-size originals for the gallery (see scripts/optimize-photos.mjs)
+/photos
+
+.env
