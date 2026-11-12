@@ -67,7 +67,9 @@ export default function LightPillar({
     const width = container.clientWidth
     const height = container.clientHeight
 
+    // iPadOS reports a desktop UA, so also treat a touch-first primary pointer as mobile
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      || window.matchMedia('(pointer: coarse)').matches
     const isLowEndDevice = isMobile || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4)
 
     let effectiveQuality = quality
@@ -86,7 +88,10 @@ export default function LightPillar({
       }
     }
 
-    const settings = qualitySettings[effectiveQuality] || qualitySettings.medium
+    const settings = { ...(qualitySettings[effectiveQuality] || qualitySettings.medium) }
+    // Phones run this full-screen for as long as the page is open, so keep the same shader
+    // (same look) but render far fewer pixels: the glow is soft enough to upscale cleanly.
+    if (isMobile) settings.pixelRatio = 0.4
 
     const scene = new THREE.Scene()
     sceneRef.current = scene
@@ -97,7 +102,7 @@ export default function LightPillar({
       renderer = new THREE.WebGLRenderer({
         antialias: false,
         alpha: true,
-        powerPreference: effectiveQuality === 'low' ? 'low-power' : 'high-performance',
+        powerPreference: isMobile || effectiveQuality === 'low' ? 'low-power' : 'high-performance',
         precision: settings.precision,
         stencil: false,
         depth: false
@@ -308,7 +313,8 @@ export default function LightPillar({
     }
 
     let lastTime = performance.now()
-    const targetFPS = effectiveQuality === 'low' ? 30 : 60
+    // The pillar drifts slowly, so 24fps on phones looks the same and costs well under half
+    const targetFPS = isMobile ? 24 : effectiveQuality === 'low' ? 30 : 60
     const frameTime = 1000 / targetFPS
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
@@ -325,7 +331,8 @@ export default function LightPillar({
       const deltaTime = currentTime - lastTime
 
       if (deltaTime >= frameTime) {
-        timeRef.current += 0.016 * rotationSpeed
+        // Advance by real elapsed time so a lower frame rate doesn't slow the motion down
+        timeRef.current += (Math.min(deltaTime, 100) / 1000) * rotationSpeed
         materialRef.current.uniforms.uTime.value = timeRef.current
 
         const rotAngle = timeRef.current * 0.3
