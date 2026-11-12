@@ -111,7 +111,7 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
     ? 'mt-3 font-semibold text-success'
     : 'mt-3 font-semibold text-error'
 
-  const inputClass = 'px-3 py-2.5 text-ink bg-white border-2 border-rule rounded-sm caret-aquifer placeholder:text-ink-faint transition-colors hover:border-ink-faint focus:outline-none focus:border-aquifer'
+  const inputClass = 'px-3 py-2.5 text-ink bg-field border-2 border-rule rounded-sm caret-aquifer placeholder:text-ink-faint transition-colors hover:border-ink-faint focus:outline-none focus:border-aquifer'
 
   return (
     <fetcher.Form method="post" onSubmit={ handleSubmit } className="flex flex-col">

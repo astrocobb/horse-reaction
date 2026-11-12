@@ -4,7 +4,7 @@ import { huskyPhone } from '~/data/husky-data'
 
 export default function Hero() {
   return (
-    <section id="home" className="relative flex min-h-[100svh] items-end overflow-hidden bg-ink text-white">
+    <section id="home" className="relative flex min-h-[100svh] items-end overflow-hidden bg-band text-white">
       <img
         src="/assets/images/hero.jpeg"
         alt="Husky drilling rig with its mast raised at sunset, on a job site in central New Mexico"
@@ -35,7 +35,7 @@ export default function Hero() {
           </a>
           <a
             href="#contact"
-            className="inline-flex items-center h-12 px-6 text-lg font-semibold border-2 border-white/80 rounded-sm transition-colors hover:bg-white hover:text-ink"
+            className="inline-flex items-center h-12 px-6 text-lg font-semibold border-2 border-white/80 rounded-sm transition-colors hover:bg-white hover:text-band"
           >
             Request a quote
           </a>

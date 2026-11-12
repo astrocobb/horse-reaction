@@ -11,7 +11,7 @@ const links = [
 
 export default function Footer() {
   return (
-    <footer className="px-4 pt-14 pb-10 text-aquifer-ink bg-ink sm:px-6 lg:px-10">
+    <footer className="px-4 pt-14 pb-10 text-aquifer-ink bg-band sm:px-6 lg:px-10">
       <div className="flex flex-col gap-10 max-w-7xl mx-auto lg:flex-row lg:items-start lg:justify-between">
 
         <div className="flex items-center gap-4">

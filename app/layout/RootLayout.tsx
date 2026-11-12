@@ -3,9 +3,11 @@ import Navbar from '~/components/Navbar'
 import Footer from '~/components/Footer'
 import { ClientOnly } from '~/components/ClientOnly'
 import LightPillar from '~/components/backgrounds/LightPillar'
+import { useTheme } from '~/utils/theme'
 
 
 export default function RootLayout() {
+  const theme = useTheme()
   return (
     <>
       {/* Fixed behind the page: shows through the paper sections, hidden under the hero photo and solid bands */ }
@@ -14,7 +16,7 @@ export default function RootLayout() {
           <LightPillar
             topColor="#00b4f0"
             bottomColor="#1f6a96"
-            intensity={ 0.55 }
+            intensity={ theme === 'dark' ? 0.9 : 0.55 }
             rotationSpeed={ 0.3 }
             glowAmount={ 0.002 }
             pillarWidth={ 3 }

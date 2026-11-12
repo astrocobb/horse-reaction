@@ -36,9 +36,49 @@
   --color-warning: #a36a12;
   --color-error: #b3261e;
 
+  /* Solid dark bands (hero backing, footer): ink in light mode, near-black in dark */
+  --color-band: #17233b;
+  /* Form field fill */
+  --color-field: #ffffff;
+  /* Casing walls in the well diagram */
+  --color-strata-steel: #3b4558;
+
   /* Type scale: ~1.25 ratio on a 17px base */
   --text-body: 1.0625rem;
   --text-body--line-height: 1.6;
+}
+
+/* Dark mode is class-based (set on <html> by the inline script in root.tsx), not media-query based */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Dark mode: the pre-redesign palette. Slate base on hue 240, light slate text,
+  cyan for water, the old terracotta accent standing in for the livery red.
+*/
+.dark {
+  color-scheme: dark;
+
+  --color-paper: oklch(20% 0.01 240);
+  --color-paper-deep: oklch(15% 0.01 240);
+  --color-ink: oklch(95% 0.01 240);
+  --color-ink-soft: oklch(78% 0.01 240);
+  --color-ink-faint: oklch(62% 0.01 240);
+  --color-rule: oklch(35% 0.01 240);
+
+  --color-livery: oklch(56% 0.13 40);
+  --color-livery-dark: oklch(50% 0.12 40);
+
+  --color-aquifer: oklch(72% 0.15 230);
+  --color-aquifer-deep: oklch(24% 0.05 240);
+  --color-aquifer-ink: oklch(88% 0.03 240);
+
+  --color-success: oklch(72% 0.13 155);
+  --color-warning: oklch(78% 0.15 85);
+  --color-error: oklch(70% 0.17 15);
+
+  --color-band: oklch(10% 0.01 240);
+  --color-field: oklch(15% 0.01 240);
+  --color-strata-steel: oklch(55% 0.02 240);
 }
 
 @layer base {

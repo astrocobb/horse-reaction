@@ -22,7 +22,7 @@ export function meta({}: Route.MetaArgs) {
   const image = `${url}/og-image.jpg`
 
   return [
-    { title },
+    { title: 'Husky' },
     { name: 'description', content: description },
     { tagName: 'link', rel: 'canonical', href: url },
     { property: 'og:type', content: 'website' },

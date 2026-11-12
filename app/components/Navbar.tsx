@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { Menu, Phone, X } from 'lucide-react'
+import { Menu, Moon, Phone, Sun, X } from 'lucide-react'
 import { huskyPhone } from '~/data/husky-data'
+import { setTheme, useTheme } from '~/utils/theme'
 
 
 const navLinks = [
@@ -15,6 +16,7 @@ export default function Navbar() {
 
   const [ menuOpen, setMenuOpen ] = useState(false)
   const [ scrolled, setScrolled ] = useState(false)
+  const theme = useTheme()
 
   // Transparent over the hero photo, solid once the page moves
   useEffect(() => {
@@ -33,10 +35,16 @@ export default function Navbar() {
       <nav className="flex items-center justify-between max-w-7xl h-16 mx-auto px-4 sm:px-6 lg:px-10" aria-label="Main">
 
         <a href="#home" className="flex items-center gap-3" onClick={ () => setMenuOpen(false) }>
+          {/* Navy logo on the light bar; the light logo over the photo and on the dark bar */ }
           <img
-            src={ solid ? '/assets/images/dawg.png' : '/assets/images/dawg-dark.png' }
+            src="/assets/images/dawg.png"
             alt=""
-            className={ `h-9 w-auto ${ solid ? '' : 'mix-blend-screen' }` }
+            className={ `h-9 w-auto dark:hidden ${ solid ? '' : 'hidden' }` }
+          />
+          <img
+            src="/assets/images/dawg-dark.png"
+            alt=""
+            className={ `h-9 w-auto mix-blend-screen ${ solid ? 'hidden dark:block' : '' }` }
           />
           <span className="font-display text-2xl font-bold leading-none">
             Husky
@@ -62,9 +70,19 @@ export default function Navbar() {
             )) }
           </ul>
 
+          <button
+            type="button"
+            onClick={ () => setTheme(theme === 'dark' ? 'light' : 'dark') }
+            className="inline-flex items-center justify-center w-10 h-10 rounded-sm hover:cursor-pointer"
+            aria-label={ theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode' }
+            title={ theme === 'dark' ? 'Light mode' : 'Dark mode' }
+          >
+            { theme === 'dark' ? <Sun aria-hidden="true" className="w-5 h-5"/> : <Moon aria-hidden="true" className="w-5 h-5"/> }
+          </button>
+
           <a
             href={ huskyPhone.href }
-            className="inline-flex items-center gap-2 h-10 px-4 ml-2 font-semibold text-white tabular bg-livery rounded-sm transition-colors hover:bg-livery-dark"
+            className="inline-flex items-center gap-2 h-10 px-4 ml-1 font-semibold text-white tabular bg-livery rounded-sm transition-colors hover:bg-livery-dark"
           >
             <Phone aria-hidden="true" className="w-4 h-4"/>
             <span className="hidden sm:inline">{ huskyPhone.display }</span>
