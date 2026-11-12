@@ -1,6 +1,8 @@
+import { Link } from 'react-router'
 import { ServiceMap } from '~/components/home/service-area/ServiceMap'
 import { APIProvider } from '@vis.gl/react-google-maps'
 import { ClientOnly } from '~/components/ClientOnly'
+import { servedCommunities } from '~/data/husky-data'
 
 interface ServiceAreaProps {
   mapsApiKey: string
@@ -11,26 +13,36 @@ export function ServiceArea({ mapsApiKey, mapId }: Readonly<ServiceAreaProps>) {
   return (
     <section
       id="service-area"
-      className="px-4 pt-32 pb-11 transition-colors duration-300 scroll-mt-0 sm:px-6 sm:pt-32 sm:pb-12 md:px-8 md:pt-28 md:pb-13 lg:px-10 lg:pt-32 lg:pb-14"
+      aria-labelledby="service-area-title"
+      className="px-4 py-20 sm:px-6 sm:py-24 lg:px-10 lg:py-32"
     >
-      <div className="max-w-7xl mx-auto">
-        <h2
-          className="mb-1 text-2xl font-bold text-left text-base-content md:text-3xl md:mb-2 lg:text-4xl lg:mb-3">
-          Service Area
-        </h2>
-        <p className="mb-3 text-md text-left text-base-150 md:mb-4 lg:mb-5">
-          We proudly serve communities throughout the Rio Grande valley
-        </p>
-        <div className="w-full h-[64vh] overflow-hidden border border-base-700 rounded-md shadow-xl">
+      <div className="grid max-w-7xl gap-10 mx-auto lg:grid-cols-12 lg:gap-12">
+
+        <div className="lg:col-span-4">
+          <h2 id="service-area-title" className="section-title">Service area</h2>
+          <p className="max-w-md mt-5 text-ink-soft">
+            Most of our work is throughout the Rio Grande valley:
+          </p>
+          <ul className="grid grid-cols-2 max-w-sm mt-6 border-t border-rule">
+            { servedCommunities.map(town => (
+              <li key={ town } className="py-2.5 font-display text-xl font-semibold border-b border-rule">
+                { town }
+              </li>
+            )) }
+          </ul>
+          <p className="max-w-md mt-6 text-ink-soft">
+            Not on the map or the list? <Link to="#contact" className="font-semibold text-ink underline underline-offset-4 decoration-2 hover:text-livery-ink">Ask us anyway</Link>.
+          </p>
+        </div>
+
+        <div className="h-[28rem] overflow-hidden bg-paper border-2 border-rule-strong rounded-sm sm:h-[34rem] lg:col-span-8 lg:h-auto lg:min-h-[36rem]">
           <ClientOnly>
             <APIProvider apiKey={ mapsApiKey } version="beta">
-              <ServiceMap mapId={mapId}/>
+              <ServiceMap mapId={ mapId }/>
             </APIProvider>
           </ClientOnly>
         </div>
-        <p className="my-3 text-sm text-left text-base-300 md:text-md">
-          If your location is not within our service area, please contact us.
-        </p>
+
       </div>
     </section>
   )

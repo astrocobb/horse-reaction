@@ -1,50 +1,190 @@
 @import 'tailwindcss';
 
-@tailwind utilities;
+/*
+  Husky Well & Pump Service: "basalt and rust".
+  Built from the dark theme first (blue-black basalt, cyan water, iron-oxide rust),
+  then inverted for light mode on the same hues so the two themes read as one family.
+  - ink / paper: basalt, hue ~245–255. Light-mode ink sits on the logo navy.
+  - livery:  rust, hue 35. Only for call / quote actions.
+  - aquifer: cyan water, hue 225–235, matching the LightPillar glow. Only where there is water, plus focus rings.
+  - strata:  earth tones, only in the well diagram
 
+  Light mode (default)
+*/
 @theme {
-    --color-base-50: oklch(95.0% 0.005 240);
-    --color-base-100: oklch(90.0% 0.01 240);
-    --color-base-150: oklch(85.0% 0.01 240);
-    --color-base-200: oklch(80.0% 0.01 240);
-    --color-base-250: oklch(75.0% 0.01 240);
-    --color-base-300: oklch(70.0% 0.01 240);
-    --color-base-350: oklch(65.0% 0.01 240);
-    --color-base-400: oklch(60.0% 0.01 240);
-    --color-base-450: oklch(55.0% 0.01 240);
-    --color-base-500: oklch(50.0% 0.01 240);
-    --color-base-550: oklch(45.0% 0.01 240);
-    --color-base-600: oklch(40.0% 0.01 240);
-    --color-base-650: oklch(35.0% 0.01 240);
-    --color-base-700: oklch(30.0% 0.01 240);
-    --color-base-750: oklch(25.0% 0.01 240);
-    --color-base-800: oklch(20.0% 0.01 240);
-    --color-base-850: oklch(15.0% 0.01 240);
-    --color-base-900: oklch(10.0% 0.01 240);
-    --color-base-950: oklch(5.00% 0.015 240);
+  --font-display: 'Rokkitt', ui-serif, Georgia, serif;
+  --font-sans: 'Archivo', ui-sans-serif, system-ui, sans-serif;
 
-    --color-base-content: oklch(95% 0.01 240);
+  --color-paper: oklch(96.5% 0.006 240);       /* #f0f4f7 */
+  --color-paper-deep: oklch(92.5% 0.01 240);   /* #e0e7ec */
+  --color-ink: oklch(25% 0.03 255);            /* #182230 */
+  --color-ink-soft: oklch(45% 0.025 250);      /* #4b5763 */
+  --color-ink-faint: oklch(54% 0.02 245);      /* #65707a */
+  --color-rule: oklch(85% 0.012 240);          /* #c7cfd5 */
+  /* Structural rules and frames (well log, timeline, stats, map, quote card): firmer than rule, well short of ink */
+  --color-rule-strong: oklch(68% 0.018 245);
 
-    --color-primary: oklch(60% 0.12 240);
-    --color-primary-200: oklch(55% 0.11 240);
-    --color-primary-300: oklch(50% 0.10 240);
-    --color-primary-content: oklch(16% 0.02 240);
+  --color-livery: oklch(52% 0.15 35);          /* #ae4024, white text 5.9:1 */
+  --color-livery-dark: oklch(45% 0.14 35);     /* #932e14 */
+  /* Livery used as text color on paper (link hover) */
+  --color-livery-ink: oklch(50% 0.15 35);
 
-    --color-secondary: oklch(72% 0.15 230);
-    --color-secondary-content: oklch(16% 0.02 230);
+  --color-aquifer: oklch(52% 0.12 235);        /* #0072a3 */
+  --color-aquifer-deep: oklch(26% 0.05 245);
+  --color-aquifer-ink: oklch(88% 0.03 235);
 
-    --color-accent: oklch(62% 0.12 40);
-    --color-accent-content: oklch(16% 0.01 40);
+  --color-strata-soil: #8b6a4f;
+  --color-strata-sand: #d8c39d;
+  --color-strata-gravel: #a89d8c;
+  --color-strata-clay: #b0806a;
+  --color-strata-rock: #5d5f66;
 
-    --color-info: oklch(70% 0.14 220);
-    --color-info-content: oklch(16% 0.02 220);
+  --color-success: oklch(50% 0.11 155);
+  --color-warning: oklch(53% 0.12 70);
+  --color-error: oklch(50% 0.17 25);
 
-    --color-success: oklch(65% 0.13 155);
-    --color-success-content: oklch(16% 0.02 155);
+  /* Solid dark bands (hero backing, footer): basalt ink in light mode, near-black basalt in dark */
+  --color-band: oklch(25% 0.03 255);
+  /* Raised panel (quote form card) */
+  --color-surface: oklch(99.5% 0.002 240);
+  /* Form field fill */
+  --color-field: #ffffff;
+  /* Well diagram hardware. Not overridden in dark mode: the diagram looks the same in both themes. */
+  --color-strata-steel: #5d6778;
+  --color-strata-cap: #7f8898;
+  --color-strata-casing: #c8cfd8;
+  --color-strata-pipe: #ffffff;
+  --color-strata-pump: #747e8e;
+  --color-strata-pump-seam: #565f6f;
+  --color-strata-cable: #1c2430;
+  --color-strata-water: #2e7db5;
+  --color-strata-water-table: #0f2d4a;
+  --color-strata-surface: #182230;
 
-    --color-warning: oklch(75% 0.15 85);
-    --color-warning-content: oklch(16% 0.02 85);
+  /* Type scale: ~1.25 ratio on a 17px base */
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+}
 
-    --color-error: oklch(68% 0.17 15);
-    --color-error-content: oklch(16% 0.02 15);
+/* Dark mode is class-based (set on <html> by the inline script in root.tsx), not media-query based */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/*
+  Dark mode: the source of the palette. Blue-black basalt (a touch more chroma than plain slate,
+  so it reads as stone rather than grey), cyan water, rust for call / quote.
+*/
+.dark {
+  color-scheme: dark;
+
+  --color-paper: oklch(19% 0.016 248);         /* #0e151b */
+  --color-paper-deep: oklch(15% 0.014 248);    /* #070c11 */
+  --color-ink: oklch(95% 0.008 240);           /* #eaeff3 */
+  --color-ink-soft: oklch(80% 0.014 240);      /* #b6bfc6 */
+  --color-ink-faint: oklch(66% 0.016 242);     /* #8a949b */
+  --color-rule: oklch(34% 0.02 245);           /* #2f3942 */
+  --color-rule-strong: oklch(44% 0.02 245);
+
+  --color-livery: oklch(54% 0.15 35);          /* #b5462b, white text 5.4:1 */
+  --color-livery-dark: oklch(48% 0.14 35);     /* #9d381f */
+  --color-livery-ink: oklch(70% 0.13 40);      /* #e2805e */
+
+  --color-aquifer: oklch(76% 0.13 225);        /* #37c2ef */
+  --color-aquifer-deep: oklch(24% 0.05 240);
+  --color-aquifer-ink: oklch(88% 0.03 235);
+
+  --color-success: oklch(74% 0.13 155);
+  --color-warning: oklch(80% 0.14 80);
+  --color-error: oklch(70% 0.16 25);
+
+  --color-band: oklch(12% 0.014 250);          /* #03060a */
+  --color-surface: oklch(23.5% 0.018 248);     /* #171f26 */
+  --color-field: oklch(16.5% 0.014 248);       /* #0a0f14 */
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--color-ink);
+    background: var(--color-paper);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-aquifer);
+    outline-offset: 3px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/*
+  Fades an element's bottom edge to transparent over --fade-length.
+  Stops follow a smoothstep curve so the fade has no visible start or end line.
+*/
+@utility fade-bottom {
+  --fade-start: calc(100% - var(--fade-length, 8rem));
+  mask-image: linear-gradient(
+    to bottom,
+    #000 var(--fade-start),
+    rgb(0 0 0 / 0.972) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.1),
+    rgb(0 0 0 / 0.896) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.2),
+    rgb(0 0 0 / 0.784) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.3),
+    rgb(0 0 0 / 0.648) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.4),
+    rgb(0 0 0 / 0.5) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.5),
+    rgb(0 0 0 / 0.352) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.6),
+    rgb(0 0 0 / 0.216) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.7),
+    rgb(0 0 0 / 0.104) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.8),
+    rgb(0 0 0 / 0.028) calc(var(--fade-start) + var(--fade-length, 8rem) * 0.9),
+    transparent 100%
+  );
+}
+
+/* Section heading: slab, tight, set large. Used once per section. */
+@utility section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+/* Gallery photo viewer: a short fade when it opens */
+.photo-viewer[open],
+.photo-viewer[open]::backdrop {
+  transition: opacity 180ms ease-out;
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-viewer[open],
+  .photo-viewer[open]::backdrop {
+    transition: none;
+  }
 }

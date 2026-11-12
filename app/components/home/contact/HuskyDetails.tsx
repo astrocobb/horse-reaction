@@ -1,8 +1,7 @@
 import { huskyPlaceId } from '~/data/husky-data'
 import { useMapsLibrary } from '@vis.gl/react-google-maps'
 import { useEffect, useState } from 'react'
-import { ChevronDown, Phone, Star } from 'lucide-react'
-import { Link } from 'react-router'
+import { ChevronDown, Clock4, MapPin, Star } from 'lucide-react'
 
 
 interface PlaceData {
@@ -76,74 +75,65 @@ export function HuskyDetails() {
 
   }, [ placesLibrary ])
 
-  if (loading) return <p className="text-base-100">Loading Husky's Details...</p>
-  if (error) return <p className="text-base-100">Error: { error.message }</p>
-  if (!placeData) return <p className="text-base-100">Husky's data not found.</p>
+
+  if (loading) return <p className="text-ink-soft">Loading our address and hours…</p>
+  if (error || !placeData) return null
 
   return (
-    <div>
+    <div className="space-y-3 text-ink-soft">
 
-      {/* Business Name */}
-      <h2 className="text-lg font-bold text-base-content">
-        { placeData.displayName }
-      </h2>
-
-      {/* Business Address */}
-      <p className="mt-1 text-sm text-base-150">
-        { placeData.formattedAddress }
-      </p>
-
-      {/* Phone Number */}
-      <Link to="tel:5058640779" className="group inline-flex items-center gap-2">
-        <Phone size={ 18 } className="mt-2 text-success transition group-hover:scale-110 group-hover:text-secondary"></Phone>
-        <p className="mt-2 font-medium text-base-150 transition group-hover:text-secondary">{ placeData.nationalPhoneNumber }</p>
-      </Link>
-
-      {/* Rating */}
-      <div className="mt-1 flex items-center gap-2">
-        <Star size={ 18 } className="text-warning"/>
-        <p className="text-base-150 font-medium">{ placeData.rating }</p>
-        { placeData.userRatingCount && (
-          <p className="text-base-150 text-sm">({ placeData.userRatingCount } reviews)</p>
-        ) }
-      </div>
-
-      {/* Open Status */}
-      { openStatus !== null && (
-        openStatus
-          ? <p className="mt-1 font-medium text-success">Open now</p>
-          : <p className="mt-1 font-medium text-error">Closed now</p>
+      { placeData.formattedAddress && (
+        <p className="flex items-start gap-3">
+          <MapPin aria-hidden="true" className="w-5 h-5 mt-0.5 shrink-0"/>
+          <span>{ placeData.formattedAddress }</span>
+        </p>
       ) }
 
-      {/* Hours Drop Down */ }
+      { placeData.rating && (
+        <p className="flex items-center gap-3">
+          <Star aria-hidden="true" className="w-5 h-5 shrink-0"/>
+          <span>
+            <span className="font-semibold text-ink tabular">{ placeData.rating.toFixed(1) }</span> on Google
+            { placeData.userRatingCount ? <span className="tabular"> from { placeData.userRatingCount } reviews</span> : null }
+          </span>
+        </p>
+      ) }
+
       { placeData.regularOpeningHours?.weekdayDescriptions && (
-        <div className="relative mt-2">
+        <div>
           <button
+            type="button"
             onClick={ () => setShowHours(prev => !prev) }
-            className="flex items-center gap-1 font-medium text-secondary hover:cursor-pointer hover:underline"
+            aria-expanded={ showHours }
+            aria-controls="husky-hours"
+            className="flex items-center gap-3 hover:cursor-pointer"
           >
-            <span>View Hours</span>
-            <ChevronDown
-              size={ 16 }
-              className={ `transition-transform ${ showHours ? 'rotate-180' : '' }` }
-            />
+            <Clock4 aria-hidden="true" className="w-5 h-5 shrink-0"/>
+            { openStatus !== null && (
+              <span className="font-semibold text-ink">{ openStatus ? 'Open now' : 'Closed now' }</span>
+            ) }
+            <span className="underline underline-offset-4">{ showHours ? 'Hide hours' : 'Show hours' }</span>
+            <ChevronDown aria-hidden="true" className={ `w-4 h-4 transition-transform ${ showHours ? 'rotate-180' : '' }` }/>
           </button>
           { showHours && (
-            <div className="absolute bottom-full z-10 mb-2 p-3 text-sm space-y-1 bg-base-800 border border-base-700 rounded-md shadow-lg">
-              { placeData.regularOpeningHours.weekdayDescriptions.map((day, i) => (
-                <p key={ i } className="text-base-150">{ day }</p>
+            <ul id="husky-hours" className="mt-2 ml-8 space-y-0.5 text-sm tabular">
+              { placeData.regularOpeningHours.weekdayDescriptions.map(day => (
+                <li key={ day }>{ day }</li>
               )) }
-            </div>
+            </ul>
           ) }
         </div>
       ) }
 
-      {/* Google Maps Link */}
       { placeData.googleMapsURI && (
-        <Link to={ placeData.googleMapsURI } target="_blank" rel="noopener noreferrer"
-              className="inline-block mt-2 font-medium text-secondary hover:underline">
-          View on Google Maps →
-        </Link>
+        <a
+          href={ placeData.googleMapsURI }
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block ml-8 font-semibold text-ink underline underline-offset-4 decoration-2 hover:decoration-aquifer"
+        >
+          Get directions in Google Maps
+        </a>
       ) }
     </div>
   )
