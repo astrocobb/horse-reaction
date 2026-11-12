@@ -1,18 +1,70 @@
-<!DOCTYPE html>
-<!--
-  EmailJS template for the huskydrilling.com contact form ("basalt and rust").
-  Paste everything below into EmailJS → Email Templates → (contact template) → Content → Edit Content → Code editor.
+import { Resend } from 'resend'
+import type { z } from 'zod'
+import type { contactSchema } from '~/utils/models/contact.model'
 
-  Variables, as sent by the form action in app/routes/Home.tsx and scripts/form-test.mjs:
-    {{from_name}}  {{phone}}  {{from_email}}  {{subject}}  {{message}}
+export type ContactMessage = z.infer<typeof contactSchema>
 
-  Suggested template settings in the EmailJS dashboard:
-    Subject:   Quote request: {{subject}} ({{from_name}})
-    Reply To:  {{from_email}}
+// Sends a contact form submission through Resend.
+// From:     "Husky Website" <CONTACT_FROM_EMAIL>; the customer's name is in the subject.
+//           Keep domains out of the display name: mail providers strip them as an anti-spoofing measure.
+// To:       CONTACT_TO_EMAIL
+// Reply-To: the customer, so hitting Reply answers them directly
+// Throws on any failure; the caller turns that into the form's error message.
+export async function sendContactEmail(contact: ContactMessage): Promise<void> {
+  const apiKey = process.env.RESEND_API_KEY
+  const fromEmail = process.env.CONTACT_FROM_EMAIL
+  const toEmail = process.env.CONTACT_TO_EMAIL
+  if (!apiKey || !fromEmail || !toEmail) {
+    throw new Error('RESEND_API_KEY, CONTACT_FROM_EMAIL and CONTACT_TO_EMAIL must all be set')
+  }
 
-  Email clients don't support oklch() or web fonts reliably, so colors are hex
-  conversions of the app.css tokens and type falls back from Rokkitt/Archivo to Georgia/Arial.
--->
+  const { error } = await new Resend(apiKey).emails.send({
+    from: `"Husky Website" <${ fromEmail }>`,
+    to: toEmail.split(',').map(address => address.trim()),
+    replyTo: contact.email,
+    subject: `Quote request: ${ contact.subject } (${ contact.name })`,
+    html: renderHtml(contact),
+    text: renderText(contact)
+  })
+
+  if (error) throw new Error(`Resend rejected the email: ${ error.name }: ${ error.message }`)
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+function renderText({ name, phone, email, subject, message }: ContactMessage): string {
+  return [
+    `New quote request from huskydrilling.com`,
+    ``,
+    `Subject: ${ subject }`,
+    `Name:    ${ name }`,
+    `Phone:   ${ phone }`,
+    `Email:   ${ email }`,
+    ``,
+    message
+  ].join('\n')
+}
+
+// "Basalt and rust" layout, formerly the EmailJS template.
+// Email clients don't support oklch() or web fonts reliably, so colors are hex
+// conversions of the app.css tokens and type falls back from Rokkitt/Archivo to Georgia/Arial.
+function renderHtml(contact: ContactMessage): string {
+  const name = escapeHtml(contact.name)
+  const phone = escapeHtml(contact.phone)
+  const email = escapeHtml(contact.email)
+  const subject = escapeHtml(contact.subject)
+  const message = escapeHtml(contact.message)
+  const telHref = `tel:${ encodeURIComponent(contact.phone) }`
+  const mailHref = escapeHtml(`mailto:${ contact.email }?subject=${ encodeURIComponent(`Re: ${ contact.subject }`) }`)
+
+  return `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -49,7 +101,7 @@
 <body class="bg-paper" style="margin:0; padding:0; background:#f0f4f7;">
   <!-- Preheader (inbox preview text) -->
   <div style="display:none; max-height:0; overflow:hidden; mso-hide:all;">
-    {{from_name}} sent a quote request from huskydrilling.com: {{subject}}
+    ${ name } sent a quote request from huskydrilling.com: ${ subject }
   </div>
 
   <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" class="bg-paper" style="background:#f0f4f7;">
@@ -85,7 +137,7 @@
                 New quote request &middot; huskydrilling.com
               </p>
               <h1 class="t-ink" style="margin:0 0 26px 0; font-family:'Rokkitt', Georgia, 'Times New Roman', serif; font-size:28px; line-height:1.2; font-weight:700; color:#182230;">
-                {{subject}}
+                ${ subject }
               </h1>
 
               <!-- Log: label / value rows, like the driller's log on the site -->
@@ -95,7 +147,7 @@
                     Name
                   </td>
                   <td class="value rule t-ink" valign="top" style="padding:12px 0; border-top:1px solid #939da6; font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:16px; line-height:1.5; font-weight:600; color:#182230;">
-                    {{from_name}}
+                    ${ name }
                   </td>
                 </tr>
                 <tr>
@@ -103,7 +155,7 @@
                     Phone
                   </td>
                   <td class="value rule" valign="top" style="padding:12px 0; border-top:1px solid #c7cfd5; font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:16px; line-height:1.5;">
-                    <a href="tel:{{phone}}" class="t-ink" style="color:#182230; text-decoration:none; font-variant-numeric:tabular-nums;">{{phone}}</a>
+                    <a href="${ telHref }" class="t-ink" style="color:#182230; text-decoration:none; font-variant-numeric:tabular-nums;">${ phone }</a>
                   </td>
                 </tr>
                 <tr>
@@ -111,7 +163,7 @@
                     Email
                   </td>
                   <td class="value rule" valign="top" style="padding:12px 0; border-top:1px solid #c7cfd5; border-bottom:1px solid #939da6; font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:16px; line-height:1.5; word-break:break-all;">
-                    <a href="mailto:{{from_email}}" class="t-water" style="color:#0072a3; text-decoration:underline;">{{from_email}}</a>
+                    <a href="${ mailHref }" class="t-water" style="color:#0072a3; text-decoration:underline;">${ email }</a>
                   </td>
                 </tr>
               </table>
@@ -122,7 +174,7 @@
               </p>
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                 <tr>
-                  <td class="bg-note t-ink" style="background:#f0f4f7; border-left:3px solid #939da6; padding:16px 20px; font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:16px; line-height:1.65; color:#182230; white-space:pre-wrap;">{{message}}</td>
+                  <td class="bg-note t-ink" style="background:#f0f4f7; border-left:3px solid #939da6; padding:16px 20px; font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:16px; line-height:1.65; color:#182230; white-space:pre-wrap;">${ message }</td>
                 </tr>
               </table>
 
@@ -130,10 +182,10 @@
               <table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin-top:30px;">
                 <tr>
                   <td>
-                    <a href="tel:{{phone}}" class="btn" style="display:inline-block; margin:0 10px 0 0; padding:13px 24px; background:#ae4024; border:1px solid #ae4024; border-radius:4px; font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:15px; line-height:1.2; font-weight:600; color:#ffffff; text-decoration:none; text-align:center;">
-                      Call {{from_name}}
+                    <a href="${ telHref }" class="btn" style="display:inline-block; margin:0 10px 0 0; padding:13px 24px; background:#ae4024; border:1px solid #ae4024; border-radius:4px; font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:15px; line-height:1.2; font-weight:600; color:#ffffff; text-decoration:none; text-align:center;">
+                      Call ${ name }
                     </a>
-                    <a href="mailto:{{from_email}}?subject=Re:%20{{subject}}" class="btn btn-ghost" style="display:inline-block; margin:0; padding:13px 24px; background:transparent; border:1px solid #939da6; border-radius:4px; font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:15px; line-height:1.2; font-weight:600; color:#182230; text-decoration:none; text-align:center;">
+                    <a href="${ mailHref }" class="btn btn-ghost" style="display:inline-block; margin:0; padding:13px 24px; background:transparent; border:1px solid #939da6; border-radius:4px; font-family:'Archivo', Arial, Helvetica, sans-serif; font-size:15px; line-height:1.2; font-weight:600; color:#182230; text-decoration:none; text-align:center;">
                       Reply by email
                     </a>
                   </td>
@@ -156,4 +208,5 @@
     </tr>
   </table>
 </body>
-</html>
+</html>`
+}
