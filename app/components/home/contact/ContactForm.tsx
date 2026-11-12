@@ -1,5 +1,5 @@
 import type React from 'react'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useFetcher } from 'react-router'
 import { Turnstile, type BoundTurnstileObject } from 'react-turnstile'
 import { contactSchema } from '~/utils/models/contact.model'
@@ -60,18 +60,22 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
   const sending = fetcher.state !== 'idle'
   const serverData = fetcher.data
 
-  // Reset form on successful submission
-  if (serverData?.success && !sending) {
-    if (name || phone || email || subject || message) {
-      setName('')
-      setPhone('')
-      setEmail('')
-      setSubject('')
-      setMessage('')
-      setTurnstileToken('')
+  // Reset form on successful submission. Runs after render: resetting the Turnstile
+  // widget touches a third-party script, which must not happen while React is rendering.
+  useEffect(() => {
+    if (fetcher.state !== 'idle' || !fetcher.data?.success) return
+    setName('')
+    setPhone('')
+    setEmail('')
+    setSubject('')
+    setMessage('')
+    setTurnstileToken('')
+    try {
       turnstileRef.current?.reset()
+    } catch (error) {
+      console.error('Turnstile reset failed:', error)
     }
-  }
+  }, [ fetcher.state, fetcher.data ])
 
   function handleSubmit(e: React.SubmitEvent<HTMLFormElement>) {
     setClientError('')
