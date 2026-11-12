@@ -1,8 +1,10 @@
+import { Clock4, Mail, Phone } from 'lucide-react'
+import { APIProvider } from '@vis.gl/react-google-maps'
 import HuskyMap from '~/components/home/contact/HuskyMap'
 import { ContactForm } from '~/components/home/contact/ContactForm'
 import { HuskyDetails } from '~/components/home/contact/HuskyDetails'
-import { APIProvider } from '@vis.gl/react-google-maps'
 import { ClientOnly } from '~/components/ClientOnly'
+import { huskyEmail, huskyHours, huskyPhone } from '~/data/husky-data'
 
 interface ContactProps {
   mapsApiKey: string
@@ -10,36 +12,63 @@ interface ContactProps {
   turnstileSiteKey: string
 }
 
-// Contact Section
+// Contact: the page bottoms out in the aquifer
 export default function Contact({ mapsApiKey, mapId, turnstileSiteKey }: Readonly<ContactProps>) {
   return (
     <section
       id="contact"
-      className="px-4 pt-32 pb-11 transition-colors duration-300 scroll-mt-0 sm:px-6 sm:pt-32 sm:pb-12 md:px-8 md:pt-28 md:pb-13 lg:px-10 lg:pt-32 lg:pb-14"
+      aria-labelledby="contact-title"
+      className="px-4 py-20 text-white bg-aquifer-deep sm:px-6 sm:py-24 lg:px-10 lg:py-32"
     >
-      <div className="max-w-7xl mx-auto">
-        <h2
-          className="mb-1 text-2xl font-bold text-left text-base-content sm:mb-5 md:text-3xl md:mb-4 lg:text-4xl lg:mb-6">
-          Contact Us
-        </h2>
-        <h3 className="mb-3 text-left text-base-300 sm:mb-5 md:mb-6 lg:mb-7">
-          Please enter your information below, and we will get back to you as soon as possible.
-        </h3>
-        <ClientOnly>
-          <APIProvider apiKey={ mapsApiKey } version="beta">
-            <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-stretch">
-              <ContactForm turnstileSiteKey={turnstileSiteKey}/>
-              <div className="flex flex-col gap-4 sm:gap-6 md:gap-8 lg:gap-10">
-                <div className="grow w-full h-72 overflow-hidden border border-base-700 rounded-md shadow-lg lg:h-80">
-                  <HuskyMap mapId={mapId}/>
-                </div>
-                <div className="p-5 bg-base-800/50 border border-base-700 rounded-md shadow-lg sm:p-6 md:p-8 lg:p-10">
-                  <HuskyDetails/>
-                </div>
+      <div className="grid max-w-7xl gap-12 mx-auto lg:grid-cols-12">
+
+        <div className="lg:col-span-5">
+          <h2 id="contact-title" className="section-title">Contact us</h2>
+          <p className="max-w-md mt-5 text-aquifer-ink">
+            Call us, or send a request with a few details about your property and we’ll get back to you.
+          </p>
+
+          <a
+            href={ huskyPhone.href }
+            className="group inline-flex items-center gap-3 mt-10 font-display text-[clamp(2.25rem,1.6rem+2.4vw,3.5rem)] font-bold leading-none tabular hover:text-aquifer-ink"
+          >
+            <Phone aria-hidden="true" className="w-[0.7em] h-[0.7em]"/>
+            { huskyPhone.display }
+          </a>
+
+          <ul className="mt-6 space-y-3 text-aquifer-ink">
+            <li>
+              <a href={ `mailto:${ huskyEmail }` } className="inline-flex items-center gap-3 underline-offset-4 hover:text-white hover:underline">
+                <Mail aria-hidden="true" className="w-5 h-5 shrink-0"/>
+                { huskyEmail }
+              </a>
+            </li>
+            <li className="flex items-center gap-3">
+              <Clock4 aria-hidden="true" className="w-5 h-5 shrink-0"/>
+              { huskyHours }
+            </li>
+          </ul>
+
+          <ClientOnly>
+            <APIProvider apiKey={ mapsApiKey } version="beta">
+              <div className="pt-6 mt-6 border-t border-white/20">
+                <HuskyDetails/>
               </div>
-            </div>
-          </APIProvider>
-        </ClientOnly>
+              <div className="h-64 mt-8 overflow-hidden border-2 border-white/30 sm:h-72">
+                <HuskyMap mapId={ mapId }/>
+              </div>
+            </APIProvider>
+          </ClientOnly>
+        </div>
+
+        <div className="p-6 text-ink bg-paper rounded-sm sm:p-10 lg:col-span-7">
+          <h3 className="font-display text-[2rem] font-bold leading-none">Request a quote</h3>
+          <p className="mt-2 mb-6 text-ink-soft">
+            Tell us what you need: a new well, a pump, or a repair. Include your town so we know where you are.
+          </p>
+          <ContactForm turnstileSiteKey={ turnstileSiteKey }/>
+        </div>
+
       </div>
     </section>
   )

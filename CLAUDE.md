@@ -25,11 +25,11 @@ React Router v7 full-stack SSR application — a single-page marketing site for 
 
 - `app/routes/` — Route modules (just `Home.tsx` + generated types)
 - `app/components/home/` — Page sections (Hero, Services, ServiceArea, Gallery, About, contact/)
-- `app/components/backgrounds/` — Three.js visual effects (LightPillar shader background)
+- `app/components/backgrounds/` — Three.js LightPillar shader, fixed behind the page in `RootLayout` (`transparent` mode so it shows on the light paper)
 - `app/components/maps/` — Google Maps wrappers (HuskyMap, ServiceMap, Polygon)
 - `app/components/ClientOnly.tsx` — SSR guard wrapper; use for any browser-only component (Three.js, Google Maps)
 - `app/data/husky-data.ts` — Map coordinates and service area polygon data
-- `app/app.css` — Tailwind v4 theme with custom OKLch color palette (`base-50`–`base-950`, primary, secondary, accent)
+- `app/app.css` — Tailwind v4 theme: `paper`/`ink` base, `livery` red (call/quote actions only), `aquifer` blue (water only), `strata-*` (well diagram only); fonts Rokkitt (`font-display`) and Archivo (body)
 
 ### Path alias
 
@@ -39,7 +39,7 @@ React Router v7 full-stack SSR application — a single-page marketing site for 
 
 - **Google Maps** via `@vis.gl/react-google-maps` — uses `APIProvider`, `Map`, `AdvancedMarker`, and a custom `Polygon` component. Env vars: `VITE_MAPS_API_KEY`, `VITE_MAP_ID`.
 - **EmailJS** via `@emailjs/browser` — contact form submission (service/template IDs hardcoded in `ContactForm.tsx`).
-- **Three.js** via `three` — used for WebGL shader effects (LightPillar background). Must be wrapped in `<ClientOnly>`.
+- **Three.js** via `three` — LightPillar background. Must be wrapped in `<ClientOnly>`.
 - **Icons** from `lucide-react`.
 - **Input masking** via `react-imask` — phone number formatting in the contact form.
 

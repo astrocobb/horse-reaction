@@ -1,50 +1,92 @@
 @import 'tailwindcss';
 
-@tailwind utilities;
-
+/*
+  Husky Well & Pump Service: palette taken from the rig and the truck livery.
+  - ink:     the navy of the "HUSKY" lettering on the mast
+  - paper:   high-desert sky haze
+  - livery:  the red pinstripe on the water truck, used only for call / quote actions
+  - aquifer: water, used only where there is water (diagram, contact band)
+  - strata:  earth tones, used only in the well diagram
+*/
 @theme {
-    --color-base-50: oklch(95.0% 0.005 240);
-    --color-base-100: oklch(90.0% 0.01 240);
-    --color-base-150: oklch(85.0% 0.01 240);
-    --color-base-200: oklch(80.0% 0.01 240);
-    --color-base-250: oklch(75.0% 0.01 240);
-    --color-base-300: oklch(70.0% 0.01 240);
-    --color-base-350: oklch(65.0% 0.01 240);
-    --color-base-400: oklch(60.0% 0.01 240);
-    --color-base-450: oklch(55.0% 0.01 240);
-    --color-base-500: oklch(50.0% 0.01 240);
-    --color-base-550: oklch(45.0% 0.01 240);
-    --color-base-600: oklch(40.0% 0.01 240);
-    --color-base-650: oklch(35.0% 0.01 240);
-    --color-base-700: oklch(30.0% 0.01 240);
-    --color-base-750: oklch(25.0% 0.01 240);
-    --color-base-800: oklch(20.0% 0.01 240);
-    --color-base-850: oklch(15.0% 0.01 240);
-    --color-base-900: oklch(10.0% 0.01 240);
-    --color-base-950: oklch(5.00% 0.015 240);
+  --font-display: 'Rokkitt', ui-serif, Georgia, serif;
+  --font-sans: 'Archivo', ui-sans-serif, system-ui, sans-serif;
 
-    --color-base-content: oklch(95% 0.01 240);
+  --color-paper: #eef2f5;
+  --color-paper-deep: #dfe5eb;
+  --color-ink: #17233b;
+  --color-ink-soft: #4a5872;
+  --color-ink-faint: #8a96aa;
+  --color-rule: #c3ccd7;
 
-    --color-primary: oklch(60% 0.12 240);
-    --color-primary-200: oklch(55% 0.11 240);
-    --color-primary-300: oklch(50% 0.10 240);
-    --color-primary-content: oklch(16% 0.02 240);
+  --color-livery: #a3242f;
+  --color-livery-dark: #841c26;
 
-    --color-secondary: oklch(72% 0.15 230);
-    --color-secondary-content: oklch(16% 0.02 230);
+  --color-aquifer: #2e7db5;
+  --color-aquifer-deep: #0f2d4a;
+  --color-aquifer-ink: #c9def0;
 
-    --color-accent: oklch(62% 0.12 40);
-    --color-accent-content: oklch(16% 0.01 40);
+  --color-strata-soil: #8b6a4f;
+  --color-strata-sand: #d8c39d;
+  --color-strata-gravel: #a89d8c;
+  --color-strata-clay: #b0806a;
+  --color-strata-rock: #5d5f66;
 
-    --color-info: oklch(70% 0.14 220);
-    --color-info-content: oklch(16% 0.02 220);
+  --color-success: #2f7d4f;
+  --color-warning: #a36a12;
+  --color-error: #b3261e;
 
-    --color-success: oklch(65% 0.13 155);
-    --color-success-content: oklch(16% 0.02 155);
+  /* Type scale: ~1.25 ratio on a 17px base */
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+}
 
-    --color-warning: oklch(75% 0.15 85);
-    --color-warning-content: oklch(16% 0.02 85);
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
 
-    --color-error: oklch(68% 0.17 15);
-    --color-error-content: oklch(16% 0.02 15);
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: 1.6;
+    color: var(--color-ink);
+    background: var(--color-paper);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-aquifer);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+@utility tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Section heading: slab, tight, set large. Used once per section. */
+@utility section-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.25rem, 1.6rem + 2.4vw, 3.5rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
 }

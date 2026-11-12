@@ -12,11 +12,11 @@ function formatName(value: string) {
 // helper function to determine CSS styling for form counters
 function counterClass(length: number, max: number, min = 0) {
 
-  if (length === max || length < min) return 'ml-2 text-sm font-semibold text-error'
-  if (length > max * 0.8) return 'ml-2 text-sm font-semibold text-warning'
-  if (min && length >= min) return 'ml-2 text-sm font-semibold text-success'
-  if (!min) return 'ml-2 text-sm font-semibold text-success'
-  return 'ml-2 text-sm text-base-400'
+  if (length === max || length < min) return 'ml-2 text-sm font-semibold tabular text-error'
+  if (length > max * 0.8) return 'ml-2 text-sm font-semibold tabular text-warning'
+  if (min && length >= min) return 'ml-2 text-sm font-semibold tabular text-success'
+  if (!min) return 'ml-2 text-sm font-semibold tabular text-success'
+  return 'ml-2 text-sm font-normal text-ink-faint tabular'
 }
 
 // helper function to format phone number to display to the user
@@ -99,7 +99,7 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
     statusType = 'error'
   } else if (serverData && !sending) {
     if (serverData.success) {
-      statusText = 'Thank you! Your message has been sent successfully.'
+      statusText = 'Message sent. We’ll get back to you as soon as we can.'
       statusType = 'success'
     } else if (serverData.error) {
       statusText = serverData.error
@@ -108,19 +108,19 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
   }
 
   const statusClass = statusType === 'success'
-    ? 'mt-2 text-center text-sm text-success'
-    : 'mt-2 text-center text-sm text-error'
+    ? 'mt-3 font-semibold text-success'
+    : 'mt-3 font-semibold text-error'
 
-  const inputClass = 'p-2 text-base-content bg-base-700 border border-base-500 rounded-md caret-secondary placeholder:text-base-250 focus:outline-none focus:border-none focus:ring-2 focus:ring-secondary'
+  const inputClass = 'px-3 py-2.5 text-ink bg-white border-2 border-rule rounded-sm caret-aquifer placeholder:text-ink-faint transition-colors hover:border-ink-faint focus:outline-none focus:border-aquifer'
 
   return (
     <fetcher.Form method="post" onSubmit={ handleSubmit } className="flex flex-col">
       <div className="grow">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
 
           {/* Name */}
           <div className="flex flex-col">
-            <label htmlFor="name" className="mb-2 font-medium text-base-250">Name</label>
+            <label htmlFor="name" className="mb-1.5 font-semibold text-ink">Name</label>
             <input
               type="text"
               id="name"
@@ -135,7 +135,7 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
 
           {/* Phone */ }
           <div className="flex flex-col">
-            <label htmlFor="phone" className="mb-2 font-medium text-base-250">Phone</label>
+            <label htmlFor="phone" className="mb-1.5 font-semibold text-ink">Phone</label>
             <input
               type="tel"
               id="phone"
@@ -150,8 +150,8 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
         </div>
 
         {/* Email */ }
-        <div className="flex flex-col mt-2">
-          <label htmlFor="email" className="mb-2 font-medium text-base-250">Email</label>
+        <div className="flex flex-col mt-5">
+          <label htmlFor="email" className="mb-1.5 font-semibold text-ink">Email</label>
           <input
             type="email"
             id="email"
@@ -167,11 +167,11 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
         </div>
 
         {/* Subject */ }
-        <div className="flex flex-col mt-2">
-          <label htmlFor="subject" className="mb-2 font-medium text-base-250">
+        <div className="flex flex-col mt-5">
+          <label htmlFor="subject" className="mb-1.5 font-semibold text-ink">
             Subject
             <span
-              className={ subject.length > 0 ? counterClass(subject.length, 64, 8) : 'ml-2 text-sm text-base-400' }>
+              className={ subject.length > 0 ? counterClass(subject.length, 64, 8) : 'ml-2 text-sm font-normal text-ink-faint tabular' }>
                 ({ subject.length }/64)
             </span>
           </label>
@@ -190,18 +190,18 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
         </div>
 
         {/* Message */ }
-        <div className="flex flex-col mt-2">
-          <label htmlFor="message" className="mb-2 font-medium text-base-250">
+        <div className="flex flex-col mt-5">
+          <label htmlFor="message" className="mb-1.5 font-semibold text-ink">
             Message
             <span
-              className={ message.length > 0 ? counterClass(message.length, 1024, 16) : 'ml-2 text-sm text-base-400' }>
+              className={ message.length > 0 ? counterClass(message.length, 1024, 16) : 'ml-2 text-sm font-normal text-ink-faint tabular' }>
                 ({ message.length }/1024)
               </span>
           </label>
           <textarea
             id="message"
             name="message"
-            rows={ 11 }
+            rows={ 7 }
             minLength={ 16 }
             maxLength={ 1024 }
             placeholder="Enter your message..."
@@ -224,7 +224,7 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
 
         {/* Turnstile CAPTCHA */ }
         { turnstileSiteKey && (
-          <div className="mt-4 rounded-md">
+          <div className="mt-5">
             <Turnstile
               appearance={ 'interaction-only' }
               size={ 'flexible' }
@@ -234,7 +234,7 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
                 setTurnstileToken(token)
                 turnstileRef.current = boundTurnstile
               } }
-              theme="dark"
+              theme="light"
             />
           </div>
         ) }
@@ -244,12 +244,12 @@ export function ContactForm({ turnstileSiteKey }: Readonly<ContactFormProps>) {
       <button
         type="submit"
         disabled={ sending }
-        className="w-full mt-2 px-6 pt-2 pb-2.5 text-lg font-semibold text-primary/90 border border-primary/90 rounded-md transition hover:cursor-pointer hover:bg-primary/20 active:bg-primary/40"
+        className="w-full h-12 mt-6 px-6 text-lg font-semibold text-white bg-livery rounded-sm transition-colors hover:cursor-pointer hover:bg-livery-dark disabled:opacity-60 disabled:hover:cursor-wait"
       >
         { sending ? 'Sending...' : 'Send Message' }
       </button>
 
-      { statusText && <p className={ statusClass }>{ statusText }</p> }
+      <p role="status" className={ statusText ? statusClass : 'sr-only' }>{ statusText }</p>
     </fetcher.Form>
   )
 }

@@ -172,3 +172,12 @@ export const serviceAreaCenter = {
   lat: (Math.min(...lat) + Math.max(...lat)) / 2,
   lng: (Math.min(...lng) + Math.max(...lng)) / 2,
 }
+// business contact details shown across the site
+export const huskyPhone = { display: '(505) 864-0779', href: 'tel:+15058640779' }
+export const huskyEmail = 'huskywellservice@gmail.com'
+export const huskyHours = 'Monday–Friday, 9 AM–5 PM'
+
+// communities served outside the shaded valley area on the map
+export const servedCommunities = [
+  'Rio Rancho', 'Corrales', 'Edgewood', 'Moriarty'
+]

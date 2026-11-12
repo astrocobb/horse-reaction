@@ -1,89 +1,46 @@
-import { Clock4, Mail, Phone } from 'lucide-react'
-import { Link } from 'react-router'
+import { huskyEmail, huskyPhone } from '~/data/husky-data'
 
 
-const quickLinks = [
+const links = [
   { href: '#services', label: 'Services' },
-  { href: '#service-area', label: 'Service Area' },
-  { href: '#gallery', label: 'Gallery' },
-  { href: '#about', label: 'About Us' },
+  { href: '#service-area', label: 'Service area' },
+  { href: '#gallery', label: 'On the job' },
+  { href: '#about', label: 'About' },
   { href: '#contact', label: 'Contact' }
 ]
 
 export default function Footer() {
   return (
-    <footer
-      className="relative z-10 bg-base-800 px-4 py-11 transition-colors duration-300 sm:px-6 sm:py-12 md:px-8 md:py-13 lg:px-10 lg:py-14">
-      <div className="max-w-7xl mx-auto">
-        <div
-          className="grid grid-cols-1 gap-8 mb-8 sm:grid-cols-3 sm:justify-items-center sm:gap-10 sm:mb-10 md:gap-12 md:mb-12 lg:gap-16">
+    <footer className="px-4 pt-14 pb-10 text-aquifer-ink bg-ink sm:px-6 lg:px-10">
+      <div className="flex flex-col gap-10 max-w-7xl mx-auto lg:flex-row lg:items-start lg:justify-between">
 
-          {/* Company Info */ }
-          <div>
-            <div className="flex items-center mb-4">
-              <img src="/assets/images/dawg-dark.png" alt="Husky Logo" className="h-8 ml-1 mr-4"/>
-              <h3 className="text-xl font-bold text-base-100 sm:text-2xl">
-                Husky Well & Pump Service
-              </h3>
-            </div>
-            <p className="leading-relaxed text-base-300">
-              Professional water well drilling and pump services throughout central New Mexico.
-            </p>
-          </div>
-
-          {/* Contact Info */ }
-          <div>
-            <h3 className="mb-4 text-xl font-bold text-base-100 sm:text-2xl">
-              Contact
-            </h3>
-            <div className="space-y-3">
-              <Link
-                to="tel:5058640779"
-                className="group flex items-center transition hover:text-secondary"
-              >
-                <Phone className="inline w-5 h-5 mr-3 text-success group-hover:scale-110 transition-transform group-hover:text-secondary"/>
-                <span className="text-base-300 group-hover:text-secondary">(505) 864-0779</span>
-              </Link>
-              <Link
-                to="mailto:huskywellservice@gmail.com"
-                className="group flex items-center"
-              >
-                <Mail className="inline w-5 h-5 mr-3 text-error group-hover:scale-110 transition-transform group-hover:text-secondary"/>
-                <span className="text-base-300 group-hover:text-secondary">huskywellservice@gmail.com</span>
-              </Link>
-              <div className="flex items-center text-base-300">
-                <Clock4 className="inline w-5 h-5 mr-3 text-primary"/>
-                <span>Mon-Fri: 9AM-5PM</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Quick Links */ }
-          <div>
-            <h3 className="mb-4 text-xl font-bold text-base-150 sm:text-2xl">
-              Quick Links
-            </h3>
-            <nav className="space-y-2">
-              { quickLinks.map(link => (
-                <Link
-                  key={ link.href }
-                  to={ link.href }
-                  className="block text-base-300 transition duration-200 transform hover:translate-x-1 hover:text-secondary"
-                >
-                  { link.label }
-                </Link>
-              )) }
-            </nav>
-          </div>
-        </div>
-
-        {/* Copyright */ }
-        <div className="pt-12 text-center border-t border-primary-300">
-          <p className="text-sm text-base-100 sm:text-base">
-            &copy; {new Date().getFullYear()} Husky Well & Pump Service. All rights reserved.
+        <div className="flex items-center gap-4">
+          <img src="/assets/images/dawg-dark.png" alt="" className="h-14 w-auto mix-blend-screen"/>
+          <p className="font-display text-3xl font-bold leading-none text-white">
+            Husky Well
+            <br/>& Pump Service
           </p>
         </div>
+
+        <nav aria-label="Footer">
+          <ul className="flex flex-wrap gap-x-6 gap-y-2">
+            { links.map(link => (
+              <li key={ link.href }>
+                <a href={ link.href } className="underline-offset-4 hover:text-white hover:underline">{ link.label }</a>
+              </li>
+            )) }
+          </ul>
+        </nav>
+
+        <div className="space-y-1 lg:text-right">
+          <a href={ huskyPhone.href } className="block font-semibold text-white tabular hover:underline underline-offset-4">{ huskyPhone.display }</a>
+          <a href={ `mailto:${ huskyEmail }` } className="block hover:text-white hover:underline underline-offset-4">{ huskyEmail }</a>
+        </div>
+
       </div>
+      <p className="max-w-7xl mx-auto mt-12 pt-6 text-sm border-t border-white/15">
+        &copy; { new Date().getFullYear() } Husky Well & Pump Service
+      </p>
     </footer>
   )
 }

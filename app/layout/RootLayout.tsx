@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Outlet } from 'react-router'
 import Navbar from '~/components/Navbar'
 import Footer from '~/components/Footer'
@@ -7,33 +6,32 @@ import LightPillar from '~/components/backgrounds/LightPillar'
 
 
 export default function RootLayout() {
-
-  const [ isMobileMenuOpen, setIsMobileMenuOpen ] = useState(false)
-
-  const handleMenuClick = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
-
   return (
-    <div className="relative">
-      <ClientOnly>
-        <LightPillar
-          topColor="#00b4f0"
-          bottomColor="#1f6a96"
-          intensity={ 1 }
-          rotationSpeed={ 0.3 }
-          glowAmount={ 0.002 }
-          pillarWidth={ 3 }
-          pillarHeight={ 0.4 }
-          noiseIntensity={ 0.25 }
-          pillarRotation={ 25 }
-          mixBlendMode="screen"
-          quality="high"
-        />
-      </ClientOnly>
+    <>
+      {/* Fixed behind the page: shows through the paper sections, hidden under the hero photo and solid bands */ }
+      <div aria-hidden="true" className="fixed inset-0 -z-10 pointer-events-none">
+        <ClientOnly>
+          <LightPillar
+            topColor="#00b4f0"
+            bottomColor="#1f6a96"
+            intensity={ 0.55 }
+            rotationSpeed={ 0.3 }
+            glowAmount={ 0.002 }
+            pillarWidth={ 3 }
+            pillarHeight={ 0.4 }
+            noiseIntensity={ 0.25 }
+            pillarRotation={ 25 }
+            mixBlendMode="normal"
+            quality="high"
+            transparent
+          />
+        </ClientOnly>
+      </div>
       <Navbar/>
-      <Outlet/>
+      <main>
+        <Outlet/>
+      </main>
       <Footer/>
-    </div>
+    </>
   )
 }

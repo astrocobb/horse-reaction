@@ -1,10 +1,7 @@
-import { BadgeCheck, Handshake, House, ShieldCheck } from 'lucide-react'
-
-
 const timeline = [
   {
     year: '1958',
-    text: 'Charles "Richard" Herrera began his career with Teton Exploration as a drill hand, helping in uranium exploration near Riverton, Wyoming. At just 18 years old, his work primarily involved shoveling drill cuttings and supporting the drilling crew.'
+    text: 'Charles “Richard” Herrera began his career with Teton Exploration as a drill hand, helping in uranium exploration near Riverton, Wyoming. At just 18 years old, his work primarily involved shoveling drill cuttings and supporting the drilling crew.'
   },
   {
     year: '1965',
@@ -22,7 +19,7 @@ const timeline = [
       communities throughout the Rio Grande Valley.</>)
   },
   {
-    year: 'Present',
+    year: 'Today',
     text: (<><em>Husky</em> continues to serve the region as environmental demands, geological conditions, and industry
       regulations evolve. Through these changes, we remain committed to providing reliable, clean water to our
       customers.</>)
@@ -31,22 +28,18 @@ const timeline = [
 
 const values = [
   {
-    icon: ShieldCheck,
     title: 'Reliability',
     description: 'We show up on time and get the job done right. Your water supply is too important for anything less.'
   },
   {
-    icon: BadgeCheck,
     title: 'Quality',
     description: 'We use the best equipment and techniques to ensure lasting results you can depend on.'
   },
   {
-    icon: Handshake,
     title: 'Integrity',
-    description: 'Honest pricing, transparent communication, and doing what\'s right for our customers.'
+    description: 'Honest pricing, transparent communication, and doing what’s right for our customers.'
   },
   {
-    icon: House,
     title: 'Community',
     description: 'Proud to serve our neighbors throughout New Mexico with dedicated local service.'
   }
@@ -54,63 +47,39 @@ const values = [
 
 export default function About() {
   return (
-    <section
-      id="about"
-      className="px-4 pt-32 pb-11 transition-colors duration-300 scroll-mt-0 sm:px-6 sm:pt-32 sm:pb-12 md:px-8 md:pt-28 md:pb-13 lg:px-10 lg:pt-32 lg:pb-14"
-    >
-      <div className="max-w-7xl mx-auto">
-        <h2
-          className="mb-3 text-2xl font-bold text-left text-base-content sm:mb-5 md:text-3xl md:mb-7 lg:text-4xl lg:mb-9">
-          About Us
-        </h2>
+    <section id="about" aria-labelledby="about-title" className="px-4 py-20 border-t border-rule sm:px-6 sm:py-24 lg:px-10 lg:py-32">
+      <div className="grid max-w-7xl gap-10 mx-auto lg:grid-cols-12 lg:gap-12">
 
-        {/* Our History */ }
-        <div className="mb-11 sm:mb-13 md:mb-14 lg:mb-16">
-          <h3 className="mb-8 font-bold text-base-150 sm:text-lg md:text-xl lg:text-2xl">
-            Our History
-          </h3>
-          <div className="relative pl-8 border-l-4 border-secondary sm:pl-12">
-            { timeline.map((item, i) => (
-              <div key={ item.year } className={ `group relative ${ i < timeline.length - 1 ? 'mb-10' : '' }` }>
-                <div
-                  className="absolute -left-20 top-1 w-4 h-4 bg-secondary rounded-full transition-transform duration-300 group-hover:scale-125 sm:-left-14"/>
-                <div
-                  className="p-5 bg-base-750/80 border border-base-600/50 rounded-md shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-2 sm:p-6 md:p-8">
-                  <div className="mb-3 text-xl font-bold text-secondary sm:text-2xl">
-                    { item.year }
-                  </div>
-                  <p className="text-base-300">
-                    { item.text }
-                  </p>
-                </div>
-              </div>
-            )) }
+        <div className="lg:col-span-4">
+          <div className="lg:sticky lg:top-28">
+            <h2 id="about-title" className="section-title">About</h2>
+            <p className="max-w-md mt-5 text-ink-soft">
+              Husky started with one man, one rig, and three decades of drilling behind him. Here’s how we got here.
+            </p>
           </div>
         </div>
 
-        {/* Our Values */ }
-        <div className="border-t border-primary">
-          <h3
-            className="mt-9 mb-3 font-bold text-base-150 sm:text-lg sm:mt-10 sm:mb-5 md:text-xl md:mt-11 md:mb-7 lg:text-2xl lg:mt-12 lg:mb-9">
-            Our Values
-          </h3>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 md:gap-8 lg:gap-10 xl:grid-cols-4">
+        <div className="lg:col-span-8">
+          <ol className="border-t-2 border-ink">
+            { timeline.map(item => (
+              <li key={ item.year } className="grid grid-cols-[5.5rem_1fr] items-baseline gap-x-5 py-7 border-b border-rule sm:grid-cols-[9rem_1fr] sm:gap-x-10 sm:py-9">
+                <p className="font-display text-[2rem] font-bold leading-none tabular sm:text-[2.75rem]">{ item.year }</p>
+                <p className="max-w-prose">{ item.text }</p>
+              </li>
+            )) }
+          </ol>
+
+          <h3 className="mt-20 font-display text-[2rem] font-bold leading-none sm:text-[2.5rem]">Our values</h3>
+          <dl className="grid gap-x-10 gap-y-8 mt-8 sm:grid-cols-2">
             { values.map(value => (
-              <div
-                key={ value.title }
-                className="p-5 text-center bg-base-750/80 border border-base-600/50 rounded-md shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-2 sm:p-6 md:p-8 lg:p-10"
-              >
-                <value.icon className="block w-14 h-14 mx-auto mb-4 text-secondary"/>
-                <h3 className="mb-2 text-lg font-bold text-base-150 md:text-xl lg:text-2xl">
-                  { value.title }
-                </h3>
-                <p className="text-base-300">
-                  { value.description }
-                </p>
+              <div key={ value.title } className="pt-4 border-t-2 border-ink">
+                <dt className="font-display text-2xl font-bold">{ value.title }</dt>
+                <dd className="mt-2 text-ink-soft">{ value.description }</dd>
               </div>
             )) }
-          </div>
+          </dl>
         </div>
+
       </div>
     </section>
   )

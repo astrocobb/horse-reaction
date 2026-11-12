@@ -17,6 +17,11 @@ interface LightPillarProps {
   mixBlendMode?: React.CSSProperties['mixBlendMode']
   pillarRotation?: number
   quality?: 'low' | 'medium' | 'high'
+  /**
+   * Output the glow on a transparent canvas (alpha taken from brightness) instead of on black.
+   * Use on light backgrounds, where a black canvas with `screen` blending would be invisible.
+   */
+  transparent?: boolean
 }
 
 export default function LightPillar({
@@ -32,7 +37,8 @@ export default function LightPillar({
   noiseIntensity = 0.5,
   mixBlendMode = 'screen',
   pillarRotation = 0,
-  quality = 'high'
+  quality = 'high',
+  transparent = false
 }: LightPillarProps) {
 
   const containerRef = useRef<HTMLDivElement>(null)
@@ -229,7 +235,10 @@ export default function LightPillar({
         float rnd = noise(gl_FragCoord.xy);
         color -= rnd / 40.0 * uNoiseIntensity;
 
-        gl_FragColor = vec4(color * uIntensity, 1.0);
+        ${ transparent
+          ? `color = clamp(color * uIntensity, 0.0, 1.0);
+        gl_FragColor = vec4(color, max(max(color.r, color.g), color.b));`
+          : 'gl_FragColor = vec4(color * uIntensity, 1.0);' }
       }
     `
 
@@ -301,9 +310,17 @@ export default function LightPillar({
     let lastTime = performance.now()
     const targetFPS = effectiveQuality === 'low' ? 30 : 60
     const frameTime = 1000 / targetFPS
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
 
     const animate = (currentTime: number) => {
       if (!materialRef.current || !rendererRef.current || !sceneRef.current || !cameraRef.current) return
+
+      // Reduced motion: hold a single still frame (resize re-renders it)
+      if (reducedMotion.matches) {
+        rendererRef.current.render(sceneRef.current, cameraRef.current)
+        rafRef.current = null
+        return
+      }
 
       const deltaTime = currentTime - lastTime
 
@@ -335,6 +352,9 @@ export default function LightPillar({
         const newHeight = containerRef.current.clientHeight
         rendererRef.current.setSize(newWidth, newHeight)
         materialRef.current.uniforms.uResolution.value.set(newWidth, newHeight)
+        if (reducedMotion.matches && sceneRef.current && cameraRef.current) {
+          rendererRef.current.render(sceneRef.current, cameraRef.current)
+        }
       }, 150)
     }
 
@@ -381,7 +401,8 @@ export default function LightPillar({
     noiseIntensity,
     pillarRotation,
     webGLSupported,
-    quality
+    quality,
+    transparent
   ])
 
   if (!webGLSupported) {

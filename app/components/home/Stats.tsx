@@ -1,5 +1,4 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { Droplets, Milestone, Ruler } from 'lucide-react'
 import type { DrillingStats } from '~/utils/server/drilling-stats.server'
 
 
@@ -48,49 +47,29 @@ function CountUp({ value }: { value: number }) {
     }
   }, [ value ])
 
-  return <span ref={ ref }>{ format(display) }</span>
+  // Reserve the final width so the sentence doesn't reflow while counting
+  return (
+    <span ref={ ref } className="relative inline-block tabular">
+      <span className="invisible">{ format(value) }</span>
+      <span className="absolute inset-0 text-right">{ format(display) }</span>
+    </span>
+  )
 }
 
 export default function Stats({ stats }: { stats: DrillingStats }) {
-  const items = [
-    { icon: Ruler, value: stats.feet, label: 'Feet Drilled' },
-    { icon: Milestone, value: stats.miles, label: 'Miles Drilled' },
-    { icon: Droplets, value: stats.wells, label: 'Wells Drilled' }
-  ]
-
   return (
-    <section
-      id="stats"
-      aria-labelledby="stats-heading"
-      className="px-4 pt-16 pb-4 sm:px-6 md:px-8 lg:px-10"
-    >
+    <section id="stats" aria-label="Drilling record" className="px-4 py-16 border-b border-rule sm:px-6 sm:py-20 lg:px-10">
       <div className="max-w-7xl mx-auto">
-        <h2
-          id="stats-heading"
-          className="mb-3 text-2xl font-bold text-left text-base-content md:text-3xl md:mb-7 lg:text-4xl lg:mb-9">
-          By the Numbers
-        </h2>
-        <ul className="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6 md:gap-8 lg:gap-10">
-          { items.map(item => (
-            <li
-              key={ item.label }
-              className="flex flex-col items-center p-5 text-center bg-base-800/50 border border-base-600/50 rounded-md shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-2 sm:p-6 md:p-8 lg:p-10"
-            >
-              <item.icon aria-hidden="true" className="w-12 h-12 mb-4 text-secondary"/>
-              {/* Screen readers get the final number once, instead of every animation frame */ }
-              <span className="sr-only">{ format(item.value) } { item.label.toLowerCase() }</span>
-              <span
-                aria-hidden="true"
-                className="mb-1 text-3xl font-bold tabular-nums text-base-50 md:text-4xl lg:text-5xl"
-              >
-                <CountUp value={ item.value }/>
-              </span>
-              <span aria-hidden="true" className="text-base-300 md:text-lg">
-                { item.label }
-              </span>
-            </li>
-          )) }
-        </ul>
+        {/* Screen readers get the sentence once, instead of every animation frame */ }
+        <p className="sr-only">
+          Husky has drilled { format(stats.wells) } wells: { format(stats.feet) } feet of hole, about { format(stats.miles) } miles
+          straight down.
+        </p>
+        <p aria-hidden="true" className="max-w-[26ch] font-display text-[clamp(1.875rem,1.2rem+2.6vw,3.25rem)] font-semibold leading-[1.08] tracking-[-0.01em]">
+          Husky has drilled <span className="font-extrabold"><CountUp value={ stats.wells }/> wells</span>: <span
+          className="font-extrabold"><CountUp value={ stats.feet }/> feet</span> of hole, about <span
+          className="font-extrabold"><CountUp value={ stats.miles }/> miles</span> straight down.
+        </p>
       </div>
     </section>
   )

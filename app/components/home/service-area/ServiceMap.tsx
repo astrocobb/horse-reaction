@@ -8,21 +8,21 @@ interface ServiceMapProps {
 
 export function ServiceMap({ mapId }: Readonly<ServiceMapProps>) {
   return (
-    <div className="w-full h-[64vh]">
+    <div className="w-full h-full">
       <Map
         mapId={ mapId }
         defaultCenter={ serviceAreaCenter }
         defaultZoom={ 9 }
         gestureHandling={ 'cooperative' }
-        colorScheme="DARK"
+        colorScheme="LIGHT"
       >
         <Polygon
           paths={ serviceAreaCoords }
-          strokeWeight={ 2 }
-          strokeOpacity={ 0.8 }
-          strokeColor={ '#3fa66b' }
-          fillColor={ '#3fa66b' }
-          fillOpacity={ 0.15 }
+          strokeWeight={ 2.5 }
+          strokeOpacity={ 0.9 }
+          strokeColor={ '#a3242f' }
+          fillColor={ '#a3242f' }
+          fillOpacity={ 0.12 }
         />
       </Map>
     </div>
