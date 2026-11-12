@@ -25,8 +25,8 @@ jobs:
             --exclude='.git' \
             --exclude='node_modules' \
             --exclude='.env' \
-            ./ astrocobb@huskydrilling.com:/opt/huskydrilling/
-          ssh astrocobb@huskydrilling.com '
+            ./ astro@huskydrilling.com:/opt/huskydrilling/
+          ssh astro@huskydrilling.com '
             cd /opt/huskydrilling &&
             set -a && source .env && set +a &&
             docker build -t huskydrilling . &&

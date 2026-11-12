@@ -19,6 +19,6 @@ jobs:
         run: ssh-keyscan -H huskydrilling.com >> ~/.ssh/known_hosts
       - name: Send test email from the production container
         run: |
-          ssh astrocobb@huskydrilling.com \
+          ssh astro@huskydrilling.com \
             'docker exec -i -w /app huskydrilling node --input-type=module -' \
             < scripts/form-test.mjs
