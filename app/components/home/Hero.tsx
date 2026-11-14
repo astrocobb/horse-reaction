@@ -55,7 +55,7 @@ export default function Hero({ stats }: { stats: DrillingStats }) {
       </div>
 
       <div className="relative w-full max-w-7xl mx-auto px-4 pt-32 pb-32 sm:px-6 sm:pb-40 lg:px-10 lg:pb-44">
-        <h1 className="max-w-[12ch] font-display text-[clamp(3.25rem,2rem+6vw,7.5rem)] font-bold leading-[0.88] tracking-[-0.02em]">
+        <h1 className="max-w-[12ch] font-display text-[clamp(2.25rem,1.5rem+3.25vw,4.5rem)] font-bold leading-[0.88] tracking-[-0.02em]">
           Water when you need it.
         </h1>
         <p className="max-w-xl mt-6 text-lg leading-relaxed text-white/90 sm:text-xl">

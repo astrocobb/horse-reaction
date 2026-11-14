@@ -67,7 +67,7 @@ export default function Navbar({ notices }: { notices: Notice[] }) {
             alt=""
             className={ `h-9 w-auto mix-blend-screen ${ solid ? 'hidden dark:block' : '' }` }
           />
-          <span className="font-display text-2xl font-bold leading-none">
+          <span className="font-display text-3xl font-bold leading-none">
             Husky
             <span className="sr-only"> Well & Pump Service, home</span>
           </span>
